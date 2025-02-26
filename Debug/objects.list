@@ -114,6 +114,7 @@
 "./Core/Inc/u8g2/u8x8_string.o"
 "./Core/Inc/u8g2/u8x8_u16toa.o"
 "./Core/Inc/u8g2/u8x8_u8toa.o"
+"./Core/Src/display.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
