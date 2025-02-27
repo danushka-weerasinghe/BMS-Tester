@@ -214,3 +214,55 @@ void Display_MainTitlePage_1(void)
 
     HAL_Delay(FINAL_PAGE_DELAY_U32);
 }
+
+/**
+ * @brief  Displays an I2C address on the display.
+ * @param  address: The 7-bit I2C device address to display.
+ */
+void Display_Address(uint8_t address)
+{
+    char addressBuffer[16];
+
+    /* Format the address into a string.
+       The format "0x%02X" displays the address in hexadecimal with two digits. */
+    (void)sprintf(addressBuffer, "I2C Addr: 0x%02X", address);
+
+    /* Clear the display buffer */
+    u8g2_ClearBuffer(&u8g2);
+
+    /* Set an appropriate font */
+    u8g2_SetFont(&u8g2, u8g2_font_fub11_tf);
+
+    /* Draw the formatted string at desired coordinates (adjust as needed) */
+    u8g2_DrawStr(&u8g2, 0, 20, addressBuffer);
+
+    /* Send the buffer to the display */
+    u8g2_SendBuffer(&u8g2);
+}
+
+void Display_Reading(void)
+{
+    // Clear any previous content in the buffer
+    u8g2_ClearBuffer(&u8g2);
+
+    // Set a large font for the main numeric reading
+    u8g2_SetFont(&u8g2, u8g2_font_fub30_tr);
+
+    // Draw the numeric reading at coordinates (x=10, y=40)
+    // Adjust as needed for your display
+    u8g2_DrawStr(&u8g2, 10, 40, "7.43");
+
+    // Switch to a smaller font for additional text
+    u8g2_SetFont(&u8g2, u8g2_font_6x10_mr);
+
+    // Draw smaller text lines. Adjust x/y positions as needed
+    // “BM VALUE” near the bottom-left
+    u8g2_DrawStr(&u8g2, 10, 60, "BM VALUE");
+
+    // “HOLD” near the bottom-right
+    // If your display is 128 wide, for example, you might place it around x=90
+    u8g2_DrawStr(&u8g2, 90, 60, "HOLD");
+
+    // Send the buffer to the display
+    u8g2_SendBuffer(&u8g2);
+}

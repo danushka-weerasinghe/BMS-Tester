@@ -27,6 +27,10 @@ extern void Display_MainTitlePage(void);
 extern void Display_MainTitlePage_1(void);
 
 
+/* New prototype to display a variable (e.g., an I2C address) */
+extern void Display_Address(uint8_t address);
+
+extern void Display_Reading(void);
 
 
 #endif /* INC_DISPLAY_H_ */

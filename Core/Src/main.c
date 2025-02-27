@@ -17,13 +17,15 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
 #include "display.h"
+
+#include "gpio_expander.h"
+
 
 
 /* USER CODE END Includes */
@@ -36,7 +38,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-
+uint8_t address;
+HAL_StatusTypeDef result;
 
 int count =0 ;
 
@@ -55,6 +58,9 @@ int count =0 ;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c2;
+I2C_HandleTypeDef hi2c3;
+
 SPI_HandleTypeDef hspi3;
 
 /* USER CODE BEGIN PV */
@@ -65,7 +71,12 @@ SPI_HandleTypeDef hspi3;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI3_Init(void);
+static void MX_I2C2_Init(void);
+static void MX_I2C3_Init(void);
+
 /* USER CODE BEGIN PFP */
+
+void Scan_I2C_Bus(void);
 
 /* USER CODE END PFP */
 
@@ -106,6 +117,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI3_Init();
+  MX_I2C2_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   /* Initialize the display module */
@@ -113,6 +126,11 @@ int main(void)
 
   /* Display the main title page */
   Display_MainTitlePage();
+
+  /* Initialize the expander at address 0x20 by configuring all its pins as outputs */
+  Expander_InitAllDevices(&hi2c2);
+  Expander_InitAllDevices(&hi2c3);
+
 
   /* USER CODE END 2 */
 
@@ -123,6 +141,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  Scan_I2C_Bus();
 
 		////////////////////////////////////////////////
 
@@ -140,9 +160,33 @@ int main(void)
 		  /*Configure GPIO pin Output Level */
 		  HAL_GPIO_WritePin(GPIOI, LED_DC_Y_Pin|LED_DC_G_Pin|LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_RESET);
 
+
+
 		  HAL_Delay(500);
 
 		  Display_MainTitlePage();
+
+	        Expander_SetAllOutputsHigh(&hi2c2, 0x20);
+	        Expander_SetAllOutputsHigh(&hi2c2, 0x21);
+	        Expander_SetAllOutputsHigh(&hi2c2, 0x24);
+	        Expander_SetAllOutputsHigh(&hi2c2, 0x25);
+	        Expander_SetAllOutputsHigh(&hi2c3, 0x20);
+	        Expander_SetAllOutputsHigh(&hi2c3, 0x21);
+	        Expander_SetAllOutputsHigh(&hi2c3, 0x24);
+	        Expander_SetAllOutputsHigh(&hi2c3, 0x25);
+	        HAL_Delay(1000);
+
+
+	        Expander_SetAllOutputsLow(&hi2c2, 0x20);
+	        Expander_SetAllOutputsLow(&hi2c2, 0x21);
+	        Expander_SetAllOutputsLow(&hi2c2, 0x24);
+	        Expander_SetAllOutputsLow(&hi2c2, 0x25);
+	        Expander_SetAllOutputsLow(&hi2c3, 0x20);
+	        Expander_SetAllOutputsLow(&hi2c3, 0x21);
+	        Expander_SetAllOutputsLow(&hi2c3, 0x24);
+	        Expander_SetAllOutputsLow(&hi2c3, 0x25);
+
+
 
 		  HAL_GPIO_WritePin(GPIOH, LED_01_Pin|LED_02_Pin, GPIO_PIN_SET);
 
@@ -208,6 +252,102 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.ClockSpeed = 400000;
+  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
+
+}
+
+/**
+  * @brief I2C3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C3_Init(void)
+{
+
+  /* USER CODE BEGIN I2C3_Init 0 */
+
+  /* USER CODE END I2C3_Init 0 */
+
+  /* USER CODE BEGIN I2C3_Init 1 */
+
+  /* USER CODE END I2C3_Init 1 */
+  hi2c3.Instance = I2C3;
+  hi2c3.Init.ClockSpeed = 400000;
+  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c3.Init.OwnAddress1 = 0;
+  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c3.Init.OwnAddress2 = 0;
+  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C3_Init 2 */
+
+  /* USER CODE END I2C3_Init 2 */
+
+}
+
+/**
   * @brief SPI3 Initialization Function
   * @param None
   * @retval None
@@ -257,9 +397,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -334,6 +474,30 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void Scan_I2C_Bus(void)
+{
+
+      /* Declare the address variable */
+
+    /* Iterate over the possible 7-bit I²C addresses (1 to 127) */
+    for (address = 1U; address < 128U; address++)
+    {
+        /* Check if a device is ready at this address
+         * The address is left-shifted by 1 as HAL_I2C_IsDeviceReady expects the 7-bit address in the upper bits.
+         */
+        result = HAL_I2C_IsDeviceReady(&hi2c3, (address << 1), 1U, 10U);
+
+        if (result == HAL_OK)
+        {
+            /* Display the detected address (your Display_Address function should handle this)
+             * For example, this could light up LEDs or update an LCD.
+             */
+            Display_Address(address);
+            HAL_Delay(1000U);  /* Display the address for 1 second */
+        }
+    }
+}
 
 
 

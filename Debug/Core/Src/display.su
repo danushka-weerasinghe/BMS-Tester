@@ -3,3 +3,5 @@
 ../Core/Src/display.c:141:6:Display_Init	8	static
 ../Core/Src/display.c:160:6:Display_MainTitlePage	16	static
 ../Core/Src/display.c:193:6:Display_MainTitlePage_1	16	static
+../Core/Src/display.c:222:6:Display_Address	32	static
+../Core/Src/display.c:243:6:Display_Reading	8	static

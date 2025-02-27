@@ -1,0 +1,6 @@
+../Core/Src/gpio_expander.c:27:19:Expander_InitDevice	2
+../Core/Src/gpio_expander.c:44:19:Expander_InitAllDevices	3
+../Core/Src/gpio_expander.c:61:19:Expander_SetAllOutputsHigh	1
+../Core/Src/gpio_expander.c:67:19:Expander_SetAllOutputsLow	1
+../Core/Src/gpio_expander.c:77:26:Expander_SetConfigOutputs	2
+../Core/Src/gpio_expander.c:107:26:Expander_SetOutputs	3
