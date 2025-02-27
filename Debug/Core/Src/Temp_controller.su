@@ -1,0 +1,9 @@
+../Core/Src/Temp_controller.c:23:6:intToBinary	24	static
+../Core/Src/Temp_controller.c:29:6:assignBytes	24	static
+../Core/Src/Temp_controller.c:41:6:arrayComparison	24	static
+../Core/Src/Temp_controller.c:53:6:cell12Temp01Set	96	static
+../Core/Src/Temp_controller.c:84:6:cell12Temp02Set	96	static
+../Core/Src/Temp_controller.c:115:6:cell12Temp03Set	96	static
+../Core/Src/Temp_controller.c:146:6:cell11Temp01Set	96	static
+../Core/Src/Temp_controller.c:177:6:cell11Temp02Set	96	static
+../Core/Src/Temp_controller.c:208:6:cell11Temp03Set	96	static
