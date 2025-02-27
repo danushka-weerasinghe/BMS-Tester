@@ -8,6 +8,7 @@
 #include "stdint.h"
 #include <stdbool.h>
 extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
 
 uint8_t controlArray [2]= {0x1C,0x03};
 uint8_t nopCommand [2] = {0x00,0x00};
@@ -50,7 +51,7 @@ bool arrayComparison (uint8_t *array1,uint8_t *array2){
 
 	}
 
-void cell12Temp01Set(float resistance){
+void cell12_Temp_01_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -81,7 +82,7 @@ void cell12Temp01Set(float resistance){
 
 }
 
-void cell12Temp02Set(float resistance){
+void cell12_Temp_02_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -112,7 +113,7 @@ void cell12Temp02Set(float resistance){
 
 }
 
-void cell12Temp03Set(float resistance){
+void cell12_Temp_03_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -143,7 +144,7 @@ void cell12Temp03Set(float resistance){
 
 }
 
-void cell11Temp01Set(float resistance){
+void cell11_Temp_01_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -154,19 +155,19 @@ void cell11Temp01Set(float resistance){
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
@@ -174,7 +175,7 @@ void cell11Temp01Set(float resistance){
 
 }
 
-void cell11Temp02Set(float resistance){
+void cell11_Temp_02_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -185,19 +186,19 @@ void cell11Temp02Set(float resistance){
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
@@ -205,7 +206,7 @@ void cell11Temp02Set(float resistance){
 
 }
 
-void cell11Temp03Set(float resistance){
+void cell11_Temp_03_Set(float resistance){
 	int res = (resistance/50.0)*1024;
 	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
 	uint8_t resByteArray [2];
@@ -216,19 +217,19 @@ void cell11Temp03Set(float resistance){
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);

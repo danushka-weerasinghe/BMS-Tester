@@ -17,12 +17,12 @@ extern "C" {
 void intToBinary(int num, int *binaryArray);
 void assignBytes(int *resArray, uint8_t *r);
 bool arrayComparison (uint8_t *array1,uint8_t *array2);
-void cell12Temp01Set(float resistance);
-void cell12Temp02Set(float resistance);
-void cell12Temp03Set(float resistance);
-void cell11Temp01Set(float resistance);
-void cell11Temp02Set(float resistance);
-void cell11Temp03Set(float resistance);
+void cell12_Temp_01_Set(float resistance);
+void cell12_Temp_02_Set(float resistance);
+void cell12_Temp_03_Set(float resistance);
+void cell11_Temp_01_Set(float resistance);
+void cell11_Temp_02_Set(float resistance);
+void cell11_Temp_03_Set(float resistance);
 
 
 
