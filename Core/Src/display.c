@@ -266,3 +266,5 @@ void Display_Reading(void)
     // Send the buffer to the display
     u8g2_SendBuffer(&u8g2);
 }
+
+

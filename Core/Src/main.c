@@ -142,67 +142,21 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  Scan_I2C_Bus();
+	   Scan_I2C_Bus();
+	   Display_MainTitlePage();
 
-		////////////////////////////////////////////////
-
-		  HAL_GPIO_WritePin(GPIOH, LED_01_Pin|LED_02_Pin, GPIO_PIN_RESET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOG, LED_09_Pin|LED_04_Pin|LED_08_Pin, GPIO_PIN_RESET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOB, LED_03_Pin|LED_07_Pin, GPIO_PIN_RESET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOE, LED_06_Pin|LED_05_Pin, GPIO_PIN_RESET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOI, LED_DC_Y_Pin|LED_DC_G_Pin|LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_RESET);
+//	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01, 1);
+//
+//	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01, 1);
 
 
 
-		  HAL_Delay(500);
+	    HAL_Delay(100);
 
-		  Display_MainTitlePage();
+	    // Run the LED sequence
+	     RunLEDSequence();
 
-	        Expander_SetAllOutputsHigh(&hi2c2, 0x20);
-	        Expander_SetAllOutputsHigh(&hi2c2, 0x21);
-	        Expander_SetAllOutputsHigh(&hi2c2, 0x24);
-	        Expander_SetAllOutputsHigh(&hi2c2, 0x25);
-	        Expander_SetAllOutputsHigh(&hi2c3, 0x20);
-	        Expander_SetAllOutputsHigh(&hi2c3, 0x21);
-	        Expander_SetAllOutputsHigh(&hi2c3, 0x24);
-	        Expander_SetAllOutputsHigh(&hi2c3, 0x25);
-	        HAL_Delay(1000);
-
-
-	        Expander_SetAllOutputsLow(&hi2c2, 0x20);
-	        Expander_SetAllOutputsLow(&hi2c2, 0x21);
-	        Expander_SetAllOutputsLow(&hi2c2, 0x24);
-	        Expander_SetAllOutputsLow(&hi2c2, 0x25);
-	        Expander_SetAllOutputsLow(&hi2c3, 0x20);
-	        Expander_SetAllOutputsLow(&hi2c3, 0x21);
-	        Expander_SetAllOutputsLow(&hi2c3, 0x24);
-	        Expander_SetAllOutputsLow(&hi2c3, 0x25);
-
-
-
-		  HAL_GPIO_WritePin(GPIOH, LED_01_Pin|LED_02_Pin, GPIO_PIN_SET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOG, LED_09_Pin|LED_04_Pin|LED_08_Pin, GPIO_PIN_SET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOB, LED_03_Pin|LED_07_Pin, GPIO_PIN_SET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOE, LED_06_Pin|LED_05_Pin, GPIO_PIN_SET);
-
-		  /*Configure GPIO pin Output Level */
-		  HAL_GPIO_WritePin(GPIOI, LED_DC_Y_Pin|LED_DC_G_Pin|LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_SET);
-
-		  HAL_Delay(500);
+	     HAL_Delay(100); // Delay between sequences
 
 		  ////////////////////////////////////////////////////
 
@@ -498,7 +452,6 @@ void Scan_I2C_Bus(void)
         }
     }
 }
-
 
 
 /* USER CODE END 4 */
