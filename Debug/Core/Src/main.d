@@ -27,7 +27,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
- ../Core/Inc/display.h ../Core/Inc/gpio_expander.h
+ ../Core/Inc/display.h ../Core/Inc/gpio_expander.h \
+ ../Core/Inc/Temp_controller.h ../Core/Inc/main_data.h \
+ ../Core/Inc/INA229.h ../Core/Inc/config.h ../Core/Inc/INA229.h \
+ ../Core/Inc/mcu.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -59,3 +62,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Core/Inc/display.h:
 ../Core/Inc/gpio_expander.h:
+../Core/Inc/Temp_controller.h:
+../Core/Inc/main_data.h:
+../Core/Inc/INA229.h:
+../Core/Inc/config.h:
+../Core/Inc/INA229.h:
+../Core/Inc/mcu.h:

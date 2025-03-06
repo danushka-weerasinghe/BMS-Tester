@@ -57,14 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DISPLAY_IO_1_Pin GPIO_PIN_2
-#define DISPLAY_IO_1_GPIO_Port GPIOG
-#define DISPLAY_IO_2_Pin GPIO_PIN_3
-#define DISPLAY_IO_2_GPIO_Port GPIOG
-#define BACKLIGHT_1_Pin GPIO_PIN_4
-#define BACKLIGHT_1_GPIO_Port GPIOG
-#define BACKLIGHT_2_Pin GPIO_PIN_5
-#define BACKLIGHT_2_GPIO_Port GPIOG
 #define CELL12_TEMP_03_CS_Pin GPIO_PIN_6
 #define CELL12_TEMP_03_CS_GPIO_Port GPIOF
 #define CELL12_TEMP_03_LED_Pin GPIO_PIN_8
@@ -89,14 +81,22 @@ void Error_Handler(void);
 #define CELL11_TEMP_01_CS_GPIO_Port GPIOH
 #define CELL11_TEMP_01_LED_Pin GPIO_PIN_12
 #define CELL11_TEMP_01_LED_GPIO_Port GPIOH
+#define DISPLAY_IO_1_Pin GPIO_PIN_2
+#define DISPLAY_IO_1_GPIO_Port GPIOG
+#define DISPLAY_IO_2_Pin GPIO_PIN_3
+#define DISPLAY_IO_2_GPIO_Port GPIOG
+#define BACKLIGHT_1_Pin GPIO_PIN_4
+#define BACKLIGHT_1_GPIO_Port GPIOG
+#define BACKLIGHT_2_Pin GPIO_PIN_5
+#define BACKLIGHT_2_GPIO_Port GPIOG
 #define LED_01_Pin GPIO_PIN_14
 #define LED_01_GPIO_Port GPIOH
 #define LED_02_Pin GPIO_PIN_15
 #define LED_02_GPIO_Port GPIOH
 #define DISPLAY_CS_Pin GPIO_PIN_2
 #define DISPLAY_CS_GPIO_Port GPIOD
-#define SD_CS_Pin GPIO_PIN_3
-#define SD_CS_GPIO_Port GPIOD
+#define DISPLAY_CSD3_Pin GPIO_PIN_3
+#define DISPLAY_CSD3_GPIO_Port GPIOD
 #define LED_09_Pin GPIO_PIN_13
 #define LED_09_GPIO_Port GPIOG
 #define LED_04_Pin GPIO_PIN_14
