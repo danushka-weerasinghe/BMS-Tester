@@ -52,7 +52,7 @@ SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
 /* USER CODE BEGIN PV */
-int resistance [6]= {4,8,12,16,20,24};
+//int resistance [6]= {4,8,12,16,20,24};
 
 
 /* USER CODE END PV */
