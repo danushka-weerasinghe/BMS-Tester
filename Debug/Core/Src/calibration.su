@@ -1,1 +1,2 @@
-../Core/Src/calibration.c:25:8:correct_Current_LSB	56	static
+../Core/Src/calibration.c:21:8:correct_Current_LSB	56	static
+../Core/Src/calibration.c:32:10:calibrationValue	32	static

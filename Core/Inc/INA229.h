@@ -128,6 +128,9 @@ extern "C" {
 #define INA229_device_id_register 0x3FU
 
 
+extern double shuntResistor;
+extern double maxCurrent;
+
 /*
  *  ======== INA229_State ========
  *  Initial configuration state for a INA229 sensor
@@ -254,6 +257,17 @@ extern double INA229_getCHARGE_signedLSB(INA229_Handle sensor);
  *  ======== INA229_getCHARGE_C ========
  *  Get CHARGE value (C)
  */
+
+extern double correct_Current_LSB(double maxCurrent);
+/*
+ * Returns the current LSB value according to the maximum current that we expect to measure
+ */
+
+extern uint16_t calibrationValue (double shuntResistor);
+/*
+ * Returns the calibration register value thatmust be written to the calibration register
+ */
+
 extern double INA229_getCHARGE_C(INA229_Handle sensor);
 
 /* support C++ sources */
