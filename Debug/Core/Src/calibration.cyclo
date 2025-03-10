@@ -1,2 +1,1 @@
-../Core/Src/calibration.c:21:8:correct_Current_LSB	1
-../Core/Src/calibration.c:32:10:calibrationValue	1
+../Core/Src/calibration.c:25:8:correct_Current_LSB	1

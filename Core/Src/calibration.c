@@ -18,6 +18,10 @@ double shuntResistor = 1;
 double maxCurrent = 0.1;
 
 
+
+
+
+
 double correct_Current_LSB(double maxCurrent){
 
 	double currentLSB = (maxCurrent)/(pow(2,19));
@@ -29,15 +33,8 @@ double correct_Current_LSB(double maxCurrent){
 
 }
 
-uint16_t calibrationValue (double shuntResistor){
-	double currentLSB = correct_Current_LSB(maxCurrent);
-	int calibrationConstant = 13107.2 * (pow(10,6))*shuntResistor*currentLSB;
-	return((uint16_t)calibrationConstant);
+//double calibrationValue (double shuntResistor,double)
 
-
-}
-
-
-
+//const double calibrationConstant = 13107.2 * (pow(10,6))*shuntResistor*correct_Current_LSB;
 
 

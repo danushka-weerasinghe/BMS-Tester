@@ -74,18 +74,7 @@ SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
 
 /* USER CODE BEGIN PV */
-/*Set temperature card resistance values*/
 int resistance [6]= {4,8,12,16,20,24};
-/*Declaring variables to store ina229 data*/
-uint16_t calibration_Reg_Value;
-double busVoltage = 0;
-double busCurrent = 0;
-double power = 0;
-double energy = 0;
-double charge = 0;
-double temperature = 0;
-double* varArray[5]= {&busVoltage,&busCurrent,&power,&energy,&charge};
-//double (*funcArray[5]) (INA229_State*) = {INA229_getDIETEMP_C, INA229_getPOWER_W, INA229_getENERGY_J, INA229_getVBUS_V, INA229_getCURRENT_A};
 
 
 /* USER CODE END PV */
@@ -107,7 +96,6 @@ void Scan_I2C_Bus(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
 /* USER CODE END 0 */
 
 /**
@@ -118,9 +106,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	//Getting required values for currentLSB and calibration register
-	double current_LSB_Value = correct_Current_LSB(maxCurrent);
-	uint16_t calibration_Reg_Value = calibrationValue(shuntResistor);
 
   /* USER CODE END 1 */
 
@@ -150,8 +135,6 @@ int main(void)
   MX_I2C3_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
-  /*configure the ina229 sensor*/
-  INA229_config(&INA229_0);
 
   /* Initialize the display module */
   Display_Init();
@@ -184,44 +167,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	   //Scan_I2C_Bus();
-	   //Display_MainTitlePage();
+	   Scan_I2C_Bus();
+	   Display_MainTitlePage();
 
-	   //before reading any data from ina229 set the calibration register values in ina229 accordingly
-
-
-
-
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_03_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_01_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_02_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_03_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_03, CELL_01_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_03, CELL_02_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_03, CELL_03_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_04, CELL_01_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_04, CELL_02_LED_01,0);
-//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_04, CELL_03_LED_01,0);
-
-	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01,1);
-	   mcu_msWait(10000);
-	   HAL_GPIO_WritePin(GPIOE, CELL12_CELL01_CS_Pin, GPIO_PIN_RESET);
-	   mcu_msWait(1000);
-	   //INA229_writeReg(&INA229_0, 0x02, calibration_Reg_Value);
-
-	   //mcu_msWait(100);
-	   //INA229_setCURRENT_LSB(&INA229_0, curret_LSB_Value);
-	   //mcu_msWait(100);
-	   temperature = INA229_getDIETEMP_C(&INA229_0);
-	   HAL_Delay(1000);
-	   busVoltage = INA229_getVBUS_V(&INA229_0);
-	   HAL_Delay(1000);
-	   HAL_GPIO_WritePin(GPIOE, CELL12_CELL01_CS_Pin, GPIO_PIN_SET);
-	   HAL_Delay(1000);
-	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01, 0);
-
-
+//	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01, 1);
 //
 //	   Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01, 1);
 
@@ -230,24 +179,18 @@ int main(void)
 	    HAL_Delay(100);
 
 	    // Run the LED sequence
-	     //RunLEDSequence();
+	     RunLEDSequence();
 
 	     HAL_Delay(100); // Delay between sequences
 
 		  ////////////////////////////////////////////////////
 
-
-
-
-
-
-	     /*cell12_Temp_01_Set(resistance[0]);
+		  cell12_Temp_01_Set(resistance[0]);
 		  cell12_Temp_02_Set(resistance[1]);
 		  cell12_Temp_03_Set(resistance[2]);
 		  cell11_Temp_01_Set(resistance[3]);
 		  cell11_Temp_02_Set(resistance[4]);
 		  cell11_Temp_03_Set(resistance[5]);
-		  */
 
 
 
@@ -534,39 +477,27 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOI_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
+  __HAL_RCC_GPIOI_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOE_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, CELL12_CELL01_CS_Pin|CELL12_CELL02_CS_Pin|CELL12_CELL03_CS_Pin|CELL12_CELL04_CS_Pin
-                          |CELL12_CELL05_CS_Pin|CELL11_CELL10_CS_Pin|CELL11_CELL11_CS_Pin|CELL11_CELL12_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin|CELL12_TEMP_03_LED_Pin|CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOI, CELL12_CELL06_CS_Pin|CELL12_CELL08_CS_Pin|CELL12_CELL10_CS_Pin|CELL12_CELL09_CS_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, CELL12_CELL07_CS_Pin|CELL12_TEMP_02_LED_Pin|CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, CELL12_CELL11_CS_Pin|CELL12_CELL12_CS_Pin|CELL12_TEMP_03_CS_Pin|CELL12_TEMP_03_LED_Pin
-                          |CELL12_TEMP_02_CS_Pin|CELL11_CELL03_CS_Pin|CELL11_CELL04_CS_Pin|CELL11_CELL05_CS_Pin
-                          |CELL11_CELL06_CS_Pin|CELL11_CELL07_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin|CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, CELL11_CELL01_CS_Pin|CELL11_CELL02_CS_Pin|CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOG, CELL11_CELL08_CS_Pin|CELL11_CELL09_CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin|CELL11_TEMP_02_CS_Pin|CELL11_TEMP_02_LED_Pin|CELL11_TEMP_01_CS_Pin
@@ -591,49 +522,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOI, LED_DC_Y_Pin|LED_DC_G_Pin|LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : CELL12_CELL01_CS_Pin CELL12_CELL02_CS_Pin CELL12_CELL04_CS_Pin CELL12_CELL05_CS_Pin
-                           CELL11_CELL10_CS_Pin CELL11_CELL11_CS_Pin CELL11_CELL12_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL01_CS_Pin|CELL12_CELL02_CS_Pin|CELL12_CELL04_CS_Pin|CELL12_CELL05_CS_Pin
-                          |CELL11_CELL10_CS_Pin|CELL11_CELL11_CS_Pin|CELL11_CELL12_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : CELL12_CELL03_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL03_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(CELL12_CELL03_CS_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : CELL12_CELL06_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL06_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(CELL12_CELL06_CS_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : CELL12_CELL07_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL07_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(CELL12_CELL07_CS_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : CELL12_CELL08_CS_Pin CELL12_CELL10_CS_Pin CELL12_CELL09_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL08_CS_Pin|CELL12_CELL10_CS_Pin|CELL12_CELL09_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : CELL12_CELL11_CS_Pin CELL12_CELL12_CS_Pin CELL12_TEMP_03_CS_Pin CELL12_TEMP_02_CS_Pin
-                           CELL11_CELL03_CS_Pin CELL11_CELL04_CS_Pin CELL11_CELL05_CS_Pin CELL11_CELL06_CS_Pin
-                           CELL11_CELL07_CS_Pin */
-  GPIO_InitStruct.Pin = CELL12_CELL11_CS_Pin|CELL12_CELL12_CS_Pin|CELL12_TEMP_03_CS_Pin|CELL12_TEMP_02_CS_Pin
-                          |CELL11_CELL03_CS_Pin|CELL11_CELL04_CS_Pin|CELL11_CELL05_CS_Pin|CELL11_CELL06_CS_Pin
-                          |CELL11_CELL07_CS_Pin;
+  /*Configure GPIO pins : CELL12_TEMP_03_CS_Pin CELL12_TEMP_02_CS_Pin */
+  GPIO_InitStruct.Pin = CELL12_TEMP_03_CS_Pin|CELL12_TEMP_02_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -667,19 +557,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(CELL12_TEMP_01_LED_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CELL11_CELL01_CS_Pin CELL11_CELL02_CS_Pin CELL11_TEMP_03_CS_Pin */
-  GPIO_InitStruct.Pin = CELL11_CELL01_CS_Pin|CELL11_CELL02_CS_Pin|CELL11_TEMP_03_CS_Pin;
+  /*Configure GPIO pin : CELL11_TEMP_03_CS_Pin */
+  GPIO_InitStruct.Pin = CELL11_TEMP_03_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : CELL11_CELL08_CS_Pin CELL11_CELL09_CS_Pin */
-  GPIO_InitStruct.Pin = CELL11_CELL08_CS_Pin|CELL11_CELL09_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+  HAL_GPIO_Init(CELL11_TEMP_03_CS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : CELL11_TEMP_03_LED_Pin CELL11_TEMP_02_LED_Pin CELL11_TEMP_01_LED_Pin */
   GPIO_InitStruct.Pin = CELL11_TEMP_03_LED_Pin|CELL11_TEMP_02_LED_Pin|CELL11_TEMP_01_LED_Pin;

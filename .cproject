@@ -50,8 +50,6 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="&quot;D:\VEGA\Git Hub\BMS Tester Fimware\BMS Tester - Cell Emulator\Core\Inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\VEGA\Git Hub\BMS Tester Fimware\BMS Tester - Cell Emulator\Core\Inc\u8g2&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Inc/u8g2}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.168992414" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
