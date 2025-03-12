@@ -1,0 +1,15 @@
+../Core/Inc/display.h:20:9:u8x8_stm32_gpio_and_delay	7
+../Core/Inc/display.h:40:9:u8x8_byte_4wire_hw_spi	6
+../Core/Inc/display.h:65:6:MainTitlePage	3
+../Core/Src/main.c:115:5:bufsize	2
+../Core/Src/main.c:122:6:clear_buffer	2
+../Core/Src/main.c:168:6:RS485_Send	2
+../Core/Src/main.c:177:6:HAL_UARTEx_RxEventCallback	2
+../Core/Src/main.c:202:5:BCD2DEC	1
+../Core/Src/main.c:212:5:main	2
+../Core/Src/main.c:525:6:SystemClock_Config	3
+../Core/Src/main.c:568:6:HAL_GPIO_EXTI_Callback	1
+../Core/Src/main.c:574:6:SD_CardHandler	3
+../Core/Src/main.c:610:6:display_lcd	1
+../Core/Src/main.c:618:6:display_progress_bar	2
+../Core/Src/main.c:649:6:Error_Handler	1
