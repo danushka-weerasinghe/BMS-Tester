@@ -74,7 +74,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(USART6_ENABLE_GPIO_Port, USART6_ENABLE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOH, CD_Pin|LED_08_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOH, LED_08_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, DISPLAY_CS_Pin|SPI5_CS_02_Pin, GPIO_PIN_SET);
@@ -99,7 +99,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(USART2_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PHPin PHPin PHPin */
-  GPIO_InitStruct.Pin = Temp_LED_Pin|CD_Pin|LED_08_Pin;
+  GPIO_InitStruct.Pin = Temp_LED_Pin|LED_08_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -146,6 +146,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(USART6_ENABLE_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = CD_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(CD_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = LED_09_Pin;

@@ -50,6 +50,10 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+#define SD_CHECK_INTERVAL   500   // Check every 500ms
+#define CD_INSERTED        GPIO_PIN_RESET
+#define CD_REMOVED         GPIO_PIN_SET
+
 #define RS485_BUFFER_SIZE 64
 #define TEST_MSG "RS485\r\n"
 
@@ -90,6 +94,7 @@ void SystemClock_Config(void);
 void display_lcd(const char *message);
 void display_progress_bar(const char *message, float percentage);
 void SD_CardHandler(void);
+uint8_t SD_CheckPresent(void);
 
 /* USER CODE END PFP */
 
@@ -378,6 +383,10 @@ int main(void)
 
 //  display_lcd(message);
 
+  display_lcd("Checking SD...");
+  HAL_Delay(100);
+  sd_card_present = SD_CheckPresent();
+
 /////  RTC_SetTime(00,29,12,5,03,03,25);
 
   /* USER CODE END 2 */
@@ -386,7 +395,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
+	    static uint32_t last_check = 0;
+	    uint32_t current_time = HAL_GetTick();
+
+	    if(current_time - last_check >= SD_CHECK_INTERVAL) {
+	        sd_card_present = SD_CheckPresent();
+	        last_check = current_time;
+	    }
+
+/*	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
 
 	    // Check if we received any data
 	    if(rx_complete)
@@ -397,7 +414,7 @@ int main(void)
 	    }
 
 	    HAL_Delay(1000);
-
+*/
 //      HAL_GPIO_WritePin(GPIOH, Temp_LED_Pin, RESET);
 //      HAL_Delay(1000);
 //      HAL_GPIO_WritePin(GPIOH, Temp_LED_Pin, SET);
@@ -609,10 +626,13 @@ void SD_CardHandler(void)
 
 void display_lcd(const char *message)
 {
-    u8g2_ClearBuffer(&u8g2);
-    u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-    u8g2_DrawStr(&u8g2, 0, 30, message);
-    u8g2_SendBuffer(&u8g2);
+	u8g2_FirstPage(&u8g2);
+	    do {
+	    	u8g2_ClearBuffer(&u8g2);
+			u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+			u8g2_DrawStr(&u8g2, 0, 30, message);
+			u8g2_SendBuffer(&u8g2);
+	    } while (u8g2_NextPage(&u8g2));
 }
 
 void display_progress_bar(const char *message, float percentage)
@@ -638,6 +658,32 @@ void display_progress_bar(const char *message, float percentage)
     u8g2_DrawStr(&u8g2, 40, 50, percent_str);
 
     u8g2_SendBuffer(&u8g2);
+}
+
+uint8_t SD_CheckPresent(void)
+{
+    static uint8_t last_state = 0xFF;  // Invalid initial state
+    uint8_t current_state = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == CD_INSERTED);
+
+    // If state changed
+    if(current_state != last_state) {
+        HAL_Delay(50);  // Debounce
+
+        // Read again after debounce
+        current_state = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == CD_INSERTED);
+
+        if(current_state) {
+            LED_State(1, ON);
+            display_lcd("SD Present");
+        } else {
+            LED_State(1, OFF);
+            display_lcd("No SD Card");
+        }
+
+        last_state = current_state;
+    }
+
+    return current_state;
 }
 
 /* USER CODE END 4 */
