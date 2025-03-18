@@ -1,0 +1,5 @@
+../Core/Src/MOD_BUS.c:31:6:RS485_Init	24	static
+../Core/Src/MOD_BUS.c:42:6:RS485_Send	24	static
+../Core/Src/MOD_BUS.c:62:9:RS485_Available	16	static
+../Core/Src/MOD_BUS.c:67:10:RS485_GetData	24	static
+../Core/Src/MOD_BUS.c:82:6:HAL_UARTEx_RxEventCallback	24	static

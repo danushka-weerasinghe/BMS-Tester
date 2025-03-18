@@ -1,4 +1,4 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+Core/Src/MOD_BUS.o: ../Core/Src/MOD_BUS.c ../Core/Inc/MOD_BUS.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -29,20 +29,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/can.h ../Core/Inc/main.h ../FATFS/App/fatfs.h \
- ../Middlewares/Third_Party/FatFs/src/ff.h \
- ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
- ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
- ../Middlewares/Third_Party/FatFs/src/diskio.h \
- ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/i2c.h ../Core/Inc/spi.h ../Core/Inc/usart.h \
- ../Core/Inc/gpio.h \
- C:/Users/pavank/Documents/STM32\ WorkSpace/BMS\ Tester/Cell\ Emulator/Cell\ Emulator/Core/Inc/U8g2\ Display/u8g2.h \
- C:/Users/pavank/Documents/STM32\ WorkSpace/BMS\ Tester/Cell\ Emulator/Cell\ Emulator/Core/Inc/U8g2\ Display/u8x8.h \
- ../Core/Inc/display.h ../Core/Inc/Logo.h ../Core/Inc/RTC.h \
- ../Core/Inc/RTC.h ../Core/Inc/EEPROM.h ../Core/Inc/fatfs_sd.h \
- ../Core/Inc/LED_BuiltIn.h ../Core/Inc/Switches.h ../Core/Inc/MOD_BUS.h
-../Core/Inc/main.h:
+ ../Core/Inc/usart.h ../Core/Inc/main.h
+../Core/Inc/MOD_BUS.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -73,28 +61,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/can.h:
-../Core/Inc/main.h:
-../FATFS/App/fatfs.h:
-../Middlewares/Third_Party/FatFs/src/ff.h:
-../Middlewares/Third_Party/FatFs/src/integer.h:
-../FATFS/Target/ffconf.h:
-../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
-../Middlewares/Third_Party/FatFs/src/diskio.h:
-../Middlewares/Third_Party/FatFs/src/ff.h:
-../FATFS/Target/user_diskio.h:
-../Core/Inc/i2c.h:
-../Core/Inc/spi.h:
 ../Core/Inc/usart.h:
-../Core/Inc/gpio.h:
-C:/Users/pavank/Documents/STM32\ WorkSpace/BMS\ Tester/Cell\ Emulator/Cell\ Emulator/Core/Inc/U8g2\ Display/u8g2.h:
-C:/Users/pavank/Documents/STM32\ WorkSpace/BMS\ Tester/Cell\ Emulator/Cell\ Emulator/Core/Inc/U8g2\ Display/u8x8.h:
-../Core/Inc/display.h:
-../Core/Inc/Logo.h:
-../Core/Inc/RTC.h:
-../Core/Inc/RTC.h:
-../Core/Inc/EEPROM.h:
-../Core/Inc/fatfs_sd.h:
-../Core/Inc/LED_BuiltIn.h:
-../Core/Inc/Switches.h:
-../Core/Inc/MOD_BUS.h:
+../Core/Inc/main.h:

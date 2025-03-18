@@ -129,6 +129,7 @@
 "./Core/Src/LED_BuiltIn.o"
 "./Core/Src/LTC6811.o"
 "./Core/Src/LTC681x.o"
+"./Core/Src/MOD_BUS.o"
 "./Core/Src/RTC.o"
 "./Core/Src/Switches.o"
 "./Core/Src/can.o"
