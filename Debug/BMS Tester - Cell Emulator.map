@@ -14676,21 +14676,6 @@ Discarded input sections
  .debug_frame   0x00000000      0x260 ./Core/Src/INA229.o
  .ARM.attributes
                 0x00000000       0x34 ./Core/Src/INA229.o
- .group         0x00000000        0xc ./Core/Src/PCAL9535A.o
- .text          0x00000000        0x0 ./Core/Src/PCAL9535A.o
- .data          0x00000000        0x0 ./Core/Src/PCAL9535A.o
- .bss           0x00000000        0x0 ./Core/Src/PCAL9535A.o
- .debug_info    0x00000000       0x22 ./Core/Src/PCAL9535A.o
- .debug_abbrev  0x00000000       0x12 ./Core/Src/PCAL9535A.o
- .debug_aranges
-                0x00000000       0x18 ./Core/Src/PCAL9535A.o
- .debug_macro   0x00000000       0x11 ./Core/Src/PCAL9535A.o
- .debug_macro   0x00000000      0xab4 ./Core/Src/PCAL9535A.o
- .debug_line    0x00000000       0x38 ./Core/Src/PCAL9535A.o
- .debug_str     0x00000000     0x2e03 ./Core/Src/PCAL9535A.o
- .comment       0x00000000       0x44 ./Core/Src/PCAL9535A.o
- .ARM.attributes
-                0x00000000       0x34 ./Core/Src/PCAL9535A.o
  .group         0x00000000        0xc ./Core/Src/Temp_controller.o
  .group         0x00000000        0xc ./Core/Src/Temp_controller.o
  .group         0x00000000        0xc ./Core/Src/Temp_controller.o
@@ -15050,21 +15035,6 @@ Discarded input sections
  .debug_macro   0x00000000      0x225 ./Core/Src/display.o
  .debug_macro   0x00000000      0x134 ./Core/Src/display.o
  .debug_macro   0x00000000      0x178 ./Core/Src/display.o
- .group         0x00000000        0xc ./Core/Src/gpio_control.o
- .text          0x00000000        0x0 ./Core/Src/gpio_control.o
- .data          0x00000000        0x0 ./Core/Src/gpio_control.o
- .bss           0x00000000        0x0 ./Core/Src/gpio_control.o
- .debug_info    0x00000000       0x22 ./Core/Src/gpio_control.o
- .debug_abbrev  0x00000000       0x12 ./Core/Src/gpio_control.o
- .debug_aranges
-                0x00000000       0x18 ./Core/Src/gpio_control.o
- .debug_macro   0x00000000       0x11 ./Core/Src/gpio_control.o
- .debug_macro   0x00000000      0xab4 ./Core/Src/gpio_control.o
- .debug_line    0x00000000       0x3b ./Core/Src/gpio_control.o
- .debug_str     0x00000000     0x2e06 ./Core/Src/gpio_control.o
- .comment       0x00000000       0x44 ./Core/Src/gpio_control.o
- .ARM.attributes
-                0x00000000       0x34 ./Core/Src/gpio_control.o
  .group         0x00000000        0xc ./Core/Src/gpio_expander.o
  .group         0x00000000        0xc ./Core/Src/gpio_expander.o
  .group         0x00000000        0xc ./Core/Src/gpio_expander.o
@@ -18516,12 +18486,10 @@ LOAD ./Core/Inc/u8g2/u8x8_string.o
 LOAD ./Core/Inc/u8g2/u8x8_u16toa.o
 LOAD ./Core/Inc/u8g2/u8x8_u8toa.o
 LOAD ./Core/Src/INA229.o
-LOAD ./Core/Src/PCAL9535A.o
 LOAD ./Core/Src/Temp_controller.o
 LOAD ./Core/Src/calibration.o
 LOAD ./Core/Src/config.o
 LOAD ./Core/Src/display.o
-LOAD ./Core/Src/gpio_control.o
 LOAD ./Core/Src/gpio_expander.o
 LOAD ./Core/Src/i2c_scanner.o
 LOAD ./Core/Src/main.o
