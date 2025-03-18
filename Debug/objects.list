@@ -125,6 +125,7 @@
 "./Core/Inc/U8g2 Display/u8x8_string.o"
 "./Core/Inc/U8g2 Display/u8x8_u16toa.o"
 "./Core/Inc/U8g2 Display/u8x8_u8toa.o"
+"./Core/Src/CAN_BUS.o"
 "./Core/Src/EEPROM.o"
 "./Core/Src/LED_BuiltIn.o"
 "./Core/Src/LTC6811.o"

@@ -35,7 +35,6 @@
 #include "stm32f4xx_hal.h"
 #include "RTC.h"
 #include "EEPROM.h"
-#include "fatfs.h"
 #include "fatfs_sd.h"
 #include "LED_BuiltIn.h"
 #include "Switches.h"
@@ -53,14 +52,22 @@
 
 #define SD_CARD_PRESENT()  (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET)
 //#define POPUP_TIMEOUT    1000
-#define SD_CHECK_INTERVAL  50
 
-//#define SD_CHECK_INTERVAL   500   // Check every 500ms
-//#define CD_INSERTED        GPIO_PIN_RESET
-//#define CD_REMOVED         GPIO_PIN_SET
+
+#define SD_CHECK_INTERVAL   500   // Check every 500ms
+#define CD_INSERTED        GPIO_PIN_RESET
+#define CD_REMOVED         GPIO_PIN_SET
 
 //#define RS485_BUFFER_SIZE 64
 //#define TEST_MSG "RS485\r\n"
+//#define SD_CHECK_INTERVAL   500   // Check every 500ms
+//#define CD_INSERTED        GPIO_PIN_SET
+//#define CD_REMOVED         GPIO_PIN_RESET
+
+/* MOD BUS new
+#define RS485_BUFFER_SIZE 64
+#define TEST_MSG "RS485\r\n"
+ */
 
 /* USER CODE END PD */
 
@@ -76,6 +83,18 @@
 //uint8_t rx_buffer[RS485_BUFFER_SIZE];
 //uint8_t rx_complete = 0;
 
+volatile uint8_t sd_card_present = 0;
+//volatile uint8_t sd_card_last_state = 0;
+//volatile uint32_t sd_last_debounce_time = 0;
+//volatile uint32_t sd_last_check_time = 0;
+//volatile uint8_t sd_state_changed = 0;
+
+/* MOD BUS new
+uint8_t rx_buffer[RS485_BUFFER_SIZE];
+uint8_t rx_complete = 0;
+*/
+
+//uint8_t sd_card_present = 0;
 extern u8g2_t u8g2;
 
 //CAN_FilterTypeDef sFilterConfig;
@@ -101,6 +120,7 @@ void display_progress_bar(const char *message, float percentage);
 void SD_CardHandler(void);
 void display_popup(const char *message);
 
+uint8_t SD_CheckPresent(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -192,6 +212,50 @@ uint8_t TxData[8];
 //        HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
 //    }
 //}
+
+//uint8_t SD_CheckCardPresent(void)
+//{
+//    static uint32_t last_tick = 0;
+//    static GPIO_PinState last_state = GPIO_PIN_SET;
+//    static uint8_t debounced_state = 0;
+//
+//    GPIO_PinState current_state = HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin);
+//    uint32_t current_tick = HAL_GetTick();
+//
+//    // If state changed, reset debounce timer
+//    if(current_state != last_state) {
+//        last_tick = current_tick;
+//        last_state = current_state;
+//        return debounced_state;
+//    }
+//
+//    // If state has been stable for debounce period
+//    if((current_tick - last_tick) >= SD_DEBOUNCE_TIME) {
+//        debounced_state = (current_state == CD_PIN_INSERTED);
+//    }
+//
+//    return debounced_state;
+//}
+
+/* MOD BUS new
+void RS485_Send(uint8_t *data, uint16_t len)
+{
+    HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_SET);
+    HAL_Delay(1);
+    HAL_UART_Transmit(&huart1, data, len, 1000);
+    while(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TC) == RESET);
+    HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+}
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+    if(huart->Instance == USART1)
+    {
+        rx_complete = 1;
+        HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+    }
+}
+*/
 
 /*int8_t TxData[16];
 char data[] = "Hello";
@@ -365,6 +429,10 @@ int main(void)
 
 //  HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
 //  HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+/* MOD BUS new
+  HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+  HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+*/
 
 //  HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData, 16);
 
@@ -387,10 +455,55 @@ int main(void)
   HAL_Delay(500);
   LED_SetAll(OFF);
 
+  u8g2_ClearDisplay(&u8g2);
+  u8g2_SetContrast(&u8g2, 100);
+
+  // Initial card check
+//  display_lcd("Checking SD...");
+//  HAL_Delay(100);
+//  sd_card_present = SD_CheckPresent();
+
+//  if(HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == CD_INSERTED) {
+//      display_lcd("Card Present");
+//      LED_State(1, ON);
+//  } else {
+//      display_lcd("No Card");
+//      LED_State(1, OFF);
+//  }
+
+//  if (SD_DetectCard()) {
+//	  display_lcd("SD Card Found");
+//	  LED_State(1, ON);
+//  } else {
+//	  display_lcd("No SD Card");
+//	  LED_State(1, OFF);
+//  }
+
 //  LED_State(1, ON);
 
   RTC_Init(&hi2c1);
   RTC_TimeLapseInit();
+
+  /*
+
+  sd_card_present = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET);
+  if(sd_card_present) {
+      fresult = f_mount(&fs, "/", 1);
+      if(fresult == FR_OK) {
+          f_getfree("", &fre_clust, &pfs);
+          total = (uint32_t)((pfs->n_fatent - 2) * pfs->csize * 0.5);
+          free_space = (uint32_t)(fre_clust * pfs->csize * 0.5);
+          sprintf(buffer, "SD Card OK!");
+          LED_State(1, ON);
+      } else {
+          sprintf(buffer, "Mount Error!");
+          LED_State(2, ON);
+      }
+  } else {
+      sprintf(buffer, "No SD Card!");
+      LED_State(3, ON);
+  }
+  */
 
 //  display_lcd(message);
 
@@ -422,6 +535,17 @@ int main(void)
 //	  HAL_Delay(10);
 
 /*	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
+=======
+	    static uint32_t last_check = 0;
+	    uint32_t current_time = HAL_GetTick();
+
+	    if(current_time - last_check >= SD_CHECK_INTERVAL) {
+	        SD_CardHandler();
+	        last_check = current_time;
+	    }
+
+	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
+>>>>>>> Stashed changes
 
 	    // Check if we received any data
 	    if(rx_complete)
@@ -432,6 +556,7 @@ int main(void)
 	    }
 
 	    HAL_Delay(1000);
+<<<<<<< Updated upstream
 */
 //      HAL_GPIO_WritePin(GPIOH, Temp_LED_Pin, RESET);
 //      HAL_Delay(1000);
@@ -439,6 +564,22 @@ int main(void)
 //      HAL_Delay(1000);
 
 //	  	  RTC_ReadTime();
+
+
+//	  RTC_ReadTime();
+
+//	  SD_CardHandler();
+
+	  /*
+	    static uint32_t lastCheckTime = 0;
+	    uint32_t currentTime = HAL_GetTick();
+
+	    if(currentTime - lastCheckTime >= 1000) {  // Check every second
+	        SD_CardHandler();
+	        display_lcd(buffer);
+	        lastCheckTime = currentTime;
+	    }
+	   */
 
 //	  	  display_lcd(buffer);
 
@@ -464,6 +605,32 @@ int main(void)
 
 //	  mode = DIP_GetMode();
 //	  id = DIP_GetID();
+
+//	  mode = DIP_GetMode();
+//	  id = DIP_GetID();
+//
+//	  do {
+//
+//		  char timeStr[16];
+//		  char dateStr[16];
+//		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+//	      sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+//
+//	      u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+//		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+//
+//		  	  char modeStr[16];
+//	          char idStr[16];
+//	          sprintf(modeStr, "MODE: %d", mode);
+//	          sprintf(idStr, "ID: %d", id);
+//
+//	          u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//	          u8g2_DrawStr(&u8g2, 5, 8, modeStr);
+//	          u8g2_DrawStr(&u8g2, 80, 8, idStr);
+
+//	          uint32_t used_space = EEPROM_GetUsedSpace();
+//	          float usage_percent = ((float)used_space / EEPROM_SIZE) * 100;
 //
 //	  do {
 //
@@ -494,8 +661,6 @@ int main(void)
 ////	          u8g2_DrawStr(&u8g2, 0, 50, usageStr);
 //
 //	          HAL_Delay(10);
-//
-//	      } while (u8g2_NextPage(&u8g2));
 
     /* USER CODE END WHILE */
 
@@ -603,11 +768,42 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     Push_ButtonHandler(GPIO_Pin);
 }
 
+//void SD_CardHandler(void)
+//{
+//
+//    uint8_t last_state = 0xFF;  // Invalid initial state
+//    static uint32_t last_check = 0;
+//    uint32_t current_time = HAL_GetTick();
+//
+//    uint8_t last_state = CD_REMOVED;
+//    uint8_t current_state = HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin);
+//
+//    // Only process if state changed
+//    if(current_state != last_state) {
+//        HAL_Delay(50);  // Simple debounce
+//
+//        // Read again after debounce
+//        current_state = HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin);
+//
+//        if(current_state == CD_INSERTED) {
+//            sprintf(buffer, "Card Inserted!");
+//            LED_State(1, ON);
+//        } else {
+//            sprintf(buffer, "Card Removed!");
+//            LED_State(1, OFF);
+//        }
+//
+//        display_lcd(buffer);
+//        last_state = current_state;
+//    }
+//}
+
+/*
 void SD_CardHandler(void)
 {
-    static uint8_t last_state = 0xFF;  // Invalid initial state
-    static uint32_t last_check = 0;
-    uint32_t current_time = HAL_GetTick();
+    // Card detection is typically active low
+    sd_card_present = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET);
+>>>>>>> Stashed changes
 
     // Only check periodically
     if(current_time - last_check >= SD_CHECK_INTERVAL) {
@@ -644,6 +840,7 @@ void SD_CardHandler(void)
         last_check = current_time;
     }
 }
+*/
 
 void display_lcd(const char *message)
 {
@@ -673,6 +870,12 @@ void display_popup(const char* message) {
     u8g2_DrawStr(&u8g2, 14, 40, message);
 
     u8g2_SendBuffer(&u8g2);
+	do{
+		u8g2_ClearBuffer(&u8g2);
+		u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+		u8g2_DrawStr(&u8g2, 0, 30, message);
+		u8g2_SendBuffer(&u8g2);
+	} while (u8g2_NextPage(&u8g2));
 }
 
 void display_progress_bar(const char *message, float percentage)
