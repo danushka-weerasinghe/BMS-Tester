@@ -81,6 +81,8 @@ void Error_Handler(void);
 #define CELL12_CS_11_GPIO_Port GPIOF
 #define CELL12_CS_12_Pin GPIO_PIN_1
 #define CELL12_CS_12_GPIO_Port GPIOF
+#define GPIO_01_Pin GPIO_PIN_2
+#define GPIO_01_GPIO_Port GPIOF
 #define CELL12_TEMP_03_CS_Pin GPIO_PIN_6
 #define CELL12_TEMP_03_CS_GPIO_Port GPIOF
 #define CELL12_TEMP_03_LED_Pin GPIO_PIN_8

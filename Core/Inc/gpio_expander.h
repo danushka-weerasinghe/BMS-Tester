@@ -19,6 +19,9 @@ extern I2C_HandleTypeDef hi2c3;
 #define HIGH 1
 #define LOW 0
 
+#define PIN_INPUT   1
+#define PIN_OUTPUT  0
+
 /* I2C device addresses for GPIO expanders */
 #define GPIO_EXPANDER_ID_01 0x21
 #define GPIO_EXPANDER_ID_02 0x22
@@ -58,6 +61,28 @@ extern I2C_HandleTypeDef hi2c3;
 #define CELL_03_VOLTAGE_01   (1U << (6+8))  // Port0, bit 6
 #define ALERT_PIN_CELL_03    (1U << (7+8))  // Port0, bit 7
 
+
+/* Direction macros for each pin  (Port 0) */
+#define ALERT_PIN_CELL_01_DIR    PIN_INPUT
+#define CELL_01_VOLTAGE_01_DIR   PIN_OUTPUT
+#define CELL_01_VOLTAGE_02_DIR   PIN_OUTPUT
+#define CELL_01_VOLTAGE_03_DIR   PIN_OUTPUT
+#define CELL_01_LED_01_DIR       PIN_OUTPUT
+#define CELL_02_VOLTAGE_03_DIR   PIN_OUTPUT
+#define CELL_02_VOLTAGE_02_DIR   PIN_OUTPUT
+#define CELL_02_VOLTAGE_01_DIR   PIN_OUTPUT
+
+/* Direction macros for each pin  (Port 1) */
+#define ALERT_PIN_CELL_02_DIR    PIN_INPUT
+#define CELL_02_LED_01_DIR       PIN_OUTPUT
+#define CELL_03_LED_01_DIR       PIN_OUTPUT
+#define EXPANDER_FAN_CTRL_DIR    PIN_INPUT
+#define CELL_03_VOLTAGE_03_DIR   PIN_OUTPUT
+#define CELL_03_VOLTAGE_02_DIR   PIN_OUTPUT
+#define CELL_03_VOLTAGE_01_DIR   PIN_OUTPUT
+#define ALERT_PIN_CELL_03_DIR    PIN_OUTPUT
+
+
 /* Register addresses from the PCA9535 datasheet */
 #define PCA9535_REG_OUTPUT_PORT0   0x02
 #define PCA9535_REG_OUTPUT_PORT1   0x03
@@ -73,43 +98,37 @@ extern I2C_HandleTypeDef hi2c3;
  */
 HAL_StatusTypeDef Expander_InitAllDevices(I2C_HandleTypeDef *hi2c);
 
+// Function prototypes:
+
 /**
- * @brief Sets a specific GPIO pin high or low on the specified expander.
+ * @brief Initializes the pin directions on the expander using the defined direction macros.
  *
- * The 'pin' parameter is a 16-bit mask representing a single pin.
- * Bits [7:0] correspond to Port 0 and bits [15:8] correspond to Port 1.
- * For example, to set bit 2 of Port 1, pass (1U << (2 + 8)).
+ * This function builds the configuration mask for Port 0 from the pin direction macros.
+ * For Port 0, each bit is set to 1 if the corresponding pin is configured as an input, and 0 if output.
+ * In this example, Port 1 is assumed to be all outputs (0x00).
  *
- * @param hi2c Pointer to the I2C handle.
- * @param deviceAddress 7-bit I2C address of the expander.
- * @param pin 16-bit pin mask.
- * @param isHigh Non-zero to set the pin high; zero to set it low.
- * @return HAL_StatusTypeDef HAL_OK on success, error code otherwise.
+ * @param hi2c          Pointer to the I2C handle.
+ * @param deviceAddress I2C address of the expander.
+ * @return HAL_StatusTypeDef HAL_OK if successful, or an error code.
  */
-HAL_StatusTypeDef Expander_SetPinState(I2C_HandleTypeDef *hi2c, uint8_t deviceAddress, uint16_t pin, uint8_t isHigh);
+HAL_StatusTypeDef Expander_InitPinDirections(I2C_HandleTypeDef *hi2c, uint8_t deviceAddress);
+
 
 /**
- * @brief Sets all outputs to HIGH for the specified expander.
- * @param hi2c Pointer to the I2C handle.
- * @param deviceAddress 7-bit I2C address of the expander.
- * @return HAL_StatusTypeDef HAL_OK on success, error code otherwise.
+ * @brief Sets the output state (high or low) of a single pin.
+ *
+ * This function assumes that the pin is already configured as an output.
+ *
+ * @param hi2c          Pointer to the I2C handle.
+ * @param deviceAddress I2C address of the expander.
+ * @param pin           16-bit mask representing the pin.
+ * @param state         HIGH or LOW.
+ * @return HAL_StatusTypeDef HAL_OK if successful, or an error code.
  */
-HAL_StatusTypeDef Expander_SetAllOutputsHigh(I2C_HandleTypeDef *hi2c, uint8_t deviceAddress);
+HAL_StatusTypeDef Expander_SetPinState(I2C_HandleTypeDef *hi2c,
+                                      uint8_t deviceAddress,
+                                      uint16_t pin,
+                                      uint8_t state);
 
-/**
- * @brief Sets all outputs to LOW for the specified expander.
- * @param hi2c Pointer to the I2C handle.
- * @param deviceAddress 7-bit I2C address of the expander.
- * @return HAL_StatusTypeDef HAL_OK on success, error code otherwise.
- */
-HAL_StatusTypeDef Expander_SetAllOutputsLow(I2C_HandleTypeDef *hi2c, uint8_t deviceAddress);
-
-/* LED Control Functions */
-HAL_StatusTypeDef Expander_SequentialLEDControl(I2C_HandleTypeDef *hi2c, uint8_t isHigh);
-
-
-HAL_StatusTypeDef Expander_SingleLEDControl(I2C_HandleTypeDef *hi2c, uint8_t deviceAddress, uint16_t pin, uint8_t isHigh, uint16_t delay);
-
-void RunLEDSequence(void);
 
 #endif /* INC_GPIO_EXPANDER_H_ */

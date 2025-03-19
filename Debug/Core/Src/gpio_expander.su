@@ -1,10 +1,3 @@
-../Core/Src/gpio_expander.c:27:26:Expander_InitDevice	24	static
-../Core/Src/gpio_expander.c:44:19:Expander_InitAllDevices	24	static
-../Core/Src/gpio_expander.c:60:19:Expander_SetAllOutputsHigh	16	static
-../Core/Src/gpio_expander.c:66:19:Expander_SetAllOutputsLow	16	static
-../Core/Src/gpio_expander.c:72:26:Expander_SetConfigOutputs	40	static
-../Core/Src/gpio_expander.c:102:26:Expander_SetOutputs	40	static
-../Core/Src/gpio_expander.c:133:19:Expander_SetPinState	40	static
-../Core/Src/gpio_expander.c:201:19:Expander_SingleLEDControl	24	static
-../Core/Src/gpio_expander.c:219:19:Expander_SequentialLEDControl	32	static
-../Core/Src/gpio_expander.c:245:6:RunLEDSequence	24	static
+../Core/Src/gpio_expander.c:25:19:Expander_InitPinDirections	40	static
+../Core/Src/gpio_expander.c:87:19:Expander_SetPinState	40	static
+../Core/Src/gpio_expander.c:168:19:Expander_InitAllDevices	32	static
