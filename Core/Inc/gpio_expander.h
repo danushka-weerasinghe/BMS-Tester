@@ -20,10 +20,10 @@ extern I2C_HandleTypeDef hi2c3;
 #define LOW 0
 
 /* I2C device addresses for GPIO expanders */
-#define GPIO_EXPANDER_ID_01 0x20
-#define GPIO_EXPANDER_ID_02 0x21
-#define GPIO_EXPANDER_ID_03 0x24
-#define GPIO_EXPANDER_ID_04 0x25
+#define GPIO_EXPANDER_ID_01 0x21
+#define GPIO_EXPANDER_ID_02 0x22
+#define GPIO_EXPANDER_ID_03 0x23
+#define GPIO_EXPANDER_ID_04 0x24
 
 /* I2C timeout in milliseconds */
 #define EXPANDER_I2C_TIMEOUT 100
@@ -48,7 +48,7 @@ extern I2C_HandleTypeDef hi2c3;
 #define CELL_02_VOLTAGE_02   (1U << 6)  // Port0, bit 6
 #define CELL_02_VOLTAGE_01   (1U << 7)  // Port0, bit 7
 
-/* Names for pins on GPIO_EXPANDER_ID_02 (Port 0) */
+/* Names for pins on GPIO_EXPANDER_ID_02 (Port 1) */
 #define ALERT_PIN_CELL_02    (1U << (0+8))  // Port0, bit 0
 #define CELL_02_LED_01       (1U << (1+8))  // Port0, bit 1
 #define CELL_03_LED_01       (1U << (2+8))  // Port0, bit 2

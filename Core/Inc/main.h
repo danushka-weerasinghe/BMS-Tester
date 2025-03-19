@@ -57,6 +57,30 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define CELL12_CS_01_Pin GPIO_PIN_2
+#define CELL12_CS_01_GPIO_Port GPIOE
+#define CELL12_CS_02_Pin GPIO_PIN_3
+#define CELL12_CS_02_GPIO_Port GPIOE
+#define CELL12_CS_03_Pin GPIO_PIN_4
+#define CELL12_CS_03_GPIO_Port GPIOE
+#define CELL12_CS_04_Pin GPIO_PIN_5
+#define CELL12_CS_04_GPIO_Port GPIOE
+#define CELL12_CS_05_Pin GPIO_PIN_6
+#define CELL12_CS_05_GPIO_Port GPIOE
+#define CELL12_CS_06_Pin GPIO_PIN_8
+#define CELL12_CS_06_GPIO_Port GPIOI
+#define CELL12_CS_07_Pin GPIO_PIN_13
+#define CELL12_CS_07_GPIO_Port GPIOC
+#define CELL12_CS_08_Pin GPIO_PIN_9
+#define CELL12_CS_08_GPIO_Port GPIOI
+#define CELL12_CS_10_Pin GPIO_PIN_10
+#define CELL12_CS_10_GPIO_Port GPIOI
+#define CELL12_CS_09_Pin GPIO_PIN_11
+#define CELL12_CS_09_GPIO_Port GPIOI
+#define CELL12_CS_11_Pin GPIO_PIN_0
+#define CELL12_CS_11_GPIO_Port GPIOF
+#define CELL12_CS_12_Pin GPIO_PIN_1
+#define CELL12_CS_12_GPIO_Port GPIOF
 #define CELL12_TEMP_03_CS_Pin GPIO_PIN_6
 #define CELL12_TEMP_03_CS_GPIO_Port GPIOF
 #define CELL12_TEMP_03_LED_Pin GPIO_PIN_8

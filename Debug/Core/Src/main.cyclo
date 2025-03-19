@@ -6,5 +6,5 @@
 ../Core/Src/main.c:397:13:MX_SPI2_Init	2
 ../Core/Src/main.c:435:13:MX_SPI3_Init	2
 ../Core/Src/main.c:473:13:MX_GPIO_Init	1
-../Core/Src/main.c:631:6:Scan_I2C_Bus	3
-../Core/Src/main.c:662:6:Error_Handler	1
+../Core/Src/main.c:674:6:Scan_I2C_Bus	3
+../Core/Src/main.c:705:6:Error_Handler	1

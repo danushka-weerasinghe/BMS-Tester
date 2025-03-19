@@ -120,7 +120,6 @@
 "./Core/Src/config.o"
 "./Core/Src/display.o"
 "./Core/Src/gpio_expander.o"
-"./Core/Src/i2c_scanner.o"
 "./Core/Src/main.o"
 "./Core/Src/mcu.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
