@@ -177,7 +177,7 @@ int main(void)
 
 
 
-	  Scan_I2C_Bus();
+
 
 
 			  Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
@@ -261,11 +261,11 @@ int main(void)
 		  ////////////////////////////////////////////////////
 
 		  cell12_Temp_01_Set(resistance[0]);
-//		  cell12_Temp_02_Set(resistance[1]);
-//		  cell12_Temp_03_Set(resistance[2]);
-//		  cell11_Temp_01_Set(resistance[3]);
-//		  cell11_Temp_02_Set(resistance[4]);
-//		  cell11_Temp_03_Set(resistance[5]);
+		  cell12_Temp_02_Set(resistance[1]);
+		  cell12_Temp_03_Set(resistance[2]);
+		  cell11_Temp_01_Set(resistance[3]);
+		  cell11_Temp_02_Set(resistance[4]);
+		  cell11_Temp_03_Set(resistance[5]);
 //
 //		  HAL_GPIO_WritePin(GPIOF, GPIO_01_Pin, GPIO_PIN_RESET);
 //
