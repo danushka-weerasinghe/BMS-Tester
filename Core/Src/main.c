@@ -174,11 +174,39 @@ int main(void)
 //	   Display_MainTitlePage();
 
 
+	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 2.5f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 2.8f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 3.3f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 3.4f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 3.6f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 4.0f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 4.2f);
 
 
 
-
-
+	  Set_Output_Voltage(&hi2c3, CELL_1, 2.0f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 2.5f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 2.8f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 3.3f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 3.4f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 3.6f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 4.0f);
+	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c3, CELL_1, 4.2f);
 
 			  Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
 			  Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);

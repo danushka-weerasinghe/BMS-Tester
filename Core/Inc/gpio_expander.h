@@ -89,6 +89,29 @@ extern I2C_HandleTypeDef hi2c3;
 #define PCA9535_REG_CONFIG_PORT0   0x06
 #define PCA9535_REG_CONFIG_PORT1   0x07
 
+
+
+
+
+// Define an enumeration for 12 cells.
+typedef enum {
+    CELL_1 = 0,
+    CELL_2,
+    CELL_3,
+    CELL_4,
+    CELL_5,
+    CELL_6,
+    CELL_7,
+    CELL_8,
+    CELL_9,
+    CELL_10,
+    CELL_11,
+    CELL_12
+} CellID;
+
+
+
+
 /* Public API */
 
 /**
@@ -129,6 +152,9 @@ HAL_StatusTypeDef Expander_SetPinState(I2C_HandleTypeDef *hi2c,
                                       uint8_t deviceAddress,
                                       uint16_t pin,
                                       uint8_t state);
+
+// Function prototype to set output voltage for a cell.
+void Set_Output_Voltage(I2C_HandleTypeDef *hi2c, CellID cell, float voltage);
 
 
 #endif /* INC_GPIO_EXPANDER_H_ */
