@@ -16,6 +16,18 @@ extern "C" {
 #endif
 
 extern const INA229_Handle INA229_0;
+extern const INA229_Handle INA229_1;
+extern const INA229_Handle INA229_2;
+extern const INA229_Handle INA229_3;
+extern const INA229_Handle INA229_4;
+extern const INA229_Handle INA229_5;
+extern const INA229_Handle INA229_6;
+extern const INA229_Handle INA229_7;
+extern const INA229_Handle INA229_8;
+extern const INA229_Handle INA229_9;
+extern const INA229_Handle INA229_10;
+extern const INA229_Handle INA229_11;
+extern const INA229_Handle INA229_12;
 
 #ifdef __cplusplus
 }

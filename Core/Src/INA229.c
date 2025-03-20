@@ -72,8 +72,6 @@ void INA229_config(INA229_Handle sensor)
     INA229_writeReg(sensor, INA229_temp_limit_register, sensor->tempLimitRegister);
     INA229_writeReg(sensor, INA229_pwr_limit_register, sensor->pwrLimitRegister);
 
-
-
 }
 
 /*

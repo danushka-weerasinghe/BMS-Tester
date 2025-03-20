@@ -6,26 +6,21 @@
 #include <stddef.h>
 
 #include "mcu.h"
-#include "main.h"
-
 
 /*
  *  Include MCU Specific Header Files Here
  */
-#include "stm32f4xx_hal.h"
 
-extern SPI_HandleTypeDef hspi2;
+#include "main.h"  // for SPI_HandleTypeDef definitions
+
 extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
 
 
 /********* MCU SPECIFIC SPI CODE STARTS HERE **********/
 void mcu_spiInit(uint8_t busId)
 {
     /* Add MCU specific init necessary for I2C to be used */
-
-
-
-
 }
 
 uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t* txBuf, uint8_t* rxBuf)
@@ -34,15 +29,31 @@ uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t*
      *  Add MCU specific SPI read/write code here.
      */
 
+	HAL_SPI_TransmitReceive(&hspi1, txBuf, rxBuf, count, HAL_MAX_DELAY);
 
-
-
-//    HAL_SPI_TransmitReceive(&hspi2, txBuf, rxBuf, count, HAL_MAX_DELAY);
-
-    HAL_SPI_TransmitReceive(&hspi1, txBuf, rxBuf, count, HAL_MAX_DELAY);
-
-
-
+//	SPI_HandleTypeDef *hspi;
+//
+//	    // Only SPI1 and SPI2 are available
+//	    if (busId == 0)
+//	    {
+//	        hspi = &hspi2; // busId = 0 mapped to SPI2
+//	    }
+//	    else if (busId == 1)
+//	    {
+//	        hspi = &hspi1; // busId = 1 mapped to SPI1
+//	    }
+//	    else
+//	    {
+//	        return 1; // Invalid bus ID
+//	    }
+//
+//	    // Perform SPI transaction using HAL
+//	    if (HAL_SPI_TransmitReceive(hspi, txBuf, rxBuf, count, HAL_MAX_DELAY) != HAL_OK)
+//	    {
+//	        return 1; // SPI transaction failed
+//	    }
+//
+//	    return 0; // Success
     /*
      *  Add MCU specific return code for error handling
      */
@@ -57,11 +68,12 @@ uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t*
 /********* MCU SPECIFIC DELAY CODE STARTS HERE ************/
 void mcu_msWait(uint16_t msWait)
 {
-
-	HAL_Delay(msWait); // Millisecond delay
     /*
      *  Add MCU specific wait loop for msWait. The unit is in milli-seconds
      */
+
+	HAL_Delay(msWait);
+
 }
 
 void mcu_usWait(uint16_t usWait)
@@ -70,9 +82,8 @@ void mcu_usWait(uint16_t usWait)
      *  Add MCU specific wait loop for usWait. The unit is in micro-seconds
      */
 
-    uint32_t ticks = (SystemCoreClock / 1000000) * usWait;
-    while (ticks--) {
-        __NOP(); // No-operation instruction
-    }
+    uint32_t ticks = (SystemCoreClock / 1000000) * usWait / 5; // Approximation for STM32
+    while (ticks--) { __NOP(); }
+
 }
 /********* MCU SPECIFIC DELAY CODE ENDS HERE ************/
