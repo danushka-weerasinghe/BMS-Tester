@@ -179,10 +179,15 @@ void Display_MainTitlePage(void)
         u8g2_SetFont(&u8g2, u8g2_font_fub11_tf);
         u8g2_DrawStr(&u8g2, 6, 33, "INNOVATIONS");
         HAL_Delay(TEXT_DELAY_U32);
+        u8g2_ClearBuffer(&u8g2);
     }
     while (u8g2_NextPage(&u8g2) != 0U);
 
     HAL_Delay(FINAL_PAGE_DELAY_U32);
+
+    u8g2_ClearBuffer(&u8g2);
+
+    HAL_GPIO_WritePin(BACKLIGHT_1_GPIO_Port, BACKLIGHT_1_Pin, GPIO_PIN_RESET);
 }
 
 /**
