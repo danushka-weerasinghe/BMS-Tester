@@ -174,8 +174,8 @@ int main(void)
 //	   Display_MainTitlePage();
 
 
-//	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
-//	  HAL_Delay(1000);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
+	  HAL_Delay(1000);
 //	  Set_Output_Voltage(&hi2c2, CELL_1, 2.5f);
 //	  HAL_Delay(1000);
 //	  Set_Output_Voltage(&hi2c2, CELL_1, 2.8f);
@@ -639,7 +639,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, CELL12_CS_11_Pin|CELL12_CS_12_Pin|GPIO_01_Pin|CELL12_TEMP_03_CS_Pin
+  HAL_GPIO_WritePin(GPIOF, CELL12_CS_11_Pin|CELL12_CS_12_Pin|CSU_12_CELLS_Pin|CELL12_TEMP_03_CS_Pin
                           |CELL12_TEMP_03_LED_Pin|CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
@@ -716,8 +716,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(CELL12_CS_11_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CELL12_CS_12_Pin GPIO_01_Pin */
-  GPIO_InitStruct.Pin = CELL12_CS_12_Pin|GPIO_01_Pin;
+  /*Configure GPIO pins : CELL12_CS_12_Pin CSU_12_CELLS_Pin */
+  GPIO_InitStruct.Pin = CELL12_CS_12_Pin|CSU_12_CELLS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
