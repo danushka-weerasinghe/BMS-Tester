@@ -84,7 +84,407 @@ static INA229_State INA229_1_state = {
 
     /* Sensor's SPI bus and chip select ID */
     .busId = 0,
-    .devCS = 0,
+    .devCS = 1,
 
 };
 const INA229_Handle INA229_1 = &INA229_1_state;
+
+static INA229_State INA229_2_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 2,
+
+};
+const INA229_Handle INA229_2 = &INA229_2_state;
+
+static INA229_State INA229_3_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 3,
+
+};
+const INA229_Handle INA229_3 = &INA229_3_state;
+
+static INA229_State INA229_4_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 4,
+
+};
+const INA229_Handle INA229_4 = &INA229_4_state;
+
+static INA229_State INA229_5_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 5,
+
+};
+const INA229_Handle INA229_5 = &INA229_5_state;
+
+static INA229_State INA229_6_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 6,
+
+};
+const INA229_Handle INA229_6 = &INA229_6_state;
+
+static INA229_State INA229_7_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 7,
+
+};
+const INA229_Handle INA229_7 = &INA229_7_state;
+
+
+static INA229_State INA229_8_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 8,
+
+};
+const INA229_Handle INA229_8 = &INA229_8_state;
+
+static INA229_State INA229_9_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 0,
+
+};
+const INA229_Handle INA229_9 = &INA229_9_state;
+
+static INA229_State INA229_10_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 0,
+
+};
+const INA229_Handle INA229_10 = &INA229_10_state;
+
+static INA229_State INA229_11_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 0,
+
+};
+const INA229_Handle INA229_11 = &INA229_11_state;
+
+static INA229_State INA229_12_state = {
+
+    /* Configuration and Settings */
+    .configRegister = (INA229_config_register_rst_NormalOperation | \
+                       INA229_config_register_rstacc_NormalOperation | \
+                       0x0000U | \
+                       INA229_config_register_tempcomp_Shunttemperaturecompensationdisabled | \
+                       INA229_config_register_adcrange_16384mV),
+    .adcConfigRegister = (INA229_adc_config_register_mode_Continuousbusvoltageshuntvoltageandtemperature | \
+                          INA229_adc_config_register_vbusct_1052us | \
+                          INA229_adc_config_register_vshct_1052us | \
+                          INA229_adc_config_register_vtct_1052us | \
+                          INA229_adc_config_register_avg_1),
+    .shuntCalRegister = 0x1000U,
+    .shuntTempcoRegister = 0x0000U, /* TEMPCO is 0 ppm/°C */
+    .diagAlrtRegister = (INA229_diag_alrt_register_alatch_Transparent | \
+                         INA229_diag_alrt_register_cnvr_DisableconversionreadyflagonALERTpin | \
+                         INA229_diag_alrt_register_slowalert_ALERTcomparisononnonaveragedADCvalue | \
+                         INA229_diag_alrt_register_apol_Normalactivelowopendrain),
+    .sovlRegister = 0x7FFFU,
+    .suvlRegister = 0x8000U,
+    .bovlRegister = 0x7FFFU,
+    .buvlRegister = 0x0000U,
+    .tempLimitRegister = 0x7FFFU,
+    .pwrLimitRegister = 0xFFFFU,
+
+    .adcrange = INA229_config_register_adcrange_16384mV,
+    .currentlsb = 0,
+
+    /* Sensor's SPI bus and chip select ID */
+    .busId = 0,
+    .devCS = 0,
+
+};
+const INA229_Handle INA229_12 = &INA229_12_state;
+
+
+
