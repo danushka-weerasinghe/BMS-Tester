@@ -156,6 +156,10 @@ int main(void)
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 
+
+  mcu_spiInit(0);  // SPI1
+  mcu_spiInit(1);  // SPI2
+
   INA229_config(INA229_0);
   INA229_config(INA229_1);
   INA229_config(INA229_2);
@@ -207,7 +211,7 @@ int main(void)
 //	   Display_MainTitlePage();
 
 
-	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 4.0f);
 //	  HAL_Delay(1000);
 //	  Set_Output_Voltage(&hi2c2, CELL_1, 2.5f);
 //	  HAL_Delay(1000);
@@ -328,10 +332,40 @@ int main(void)
 //		  cell11_Temp_02_Set(resistance[4]);
 //		  cell11_Temp_03_Set(resistance[5]);
 
+	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , LOW);
+	  HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(10);
+	  Set_Output_Voltage(&hi2c2, CELL_1, 3.0f);
+	  busVoltage_01 = INA229_getVBUS_V(INA229_0);
+	  HAL_Delay(10);
+	  HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_SET);
+	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
+
+
+	  HAL_Delay(10);
+	  Set_Output_Voltage(&hi2c2, CELL_2, 3.3f);
+	  busVoltage_02 = INA229_getVBUS_V(INA229_1);
+	  HAL_Delay(10);
+
+	  Set_Output_Voltage(&hi2c2, CELL_3, 4.0f);
+	  busVoltage_03 = INA229_getVBUS_V(INA229_2);
+	  HAL_Delay(10);
+
+	  Set_Output_Voltage(&hi2c2, CELL_4, 2.0f);
+	  busVoltage_04 = INA229_getVBUS_V(INA229_3);
+	  HAL_Delay(10);
+
+	  Set_Output_Voltage(&hi2c2, CELL_5, 3.0f);
+	  	  busVoltage_05 = INA229_getVBUS_V(INA229_4);
+	  	HAL_Delay(10);
+
+		  Set_Output_Voltage(&hi2c2, CELL_6, 3.0f);
+		  	  busVoltage_06 = INA229_getVBUS_V(INA229_5);
+		  	HAL_Delay(10);
 
 	  ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	  	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
+	  	  Set_Output_Voltage(&hi2c2, CELL_1, 3.3f);
 
 	  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , LOW);
 	  	  HAL_Delay(1000);
@@ -351,75 +385,75 @@ int main(void)
 		  HAL_Delay(1000);
 
 		  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
-
-		  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		  Set_Output_Voltage(&hi2c2, CELL_2, 3.3f);
-
-		  	  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , LOW);
-		  	  	  HAL_Delay(1000);
-		  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_02_Pin, GPIO_PIN_RESET);
-
-
-
-		  		  busVoltage_02 = INA229_getVBUS_V(INA229_1);
-
-		  		  HAL_Delay(100);
-
-		  		  temperatureC_02 = INA229_getDIETEMP_C(INA229_1);
-
-
-
-		  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_02_Pin, GPIO_PIN_SET);
-		  		  HAL_Delay(1000);
-
-		  		  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
-
-		  		  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-			  	  Set_Output_Voltage(&hi2c2, CELL_3, 4.0f);
-
-			  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_03_LED_01 , LOW);
-			  	  HAL_Delay(1000);
-				  HAL_GPIO_WritePin(GPIOE, CELL12_CS_03_Pin, GPIO_PIN_RESET);
-
-
-
-				  busVoltage_03 = INA229_getVBUS_V(INA229_2);
-
-				  HAL_Delay(100);
-
-				  temperatureC_03 = INA229_getDIETEMP_C(INA229_2);
-
-
-
-				  HAL_GPIO_WritePin(GPIOE, CELL12_CS_03_Pin, GPIO_PIN_SET);
-				  HAL_Delay(1000);
-
-				  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_03_LED_01 , HIGH);
-
-				  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-				  Set_Output_Voltage(&hi2c2, CELL_4, 3.3f);
-
-				  	  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , LOW);
-				  	  	  HAL_Delay(1000);
-				  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_04_Pin, GPIO_PIN_RESET);
-
-
-
-				  		  busVoltage_04 = INA229_getVBUS_V(INA229_3);
-
-				  		  HAL_Delay(100);
-
-				  		  temperatureC_04 = INA229_getDIETEMP_C(INA229_3);
-
-
-
-				  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_04_Pin, GPIO_PIN_SET);
-				  		  HAL_Delay(1000);
-
-				  		  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , HIGH);
+//
+//		  //////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//		  Set_Output_Voltage(&hi2c2, CELL_2, 3.3f);
+//
+//		  	  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , LOW);
+//		  	  	  HAL_Delay(1000);
+//		  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_02_Pin, GPIO_PIN_RESET);
+//
+//
+//
+//		  		  busVoltage_02 = INA229_getVBUS_V(INA229_1);
+//
+//		  		  HAL_Delay(100);
+//
+//		  		  temperatureC_02 = INA229_getDIETEMP_C(INA229_1);
+//
+//
+//
+//		  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_02_Pin, GPIO_PIN_SET);
+//		  		  HAL_Delay(1000);
+//
+//		  		  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
+//
+//		  		  //////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//			  	  Set_Output_Voltage(&hi2c2, CELL_3, 4.0f);
+//
+//			  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_03_LED_01 , LOW);
+//			  	  HAL_Delay(1000);
+//				  HAL_GPIO_WritePin(GPIOE, CELL12_CS_03_Pin, GPIO_PIN_RESET);
+//
+//
+//
+//				  busVoltage_03 = INA229_getVBUS_V(INA229_2);
+//
+//				  HAL_Delay(100);
+//
+//				  temperatureC_03 = INA229_getDIETEMP_C(INA229_2);
+//
+//
+//
+//				  HAL_GPIO_WritePin(GPIOE, CELL12_CS_03_Pin, GPIO_PIN_SET);
+//				  HAL_Delay(1000);
+//
+//				  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_03_LED_01 , HIGH);
+//
+//				  //////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//				  Set_Output_Voltage(&hi2c2, CELL_4, 3.3f);
+//
+//				  	  	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , LOW);
+//				  	  	  HAL_Delay(1000);
+//				  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_04_Pin, GPIO_PIN_RESET);
+//
+//
+//
+//				  		  busVoltage_04 = INA229_getVBUS_V(INA229_3);
+//
+//				  		  HAL_Delay(100);
+//
+//				  		  temperatureC_04 = INA229_getDIETEMP_C(INA229_3);
+//
+//
+//
+//				  		  HAL_GPIO_WritePin(GPIOE, CELL12_CS_04_Pin, GPIO_PIN_SET);
+//				  		  HAL_Delay(1000);
+//
+//				  		  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , HIGH);
 
 				  		  //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -730,10 +764,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin|CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, CELL12_TEMP_01_LED_Pin|GPIO_PIN_1, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);

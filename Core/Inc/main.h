@@ -148,6 +148,37 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
+// CS Pin definitions for SPI2
+#define CELL12_CS_01_Pin         GPIO_PIN_0
+#define CELL12_CS_02_Pin         GPIO_PIN_1
+#define CELL12_CS_03_Pin         GPIO_PIN_2
+#define CELL12_CS_04_Pin         GPIO_PIN_3
+#define CELL12_CS_05_Pin         GPIO_PIN_4
+#define CELL12_CS_06_Pin         GPIO_PIN_5
+#define CELL12_CS_07_Pin         GPIO_PIN_6
+#define CELL12_CS_08_Pin         GPIO_PIN_7
+#define CELL12_CS_09_Pin         GPIO_PIN_8
+#define CELL12_CS_10_Pin         GPIO_PIN_9
+#define CELL12_CS_11_Pin         GPIO_PIN_10
+#define CELL12_CS_12_Pin         GPIO_PIN_11
+#define CELL12_CS_13_Pin         GPIO_PIN_12
+
+// CS Pin definitions for SPI1
+#define CELL12_CS_14_Pin         GPIO_PIN_0
+#define CELL12_CS_15_Pin         GPIO_PIN_1
+#define CELL12_CS_16_Pin         GPIO_PIN_2
+#define CELL12_CS_17_Pin         GPIO_PIN_3
+#define CELL12_CS_18_Pin         GPIO_PIN_4
+#define CELL12_CS_19_Pin         GPIO_PIN_5
+#define CELL12_CS_20_Pin         GPIO_PIN_6
+#define CELL12_CS_21_Pin         GPIO_PIN_7
+#define CELL12_CS_22_Pin         GPIO_PIN_8
+#define CELL12_CS_23_Pin         GPIO_PIN_9
+#define CELL12_CS_24_Pin         GPIO_PIN_10
+#define CELL12_CS_25_Pin         GPIO_PIN_11
+#define CELL12_CS_26_Pin         GPIO_PIN_12
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
