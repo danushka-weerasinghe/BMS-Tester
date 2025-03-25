@@ -15,6 +15,7 @@
 extern "C" {
 #endif
 
+// First set on SPI2 (busId = 0)
 extern const INA229_Handle INA229_0;
 extern const INA229_Handle INA229_1;
 extern const INA229_Handle INA229_2;
@@ -28,6 +29,21 @@ extern const INA229_Handle INA229_9;
 extern const INA229_Handle INA229_10;
 extern const INA229_Handle INA229_11;
 extern const INA229_Handle INA229_12;
+
+// Second set on SPI1 (busId = 1)
+extern const INA229_Handle INA229_13;
+extern const INA229_Handle INA229_14;
+extern const INA229_Handle INA229_15;
+extern const INA229_Handle INA229_16;
+extern const INA229_Handle INA229_17;
+extern const INA229_Handle INA229_18;
+extern const INA229_Handle INA229_19;
+extern const INA229_Handle INA229_20;
+extern const INA229_Handle INA229_21;
+extern const INA229_Handle INA229_22;
+extern const INA229_Handle INA229_23;
+extern const INA229_Handle INA229_24;
+extern const INA229_Handle INA229_25;
 
 #ifdef __cplusplus
 }

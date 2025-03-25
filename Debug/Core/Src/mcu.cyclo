@@ -1,4 +1,4 @@
-../Core/Src/mcu.c:21:6:mcu_spiInit	1
-../Core/Src/mcu.c:26:9:mcu_spiTransfer	1
-../Core/Src/mcu.c:69:6:mcu_msWait	1
-../Core/Src/mcu.c:79:6:mcu_usWait	2
+../Core/Src/mcu.c:22:6:mcu_spiInit	1
+../Core/Src/mcu.c:31:9:mcu_spiTransfer	1
+../Core/Src/mcu.c:52:6:mcu_msWait	1
+../Core/Src/mcu.c:62:6:mcu_usWait	2

@@ -17,10 +17,15 @@ extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
 
 
+
 /********* MCU SPECIFIC SPI CODE STARTS HERE **********/
 void mcu_spiInit(uint8_t busId)
 {
     /* Add MCU specific init necessary for I2C to be used */
+
+
+
+
 }
 
 uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t* txBuf, uint8_t* rxBuf)
@@ -29,36 +34,14 @@ uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t*
      *  Add MCU specific SPI read/write code here.
      */
 
-	HAL_SPI_TransmitReceive(&hspi1, txBuf, rxBuf, count, HAL_MAX_DELAY);
 
-//	SPI_HandleTypeDef *hspi;
-//
-//	    // Only SPI1 and SPI2 are available
-//	    if (busId == 0)
-//	    {
-//	        hspi = &hspi2; // busId = 0 mapped to SPI2
-//	    }
-//	    else if (busId == 1)
-//	    {
-//	        hspi = &hspi1; // busId = 1 mapped to SPI1
-//	    }
-//	    else
-//	    {
-//	        return 1; // Invalid bus ID
-//	    }
-//
-//	    // Perform SPI transaction using HAL
-//	    if (HAL_SPI_TransmitReceive(hspi, txBuf, rxBuf, count, HAL_MAX_DELAY) != HAL_OK)
-//	    {
-//	        return 1; // SPI transaction failed
-//	    }
-//
-//	    return 0; // Success
-    /*
-     *  Add MCU specific return code for error handling
-     */
 
-    return (0);
+    // Perform SPI transaction using HAL
+    HAL_SPI_TransmitReceive(&hspi1, txBuf, rxBuf, count, HAL_MAX_DELAY);
+
+
+
+    return 0; // Success
 }
 
 
