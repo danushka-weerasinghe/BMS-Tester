@@ -209,7 +209,7 @@ float INA229_getDIETEMP_F(INA229_Handle sensor)
     float data = INA229_getDIETEMP_C(sensor);
     
     //Convert to F
-    data = (data * (9/5)) + 32;
+    data = (data * (9.0/5.0)) + 32.0;
 
     return data;
 }

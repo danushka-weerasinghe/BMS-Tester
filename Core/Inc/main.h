@@ -81,8 +81,8 @@ void Error_Handler(void);
 #define CELL12_CS_11_GPIO_Port GPIOF
 #define CELL12_CS_12_Pin GPIO_PIN_1
 #define CELL12_CS_12_GPIO_Port GPIOF
-#define GPIO_01_Pin GPIO_PIN_2
-#define GPIO_01_GPIO_Port GPIOF
+#define CSU_12_CELLS_Pin GPIO_PIN_2
+#define CSU_12_CELLS_GPIO_Port GPIOF
 #define CELL12_TEMP_03_CS_Pin GPIO_PIN_6
 #define CELL12_TEMP_03_CS_GPIO_Port GPIOF
 #define CELL12_TEMP_03_LED_Pin GPIO_PIN_8
@@ -123,6 +123,8 @@ void Error_Handler(void);
 #define CELL11_CS_11_GPIO_Port GPIOE
 #define CELL11_CS_12_Pin GPIO_PIN_9
 #define CELL11_CS_12_GPIO_Port GPIOE
+#define CSU_11_CELLS_Pin GPIO_PIN_10
+#define CSU_11_CELLS_GPIO_Port GPIOE
 #define CELL11_TEMP_03_CS_Pin GPIO_PIN_11
 #define CELL11_TEMP_03_CS_GPIO_Port GPIOB
 #define CELL11_TEMP_03_LED_Pin GPIO_PIN_6

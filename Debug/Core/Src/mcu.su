@@ -1,4 +1,4 @@
 ../Core/Src/mcu.c:22:6:mcu_spiInit	16	static
-../Core/Src/mcu.c:31:9:mcu_spiTransfer	24	static
-../Core/Src/mcu.c:52:6:mcu_msWait	16	static
-../Core/Src/mcu.c:62:6:mcu_usWait	24	static,ignoring_inline_asm
+../Core/Src/mcu.c:31:9:mcu_spiTransfer	32	static
+../Core/Src/mcu.c:67:6:mcu_msWait	16	static
+../Core/Src/mcu.c:77:6:mcu_usWait	24	static,ignoring_inline_asm

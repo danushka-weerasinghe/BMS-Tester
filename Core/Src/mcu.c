@@ -34,14 +34,29 @@ uint8_t mcu_spiTransfer(uint8_t busId, uint8_t csGPIOId, uint8_t count, uint8_t*
      *  Add MCU specific SPI read/write code here.
      */
 
+    SPI_HandleTypeDef *hspi = NULL; // Declare local SPI handle variable
 
-
-    // Perform SPI transaction using HAL
-    HAL_SPI_TransmitReceive(&hspi1, txBuf, rxBuf, count, HAL_MAX_DELAY);
-
-
-
-    return 0; // Success
+    // Select the SPI handle based on the busId value
+    if(busId == 0)
+    {
+        hspi = &hspi1;  // Map busId 0 to SPI1
+    }
+    else if(busId == 1)
+    {
+        hspi = &hspi2;  // Map busId 1 to SPI2
+    }
+    else
+    {
+        // Invalid bus id, return error
+        return 1;
+    }
+//    HAL_SPI_TransmitReceive(hspi, txBuf, rxBuf, count, HAL_MAX_DELAY);
+    // Perform the SPI transfer using the selected SPI handle
+    if (HAL_SPI_TransmitReceive(hspi, txBuf, rxBuf, count, HAL_MAX_DELAY) != HAL_OK)
+    {
+        return 1; // SPI transaction failed
+    }
+    return 0; // Transaction successful
 }
 
 
