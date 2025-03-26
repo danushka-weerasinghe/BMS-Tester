@@ -137,6 +137,10 @@ void Error_Handler(void);
 #define CELL11_TEMP_01_CS_GPIO_Port GPIOH
 #define CELL11_TEMP_01_LED_Pin GPIO_PIN_12
 #define CELL11_TEMP_01_LED_GPIO_Port GPIOH
+#define CS_ISOSPI_12_CELLS_Pin GPIO_PIN_15
+#define CS_ISOSPI_12_CELLS_GPIO_Port GPIOB
+#define CS_ISOSPI_11_CELLS_Pin GPIO_PIN_10
+#define CS_ISOSPI_11_CELLS_GPIO_Port GPIOD
 #define DISPLAY_IO_1_Pin GPIO_PIN_2
 #define DISPLAY_IO_1_GPIO_Port GPIOG
 #define DISPLAY_IO_2_Pin GPIO_PIN_3
@@ -163,10 +167,6 @@ void Error_Handler(void);
 #define LED_03_GPIO_Port GPIOB
 #define LED_07_Pin GPIO_PIN_4
 #define LED_07_GPIO_Port GPIOB
-#define LED_06_Pin GPIO_PIN_0
-#define LED_06_GPIO_Port GPIOE
-#define LED_05_Pin GPIO_PIN_1
-#define LED_05_GPIO_Port GPIOE
 #define LED_DC_Y_Pin GPIO_PIN_4
 #define LED_DC_Y_GPIO_Port GPIOI
 #define LED_DC_G_Pin GPIO_PIN_5

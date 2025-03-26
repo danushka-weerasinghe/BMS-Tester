@@ -115,6 +115,8 @@
 "./Core/Inc/u8g2/u8x8_u16toa.o"
 "./Core/Inc/u8g2/u8x8_u8toa.o"
 "./Core/Src/INA229.o"
+"./Core/Src/LTC6811.o"
+"./Core/Src/LTC681x.o"
 "./Core/Src/Temp_controller.o"
 "./Core/Src/calibration.o"
 "./Core/Src/config.o"
