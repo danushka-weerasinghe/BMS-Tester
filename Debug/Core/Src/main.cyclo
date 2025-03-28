@@ -30,5 +30,5 @@
 ../Core/Src/main.c:2335:13:MX_SPI3_Init	2
 ../Core/Src/main.c:2373:13:MX_SPI4_Init	2
 ../Core/Src/main.c:2411:13:MX_GPIO_Init	1
-../Core/Src/main.c:2642:6:Scan_I2C_Bus	3
-../Core/Src/main.c:2673:6:Error_Handler	1
+../Core/Src/main.c:2624:6:Scan_I2C_Bus	3
+../Core/Src/main.c:2655:6:Error_Handler	1
