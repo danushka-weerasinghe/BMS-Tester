@@ -28,7 +28,8 @@ Core/Src/calibration.o: ../Core/Src/calibration.c ../Core/Inc/config.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
- ../Core/Inc/main_data.h ../Core/Inc/mcu.h
+ ../Core/Inc/main_data.h ../Core/Inc/config.h ../Core/Inc/mcu.h \
+ ../Core/Inc/mcu.h
 ../Core/Inc/config.h:
 ../Core/Inc/INA229.h:
 ../Core/Inc/INA229.h:
@@ -62,4 +63,6 @@ Core/Src/calibration.o: ../Core/Src/calibration.c ../Core/Inc/config.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Core/Inc/main_data.h:
+../Core/Inc/config.h:
+../Core/Inc/mcu.h:
 ../Core/Inc/mcu.h:

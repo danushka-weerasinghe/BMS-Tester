@@ -28,7 +28,9 @@
 
 
 #include "Temp_controller.h"
+
 #include "main_data.h"
+
 #include "INA229.h"
 #include  "config.h"
 #include "mcu.h"
@@ -149,6 +151,17 @@ float temperatureC_25 = 0 ;
 
 float busVoltage_26 = 0 ;
 float temperatureC_26 = 0 ;
+
+
+#define NUM_INA229 26
+
+
+ INA229_State* ina229_devices[NUM_INA229] = {&INA229_0, &INA229_1, &INA229_2, &INA229_3, &INA229_4, &INA229_5,
+								&INA229_6, &INA229_7, &INA229_8, &INA229_9, &INA229_10,
+								&INA229_11, &INA229_12, &INA229_13, &INA229_14, &INA229_15,
+								&INA229_16, &INA229_17, &INA229_18, &INA229_19,
+								&INA229_20, &INA229_21, &INA229_22, &INA229_23, &INA229_24, &INA229_25};
+
 
 static const signed char TemperatureDataTable[] = { 100, 98, 93, 91, 87, 85, 83,
 		81, 80, 78, 77, 76, 74, 73, 72, 71, 70, 69, 68, 67, 67, 66, 65, 64, 63,
@@ -322,16 +335,16 @@ void spi_write_read(uint8_t tx_Data[], //array of data to be written on SPI port
 
 void cs_low() {
 
-//	HAL_GPIO_WritePin(GPIOB, CS_ISOSPI_12_CELLS_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(CS_ISOSPI_11_CELLS_GPIO_Port, CS_ISOSPI_11_CELLS_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+	 HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_RESET);// Enable Pack, /CS asserted
 
 
 }
 
 void cs_high() {
 
-//	HAL_GPIO_WritePin(GPIOB, CS_ISOSPI_12_CELLS_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(CS_ISOSPI_11_CELLS_GPIO_Port, CS_ISOSPI_11_CELLS_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+	 HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);// Disable Pack, /CS deasserted
 
 
 }
@@ -1113,7 +1126,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+   HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -1138,89 +1151,20 @@ int main(void)
   MX_SPI4_Init();
   /* USER CODE BEGIN 2 */
 
+// int INA229
+  for (int i = 0; i < NUM_INA229; i++)
+  { INA229_config(ina229_devices[i]); HAL_Delay(10); }
+
+
 
   mcu_spiInit(0);
   HAL_Delay(10);
   HAL_Delay(10);
 
-  INA229_config(&INA229_0);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_1);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_2);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_3);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_4);
-
-  INA229_config(&INA229_5);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_6);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_7);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_8);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_9);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_10);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_11);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_12);
 
   HAL_Delay(10);
 
-  INA229_config(INA229_13);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_14);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_15);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_16);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_17);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_18);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_19);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_20);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_21);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_22);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_23);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_24);
-
-  HAL_Delay(10);
-  INA229_config(&INA229_25);
-
-  HAL_Delay(10);
+  //init ltc ics
 
   //--------------------------------------------------------------//
 
@@ -1256,6 +1200,10 @@ int main(void)
 		  cell11_Temp_03_startup(10);
 
 #endif
+
+		  cell_voltage_read();
+		  delay_time_us(500000);
+		  temparature_data_read();
 
   /* USER CODE END 2 */
 
@@ -1559,23 +1507,23 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 
 							  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_03, CELL_01_LED_01 , HIGH);
 							  HAL_Delay(10);
-//							  HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
+							  HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
 							  HAL_Delay(10);
 							  		  busVoltage_07 = INA229_getVBUS_V(INA229_6);
 							  		HAL_Delay(10);
 							  //
 							  //HAL_Delay(1000);
-//							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_SET);
+							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_SET);
 							  		  HAL_Delay(1000);
 
 
-//							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
+							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
 							  //
 							  		  temperatureC_07 = INA229_getDIETEMP_C(INA229_6);
 
 							  //
 							  //HAL_Delay(1000);
-//							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_SET);
+							  		HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_SET);
 							  	  HAL_Delay(1000);
 							  	Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_03, CELL_01_LED_01 , LOW);
 
@@ -2093,7 +2041,7 @@ cell_voltage_read();
 delay_time_us(500000);
 temparature_data_read();
 
-
+delay_time_us(500000);
 //--------------------------------------------------------------//
 
 		  	/////////////////////////////////////////////////////////////
@@ -2388,7 +2336,7 @@ static void MX_SPI4_Init(void)
   hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi4.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi4.Init.NSS = SPI_NSS_SOFT;
-  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -2450,7 +2398,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, CELL12_TEMP_01_LED_Pin|GPIO_PIN_1, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, CELL11_CS_01_Pin|CELL11_CS_02_Pin|CELL11_TEMP_03_CS_Pin|CS_ISOSPI_12_CELLS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, CELL11_CS_01_Pin|CELL11_CS_02_Pin|CELL11_TEMP_03_CS_Pin|CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, CELL11_CS_08_Pin|CELL11_CS_09_Pin, GPIO_PIN_SET);
@@ -2460,7 +2408,7 @@ static void MX_GPIO_Init(void)
                           |CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(CS_ISOSPI_11_CELLS_GPIO_Port, CS_ISOSPI_11_CELLS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, DISPLAY_IO_1_Pin|DISPLAY_IO_2_Pin|BACKLIGHT_1_Pin|BACKLIGHT_2_Pin
@@ -2560,9 +2508,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CELL11_CS_01_Pin CELL11_CS_02_Pin CS_ISOSPI_12_CELLS_Pin LED_03_Pin
+  /*Configure GPIO pins : CELL11_CS_01_Pin CELL11_CS_02_Pin CS_Pin LED_03_Pin
                            LED_07_Pin */
-  GPIO_InitStruct.Pin = CELL11_CS_01_Pin|CELL11_CS_02_Pin|CS_ISOSPI_12_CELLS_Pin|LED_03_Pin
+  GPIO_InitStruct.Pin = CELL11_CS_01_Pin|CELL11_CS_02_Pin|CS_Pin|LED_03_Pin
                           |LED_07_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -2601,8 +2549,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CS_ISOSPI_11_CELLS_Pin DISPLAY_CS_Pin DISPLAY_CSD3_Pin */
-  GPIO_InitStruct.Pin = CS_ISOSPI_11_CELLS_Pin|DISPLAY_CS_Pin|DISPLAY_CSD3_Pin;
+  /*Configure GPIO pins : CS1_Pin DISPLAY_CS_Pin DISPLAY_CSD3_Pin */
+  GPIO_InitStruct.Pin = CS1_Pin|DISPLAY_CS_Pin|DISPLAY_CSD3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
