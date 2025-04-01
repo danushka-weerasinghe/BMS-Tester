@@ -1126,7 +1126,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -1201,9 +1201,6 @@ int main(void)
 
 #endif
 
-		  cell_voltage_read();
-		  delay_time_us(500000);
-		  temparature_data_read();
 
   /* USER CODE END 2 */
 
@@ -1338,7 +1335,6 @@ int main(void)
 //		  cell12_Temp_03_Set(resistance[2]);
 //		  cell11_Temp_01_Set(resistance[3]);
 //		  cell11_Temp_02_Set(resistance[4]);
-//		  cell11_Temp_03_Set(resistance[5]);
 
 	  ////////////////////////////////////////////////////////////
 
@@ -1747,7 +1743,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 
 						  	/////////////////////////////////////////////////////////////
 
-							  Set_Output_Voltage(&hi2c3, CELL_4, 3.3f);
+							  Set_Output_Voltage(&hi2c3, CELL_4, 4.0f);
 						Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , HIGH);
 
 							  HAL_GPIO_WritePin(GPIOF, CELL11_CS_04_Pin, GPIO_PIN_RESET);
@@ -1772,7 +1768,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 						Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_02, CELL_01_LED_01 , LOW);
 
 						///////////////////////////////////////////////////////////////////
-						  Set_Output_Voltage(&hi2c3, CELL_5, 3.3f);
+						  Set_Output_Voltage(&hi2c3, CELL_5, 4.0f);
 					Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_02, CELL_02_LED_01 , HIGH);
 
 						  HAL_GPIO_WritePin(GPIOF, CELL11_CS_05_Pin, GPIO_PIN_RESET);
@@ -1800,7 +1796,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 
 						  	/////////////////////////////////////////////////////////////
 					///////////////////////////////////////////////////////////////////
-					  Set_Output_Voltage(&hi2c3, CELL_6, 3.3f);
+					  Set_Output_Voltage(&hi2c3, CELL_6, 4.0f);
 				Expander_SetPinState(&hi2c3, GPIO_EXPANDER_ID_02, CELL_03_LED_01 , HIGH);
 
 					  HAL_GPIO_WritePin(GPIOF, CELL11_CS_06_Pin, GPIO_PIN_RESET);
@@ -1859,7 +1855,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 
 		//
 		//HAL_Delay(1000);
-		  HAL_GPIO_WritePin(GPIOG, CELL11_CS_05_Pin, GPIO_PIN_SET);
+		  HAL_GPIO_WritePin(GPIOG, CELL11_CS_08_Pin, GPIO_PIN_SET);
 
 
 
@@ -2041,7 +2037,7 @@ cell_voltage_read();
 delay_time_us(500000);
 temparature_data_read();
 
-delay_time_us(500000);
+//delay_time_us(500000);
 //--------------------------------------------------------------//
 
 		  	/////////////////////////////////////////////////////////////

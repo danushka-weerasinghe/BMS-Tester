@@ -15,7 +15,7 @@
 
 #define HV_MSP
 //#define AUX_MSP
-#define TOTAL_IC 1          //Number of ICs in the daisy chain
+#define TOTAL_IC 2          //Number of ICs in the daisy chain
 #define TEMP_PER_IC 3
 #define CELLS_PER_IC 12
 
