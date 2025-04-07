@@ -22,6 +22,92 @@ static volatile DSTATUS Stat = STA_NOINIT;	/* Disk Status */
 static uint8_t CardType;                    /* Type 0:MMC, 1:SDC, 2:Block addressing */
 static uint8_t PowerFlag = 0;				/* Power flag */
 
+/*
+static FATFS fs;
+static FIL fil;
+static FRESULT fresult;
+static UINT br, bw;
+
+FATFS *pfs;
+DWORD fre_clust;
+uint32_t total, free_space;
+
+SD_Status SD_Init(void)
+{
+    fresult = f_mount(&fs, "/", 1);
+    return (fresult == FR_OK) ? SD_OK : SD_MOUNT_ERROR;
+}
+
+SD_Status SD_DeInit(void)
+{
+    fresult = f_mount(NULL, "/", 1);
+    return (fresult == FR_OK) ? SD_OK : SD_MOUNT_ERROR;
+}
+
+SD_Status SD_Get_Space(char* buffer, uint32_t* total, uint32_t* free_space)
+{
+    FATFS* pfs;
+    DWORD fre_clust;
+
+    fresult = f_getfree("", &fre_clust, &pfs);
+    if (fresult != FR_OK) return SD_FILE_ERROR;
+
+    *total = (uint32_t)((pfs->n_fatent - 2) * pfs->csize * 0.5);
+    *free_space = (uint32_t)(fre_clust * pfs->csize * 0.5);
+
+    sprintf(buffer, "Total: %lu KB,\n Free: %lu KB", *total, *free_space);
+    return SD_OK;
+}
+
+SD_Status SD_Write_File(const char* filename, const char* data)
+{
+    fresult = f_open(&fil, filename, FA_CREATE_ALWAYS | FA_WRITE);
+    if (fresult != FR_OK) return SD_FILE_ERROR;
+
+    UINT bytesWritten;
+    fresult = f_write(&fil, data, strlen(data), &bytesWritten);
+    f_close(&fil);
+
+    return (fresult == FR_OK) ? SD_OK : SD_WRITE_ERROR;
+}
+
+SD_Status SD_Read_File(const char* filename, char* buffer)
+{
+    fresult = f_open(&fil, filename, FA_READ);
+    if (fresult != FR_OK) return SD_FILE_ERROR;
+
+    UINT bytesRead;
+    fresult = f_read(&fil, buffer, f_size(&fil), &bytesRead);
+    f_close(&fil);
+
+    return (fresult == FR_OK) ? SD_OK : SD_READ_ERROR;
+}
+
+SD_Status SD_Append_File(const char* filename, const char* data)
+{
+    fresult = f_open(&fil, filename, FA_OPEN_EXISTING | FA_WRITE);
+    if (fresult != FR_OK) return SD_FILE_ERROR;
+
+    fresult = f_lseek(&fil, f_size(&fil));
+    if (fresult != FR_OK) {
+        f_close(&fil);
+        return SD_FILE_ERROR;
+    }
+
+    UINT bytesWritten;
+    fresult = f_write(&fil, data, strlen(data), &bytesWritten);
+    f_close(&fil);
+
+    return (fresult == FR_OK) ? SD_OK : SD_WRITE_ERROR;
+}
+
+SD_Status SD_Delete_File(const char* path)
+{
+    fresult = f_unlink(path);
+    return (fresult == FR_OK) ? SD_OK : SD_FILE_ERROR;
+}
+*/
+
 /***************************************
  * SPI functions
  **************************************/

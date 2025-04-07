@@ -1,6 +1,10 @@
 #ifndef __FATFS_SD_H
 #define __FATFS_SD_H
 
+#include "fatfs.h"
+#include <string.h>
+#include <stdio.h>
+
 /* Definitions for MMC/SDC command */
 #define CMD0     (0x40+0)     	/* GO_IDLE_STATE */
 #define CMD1     (0x40+1)     	/* SEND_OP_COND */
@@ -25,8 +29,27 @@
 #define CT_SDC		0x06		/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-#define SD_CARD_PRESENT()  (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET)
-#define POPUP_TIMEOUT    1000
+//#define SD_CARD_PRESENT()  (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET)
+//#define POPUP_TIMEOUT    1000
+
+#define BUFFER_SIZE 128
+
+typedef enum {
+    SD_OK = 0,
+    SD_MOUNT_ERROR,
+    SD_FILE_ERROR,
+    SD_WRITE_ERROR,
+    SD_READ_ERROR
+} SD_Status;
+
+/* Function prototypes */
+SD_Status SD_Init(void);
+SD_Status SD_DeInit(void);
+SD_Status SD_Get_Space(char* buffer, uint32_t* total, uint32_t* free_space);
+SD_Status SD_Write_File(const char* filename, const char* data);
+SD_Status SD_Read_File(const char* filename, char* buffer);
+SD_Status SD_Append_File(const char* filename, const char* data);
+SD_Status SD_Delete_File(const char* path);
 
 /* Functions */
 DSTATUS SD_disk_initialize (BYTE pdrv);
@@ -36,7 +59,5 @@ DRESULT SD_disk_write (BYTE pdrv, const BYTE* buff, DWORD sector, UINT count);
 DRESULT SD_disk_ioctl (BYTE pdrv, BYTE cmd, void* buff);
 
 #define SPI_TIMEOUT 100
-
-
 
 #endif

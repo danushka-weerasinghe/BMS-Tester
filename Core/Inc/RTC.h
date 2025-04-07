@@ -54,3 +54,60 @@ bool RTC_IsOscillatorRunning(void);
 void RTC_TimeLapseInit(void);
 
 #endif /* INC_RTC_H_ */
+
+/* Example use */
+
+/* USER CODE BEGIN 2 */
+/*
+RTC_Init();
+RTC_SetTime(00,29,12,5,03,03,25);
+RTC_TimeLapseInit();
+int BCD2DEC(uint8_t val) {
+    return (int)((val / 16 * 10) + (val % 16));
+}
+*/
+/* USER CODE END 2 */
+
+/* USER CODE BEGIN WHILE */
+/*
+while (1)
+{
+
+RTC_ReadTime();
+
+do {
+
+  char timeStr[16];
+  char dateStr[16];
+  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+
+  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+
+} while (u8g2_NextPage(&u8g2));
+HAL_Delay(100);
+
+RTC_TimeLapseCheck();
+
+uint8_t read_buffer[7];
+if (EEPROM_ReadData(read_buffer) == HAL_OK) {
+
+  char timeStr[32];
+  sprintf(timeStr, "%02d:%02d:%02d %02d/%02d/%02d",
+		  BCD2DEC(read_buffer[2]),  // Hour
+		  BCD2DEC(read_buffer[1]),  // Minute
+		  BCD2DEC(read_buffer[0]),  // Second
+		  BCD2DEC(read_buffer[4]),  // Day
+		  BCD2DEC(read_buffer[5]),  // Month
+		  BCD2DEC(read_buffer[6])); // Year
+
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+  u8g2_DrawStr(&u8g2, 20, 30, timeStr);
+  u8g2_SendBuffer(&u8g2);
+}
+
+*/
+/* USER CODE END WHILE */

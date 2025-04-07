@@ -1,0 +1,13 @@
+../Core/Inc/display.h:20:9:u8x8_stm32_gpio_and_delay	24	static
+../Core/Inc/display.h:40:9:u8x8_byte_4wire_hw_spi	24	static
+../Core/Inc/display.h:65:6:MainTitlePage	8	static
+../Core/Src/main.c:116:5:bufsize	24	static
+../Core/Src/main.c:123:6:clear_buffer	16	static
+../Core/Src/main.c:128:5:BCD2DEC	16	static
+../Core/Src/main.c:138:5:main	8	static
+../Core/Src/main.c:263:6:SystemClock_Config	88	static
+../Core/Src/main.c:306:6:HAL_GPIO_EXTI_Callback	16	static
+../Core/Src/main.c:312:6:display_lcd	16	static
+../Core/Src/main.c:323:6:display_popup	24	static
+../Core/Src/main.c:348:6:display_progress_bar	48	static
+../Core/Src/main.c:379:6:Error_Handler	4	static,ignoring_inline_asm
