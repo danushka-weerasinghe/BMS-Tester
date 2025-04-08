@@ -1,0 +1,9 @@
+../Core/Src/Display.c:12:9:u8x8_stm32_gpio_and_delay	24	static
+../Core/Src/Display.c:32:9:u8x8_byte_4wire_hw_spi	24	static
+../Core/Src/Display.c:56:6:Display_Init	8	static
+../Core/Src/Display.c:80:6:Display_PowerSave	16	static
+../Core/Src/Display.c:86:6:Display_Clear	8	static
+../Core/Src/Display.c:92:6:Display_Update	8	static
+../Core/Src/Display.c:97:6:MainTitlePage	8	static
+../Core/Src/Display.c:129:6:display_lcd	16	static
+../Core/Src/Display.c:140:6:display_progress_bar	48	static

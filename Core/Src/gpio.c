@@ -68,7 +68,11 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, CS_ISO_02_Pin|USART3_ENABLE_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOG, DISPLAY_IO_1_Pin|DISPLAY_IO_2_Pin|BACKLIGHT_1_Pin|BACKLIGHT_2_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOG, DISPLAY_IO_1_Pin|DISPLAY_IO_2_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, BACKLIGHT_1_Pin|BACKLIGHT_2_Pin|LED_07_Pin|LED_02_Pin
+                          |LED_06_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USART6_ENABLE_GPIO_Port, USART6_ENABLE_Pin, GPIO_PIN_RESET);
@@ -78,9 +82,6 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, DISPLAY_CS_Pin|SPI5_CS_02_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOG, LED_07_Pin|LED_02_Pin|LED_06_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_01_Pin|LED_05_Pin|USART1_ENABLE_Pin, GPIO_PIN_RESET);

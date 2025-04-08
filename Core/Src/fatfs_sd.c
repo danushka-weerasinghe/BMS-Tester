@@ -7,7 +7,7 @@
 #include "fatfs_sd.h"
 #include "gpio.h"
 #include "string.h"
-
+//#include "LED_BuiltIn.h"
 
 extern SPI_HandleTypeDef 	hspi3;
 #define HSPI_SDCARD		 	&hspi3
@@ -22,18 +22,82 @@ static volatile DSTATUS Stat = STA_NOINIT;	/* Disk Status */
 static uint8_t CardType;                    /* Type 0:MMC, 1:SDC, 2:Block addressing */
 static uint8_t PowerFlag = 0;				/* Power flag */
 
-/*
+
 static FATFS fs;
 static FIL fil;
 static FRESULT fresult;
-static UINT br, bw;
+//static UINT br, bw;
 
 FATFS *pfs;
 DWORD fre_clust;
 uint32_t total, free_space;
 
+static SD_CardInfo sd_info = {
+    .state = SD_STATE_REMOVED,
+    .last_check = 0
+};
+
+SD_CardState SD_GetState(void)
+{
+    return sd_info.state;
+}
+
+const char* SD_GetStatusMessage(void)
+{
+    return sd_info.status_message;
+}
+/*
+void SD_Handler(void)
+{
+    static uint32_t last_check = 0;
+    static SD_CardState current_state = SD_STATE_REMOVED;
+    char status_message[32];
+
+    uint32_t current_time = HAL_GetTick();
+
+    // Check card status every 500ms
+    if (current_time - last_check < 500) {
+        return;
+    }
+    last_check = current_time;
+
+    bool card_present = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET);
+
+    switch(current_state) {
+        case SD_STATE_REMOVED:
+            if(card_present) {
+                current_state = SD_STATE_INSERTED;
+//                strcpy(sd_info.status_message, "Card Inserted");
+                LED_State(1, OFF);
+            }
+            break;
+
+        case SD_STATE_INSERTED:
+            if(!card_present) {
+                current_state = SD_STATE_REMOVED;
+//                strcpy(sd_info.status_message, "Card Removed");
+                LED_State(1, OFF);
+            } else {
+                current_state = SD_STATE_MOUNTED;
+//                strcpy(sd_info.status_message, "Card Ready");
+                LED_State(1, ON);
+            }
+            break;
+
+        case SD_STATE_MOUNTED:
+            if(!card_present) {
+                current_state = SD_STATE_REMOVED;
+//                strcpy(status_message, "Card Removed");
+                LED_State(1, OFF);
+            }
+            break;
+    }
+}
+*/
 SD_Status SD_Init(void)
 {
+//    sd_info.state = SD_STATE_REMOVED;
+//    strcpy(sd_info.status_message, "Initializing...");
     fresult = f_mount(&fs, "/", 1);
     return (fresult == FR_OK) ? SD_OK : SD_MOUNT_ERROR;
 }
@@ -106,7 +170,7 @@ SD_Status SD_Delete_File(const char* path)
     fresult = f_unlink(path);
     return (fresult == FR_OK) ? SD_OK : SD_FILE_ERROR;
 }
-*/
+
 
 /***************************************
  * SPI functions

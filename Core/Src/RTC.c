@@ -6,9 +6,9 @@
  */
 
 #include "RTC.h"
-#include "EEPROM.h"
+//#include "EEPROM.h"
 
-static uint8_t last_timelapse_minute = 0;
+//static uint8_t last_timelapse_minute = 0;
 
 static I2C_HandleTypeDef *hi2c_rtc;
 DateTime time;
@@ -87,7 +87,7 @@ void RTC_SetTime(uint8_t sec, uint8_t min, uint8_t hour,
 
     HAL_I2C_Mem_Write(hi2c_rtc, MCP7940N_I2C_ADDR, MCP7940N_RTCSEC, 1, data, 7, HAL_MAX_DELAY);
 }
-
+/*
 void RTC_TimeLapseInit(void)
 {
     static uint8_t timestamp[TIMELAPSE_SIZE];
@@ -127,3 +127,4 @@ void RTC_TimeLapseInit(void)
 	  }
 
 }
+*/

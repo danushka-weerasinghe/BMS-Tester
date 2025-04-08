@@ -3,4 +3,3 @@
 ../Core/Src/RTC.c:26:6:RTC_Init	3
 ../Core/Src/RTC.c:60:6:RTC_ReadTime	1
 ../Core/Src/RTC.c:75:6:RTC_SetTime	1
-../Core/Src/RTC.c:91:6:RTC_TimeLapseInit	4

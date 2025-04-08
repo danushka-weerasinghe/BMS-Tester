@@ -29,10 +29,21 @@
 #define CT_SDC		0x06		/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-//#define SD_CARD_PRESENT()  (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET)
-//#define POPUP_TIMEOUT    1000
+typedef enum {
+    SD_STATE_REMOVED,
+    SD_STATE_INSERTED,
+    SD_STATE_MOUNTED,
+//    SD_STATE_ERROR
+} SD_CardState;
 
-#define BUFFER_SIZE 128
+typedef struct {
+    SD_CardState state;
+    FATFS fs;
+    uint32_t total_space;
+    uint32_t free_space;
+    uint32_t last_check;
+    char status_message[64];
+} SD_CardInfo;
 
 typedef enum {
     SD_OK = 0,
@@ -41,6 +52,10 @@ typedef enum {
     SD_WRITE_ERROR,
     SD_READ_ERROR
 } SD_Status;
+
+SD_CardState SD_GetState(void);
+const char* SD_GetStatusMessage(void);
+void SD_Handler(void);
 
 /* Function prototypes */
 SD_Status SD_Init(void);
@@ -61,3 +76,71 @@ DRESULT SD_disk_ioctl (BYTE pdrv, BYTE cmd, void* buff);
 #define SPI_TIMEOUT 100
 
 #endif
+
+/* Example use */
+
+/* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN PV */
+/*
+#define BUFFER_SIZE 128
+char buffer[BUFFER_SIZE];
+uint32_t Total, Free;
+*/
+/* USER CODE END PV */
+
+/* USER CODE BEGIN 0 */
+/*
+int bufsize (char *buf)
+{
+	int i=0;
+	while (*buf++ != '\0') i++;
+	return i;
+}
+
+void clear_buffer (void)
+{
+	for (int i=0; i<BUFFER_SIZE; i++) buffer[i] = '\0';
+}
+*/
+/* USER CODE END 0 */
+
+/* USER CODE BEGIN 0 */
+/*
+  // Initialize SD card and check status
+  if(SD_Init() == SD_OK) {
+      display_popup("SD Card Ready");
+
+      // Get and display SD card space
+      if(SD_Get_Space(buffer, &Total, &Free) == SD_OK) {
+          display_lcd(buffer);
+          HAL_Delay(1000);
+          clear_buffer();
+      }
+
+//      SD_Delete_File("test5.txt");
+
+      // Write test file
+//      SD_Write_File("test5.txt", "B");
+
+      // Append to file
+      SD_Append_File("test5.txt", "A");
+
+      // Read file back
+      memset(buffer, 0, sizeof(buffer));
+      if(SD_Read_File("test5.txt", buffer) == SD_OK) {
+          display_lcd(buffer);
+          HAL_Delay(1000);
+          clear_buffer();
+      }
+  } else {
+      display_lcd("SD Init Failed");
+  }
+*/
+/* USER CODE END 0 */
+
+/*
+  while (1)
+  {
+	  SD_Handler();
+	  HAL_Delay(10);
+*/
