@@ -1212,7 +1212,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+//	  HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
 
 //	   Scan_I2C_Bus();
 //	   Display_MainTitlePage();
@@ -2035,14 +2035,19 @@ HAL_Delay(10);
 
 
 //--------------------------------------------------------------//
-	  HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+
+HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
+
+
 cell_voltage_read();
 delay_time_us(500000);
 temparature_data_read();
 
+HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+
 HAL_Delay(10);
 
-HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+
 cell_voltage_read();
 delay_time_us(500000);
 temparature_data_read();
@@ -2402,7 +2407,10 @@ static void MX_GPIO_Init(void)
                           |CELL11_CS_05_Pin|CELL11_CS_06_Pin|CELL11_CS_07_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, CELL12_TEMP_01_LED_Pin|GPIO_PIN_1, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, CELL11_CS_01_Pin|CELL11_CS_02_Pin|CELL11_TEMP_03_CS_Pin|CS_Pin, GPIO_PIN_SET);
