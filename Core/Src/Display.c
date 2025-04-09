@@ -161,3 +161,18 @@ void display_progress_bar(const char *message, float percentage)
 
     u8g2_SendBuffer(&u8g2);
 }
+
+//void display_variable(int variable, uint8_t origin_x, uint8_t origin_y) {
+//    // Clear the specific area (optional)
+//    u8g2_ClearBuffer(&u8g2);
+//
+//    // Draw the updated variable
+//    char buffer[10];
+//    sprintf(buffer, "Var: %d", variable);
+//
+//    // Draw the updated variable at the provided coordinates (origin_x, origin_y)
+//    u8g2_DrawStr(&u8g2, origin_x, origin_y, buffer); // x=origin_x, y=origin_y are coordinates
+//
+//    // Update only a specific area of the display (adjusted region based on origin)
+//    u8g2_UpdateDisplayArea(&u8g2, origin_x, origin_y, 60, 20);  // Update region (origin_x, origin_y) to (origin_x + 60, origin_y + 20)
+//}

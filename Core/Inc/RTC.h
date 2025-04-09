@@ -12,15 +12,16 @@
 #include <stdbool.h>
 
 // Device address and registers
-#define MCP7940N_I2C_ADDR    0xDF
-#define MCP7940N_RTCSEC      0x00
-#define MCP7940N_RTCMIN      0x01
-#define MCP7940N_RTCHOUR     0x02
-#define MCP7940N_RTCWKDAY    0x03
-#define MCP7940N_RTCDATE     0x04
-#define MCP7940N_RTCMTH      0x05
-#define MCP7940N_RTCYEAR     0x06
-#define MCP7940N_CONTROL     0x07
+#define MCP7940N_I2C_ADDR    0xDF	/* RTCSEC register */
+#define MCP7940N_RTCSEC      0x00	/* RTCSEC register */
+#define MCP7940N_RTCMIN      0x01	/* RTCSEC register */
+#define MCP7940N_RTCHOUR     0x02	/* RTCSEC register */
+#define MCP7940N_RTCWKDAY    0x03	/* RTCSEC register */
+#define MCP7940N_RTCDATE     0x04	/* RTCSEC register */
+#define MCP7940N_RTCMTH      0x05	/* RTCSEC register */
+#define MCP7940N_RTCYEAR     0x06	/* RTCSEC register */
+#define MCP7940N_CONTROL     0x07	/* RTCSEC register */
+#define MCP7940N_OSCTRIM	 0x08	/* Oscillator Trim register */
 
 // Control bits
 #define MCP7940N_ST          0x80    // Start oscillator
@@ -52,6 +53,10 @@ bool RTC_GetBatteryEnabled(void);
 void RTC_SetBatteryEnabled(bool enabled);
 bool RTC_IsOscillatorRunning(void);
 void RTC_TimeLapseInit(void);
+
+void RTC_SetTrim(int8_t trim_value);
+void RTC_TrimByFrequency(float f_meas, float f_ideal);
+void RTC_TrimByDeviation(int sec_deviation, int expected_seconds);
 
 #endif /* INC_RTC_H_ */
 

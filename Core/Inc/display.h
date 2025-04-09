@@ -10,8 +10,8 @@
 
 #include "main.h"
 #include "stdio.h"
-//#include "spi.h"
 //#include "Logo.h"
+//#include "spi.h"
 //#include "RTC.h"
 #include "U8g2 Display/u8g2.h"
 #include "gpio.h"
@@ -27,6 +27,7 @@ void Display_PowerSave(uint8_t enable);
 void MainTitlePage(void);
 void display_lcd(const char *message);
 void display_progress_bar(const char *message, float percentage);
+void display_variable(int variable, uint8_t origin_x, uint8_t origin_y);
 
 //uint8_t errorline;
 

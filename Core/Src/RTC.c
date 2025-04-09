@@ -87,6 +87,31 @@ void RTC_SetTime(uint8_t sec, uint8_t min, uint8_t hour,
 
     HAL_I2C_Mem_Write(hi2c_rtc, MCP7940N_I2C_ADDR, MCP7940N_RTCSEC, 1, data, 7, HAL_MAX_DELAY);
 }
+
+void RTC_SetTrim(int8_t trim_value) {
+    uint8_t trim_reg = 0;
+
+    if (trim_value > 0) {
+        trim_reg = (uint8_t)(trim_value & 0x7F) | 0x80; // Set SIGN bit for slow oscillator
+    } else {
+        trim_reg = (uint8_t)((-trim_value) & 0x7F); // Clear SIGN bit for fast oscillator
+    }
+
+    HAL_I2C_Mem_Write(hi2c_rtc, MCP7940N_I2C_ADDR, MCP7940N_OSCTRIM, 1, &trim_reg, 1, HAL_MAX_DELAY);
+}
+
+void RTC_TrimByFrequency(float f_meas, float f_ideal) {
+    int error_clocks = (int)(((f_ideal - f_meas) / f_ideal) * 32768 * 60);
+    int8_t trim_value = error_clocks / 2; // Divide by 2 as each step adjusts by 2 cycles
+    RTC_SetTrim(trim_value);
+}
+
+void RTC_TrimByDeviation(int sec_deviation, int expected_seconds) {
+    float ppm_error = ((float)sec_deviation / expected_seconds) * 1e6;
+    int8_t trim_value = (int8_t)((ppm_error * 32768 * 60) / (1e6 * 2));
+    RTC_SetTrim(trim_value);
+}
+
 /*
 void RTC_TimeLapseInit(void)
 {
