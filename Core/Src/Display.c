@@ -132,7 +132,7 @@ void display_lcd(const char *message)
 	    do {
 	    	u8g2_ClearBuffer(&u8g2);
 			u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-			u8g2_DrawStr(&u8g2, 0, 30, message);
+			u8g2_DrawStr(&u8g2, 00, 30, message);
 			u8g2_SendBuffer(&u8g2);
 	    } while (u8g2_NextPage(&u8g2));
 }

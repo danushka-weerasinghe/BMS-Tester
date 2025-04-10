@@ -70,15 +70,30 @@ uint16_t RS485_GetData(RS485_Channel channel, char* buffer)
     uint16_t size = 0;
 
     if(ch->dataReady) {
+        // Clear destination buffer first
+        memset(buffer, 0, RS485_BUFFER_SIZE);
+        // Copy received data
         memcpy(buffer, ch->rxBuffer, ch->rxSize);
         size = ch->rxSize;
+        // Clear the receive buffer
+        memset(ch->rxBuffer, 0, RS485_BUFFER_SIZE);
         ch->dataReady = 0;
     }
 
     return size;
+
+//    RS485_Handle* ch = &channels[channel];
+//    uint16_t size = 0;
+//
+//    if(ch->dataReady) {
+//        memcpy(buffer, ch->rxBuffer, ch->rxSize);
+//        size = ch->rxSize;
+//        ch->dataReady = 0;
+//    }
+//
+//    return size;
 }
 
-// Add this to your existing UART callback
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
     for(int i = 0; i < 4; i++) {

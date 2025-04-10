@@ -30,7 +30,7 @@
 
 #include "u8g2.h"
 #include "Display.h"
-//#include "string.h"
+#include "string.h"
 #include "stm32f4xx_hal.h"
 #include "RTC.h"
 #include "EEPROM.h"
@@ -50,6 +50,12 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+//#define BUFFER_SIZE 256
+//char RS485Buffer[BUFFER_SIZE];
+
+#define RS485_BUFFER_SIZE 64
+char buffer[RS485_BUFFER_SIZE];
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -66,6 +72,10 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+
+void StartReceiving(void);
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+void display_lcd_scrolling(const char *message, uint16_t offset);
 
 /* USER CODE END PFP */
 
@@ -117,13 +127,19 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
-  RTC_Init(&hi2c1);
+//  RTC_Init(&hi2c1);
+
+
+  RS485_Init(RS485_CH1);
+  RS485_Init(RS485_CH2);
+  RS485_Init(RS485_CH3);
+  RS485_Init(RS485_CH6);
 
   LED_Init();
 
   Display_Init();
 
-//  MainTitlePage();
+  MainTitlePage();
 //
 //  display_lcd("System Starting...");
 //  HAL_Delay(1000);
@@ -142,45 +158,69 @@ int main(void)
 //
 //  int counter = 0;
 
+//  StartReceiving();
+//  uint16_t DisplayOffset = 0;
+
+//  uint32_t Count = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  RTC_ReadTime();
-	  mode = DIP_GetMode();
-	  id = DIP_GetID();
 
-	  do {
-
-		  char timeStr[16];
-		  char dateStr[16];
-		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
-		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
-
-		  u8g2_ClearBuffer(&u8g2);
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
-		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
-
-		  char modeStr[16];
-		  char idStr[16];
-		  sprintf(modeStr, "MODE: %2d", mode);
-		  sprintf(idStr, "ID: %2d", id);
-
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
-		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+//	  snprintf(RS485Buffer, RS485_BUFFER_SIZE, "Testing, Count: %lu\r\n", Count);
 //
-	  } while (u8g2_NextPage(&u8g2));
+//	  RS485_Send(RS485_CH3, RS485Buffer);
+//	  Count++;
+
+      if(RS485_Available(RS485_CH2))
+      {
+          uint16_t length = RS485_GetData(RS485_CH2, buffer);
+
+          if(length > 0)
+          {
+              buffer[length] = '\0';  // Null terminate
+              display_lcd(buffer);
+          }
+      }
+//	  display_lcd(RxData);
+      HAL_Delay(100);
+
+//	  RTC_ReadTime();
+//	  mode = DIP_GetMode();
+//	  id = DIP_GetID();
+//
+//	  do {
+//
+//		  char timeStr[16];
+//		  char dateStr[16];
+//		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+//		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+//
+//		  u8g2_ClearBuffer(&u8g2);
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+//		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+//
+//		  char modeStr[16];
+//		  char idStr[16];
+//		  sprintf(modeStr, "MODE: %2d", mode);
+//		  sprintf(idStr, "ID: %2d", id);
+//
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
+//		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+////
+//	  } while (u8g2_NextPage(&u8g2));
 //	  counter++;
 //	  display_lcd(&counter);
 
 //	  Display_PowerSave(1);
 //	  HAL_Delay(3000);
 //	  Display_PowerSave(0);
-	  HAL_Delay(500);
+//	  HAL_Delay(500);
 
     /* USER CODE END WHILE */
 
