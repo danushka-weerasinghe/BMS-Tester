@@ -7,6 +7,7 @@
 
 #include <Switches.h>
 #include "gpio.h"
+#include "Menu.h"
 #include "LED_BuiltIn.h"
 
 uint8_t mode;
@@ -26,7 +27,8 @@ void Push_ButtonHandler(uint16_t GPIO_Pin)
 
     for(int j = 0; j < 4; j++) {
         if((GPIO_Pin == BUTTON_PINS[j]) && (currentTime - previousTime > 100)) {
-            LED_Toggle(j+1);  // Keep your existing LED toggle
+        	Menu_Handler(j);
+//            LED_Toggle(j+1);  // Keep your existing LED toggle
             previousTime = currentTime;
             break;
         }

@@ -6,6 +6,7 @@
  */
 
 #include "display.h"
+#include "Logo.h"
 
 u8g2_t u8g2;  // Display handle
 
@@ -100,11 +101,11 @@ void MainTitlePage() {
 		u8g2_FirstPage(&u8g2);
 		do {
 			// Draw your image using U8g2 functions
-//			u8g2_DrawXBM(&u8g2, 0, 0, 128, 64, logo);
+			u8g2_DrawXBM(&u8g2, 0, 0, 128, 64, logo);
 		} while (u8g2_NextPage(&u8g2));
 
 		// Wait for a moment to display the image
-		HAL_Delay(500); // Adjust the delay time as needed
+		HAL_Delay(1000); // Adjust the delay time as needed
 
 		// Clear the screen for the title page
 		u8g2_ClearBuffer(&u8g2);
@@ -115,8 +116,8 @@ void MainTitlePage() {
 		u8g2_DrawStr(&u8g2, 6, 33, "INNOVATIONS");
 		u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
 		u8g2_DrawStr(&u8g2, 16, 50, "BMS-TESTBENCH");
-		u8g2_SetFont(&u8g2, u8g2_font_tom_thumb_4x6_tr);
-		u8g2_DrawStr(&u8g2, 48, 62, "Testing..");
+//		u8g2_SetFont(&u8g2, u8g2_font_tom_thumb_4x6_tr);
+//		u8g2_DrawStr(&u8g2, 48, 62, "Testing..");
 	    u8g2_SendBuffer(&u8g2);
 	    u8g2_ClearBuffer(&u8g2);
 
@@ -158,6 +159,45 @@ void display_progress_bar(const char *message, float percentage)
     char percent_str[10];
     sprintf(percent_str, "%.1f%%", percentage);
     u8g2_DrawStr(&u8g2, 40, 50, percent_str);
+
+    u8g2_SendBuffer(&u8g2);
+}
+
+// Display logo screen at startup
+void DisplayLogoScreen(void) {
+    u8g2_FirstPage(&u8g2);
+    do {
+        u8g2_DrawXBM(&u8g2, 0, 0, 128, 64, logo);
+    } while (u8g2_NextPage(&u8g2));
+    HAL_Delay(2000); // Show logo for 2 seconds
+}
+
+// Display home screen with company info and status
+void DisplayHomeScreen(TimeDate_t time, uint8_t mode, uint8_t id) {
+    u8g2_ClearBuffer(&u8g2);
+
+    // Draw company info
+    u8g2_SetFont(&u8g2, u8g2_font_fub11_tf);
+    u8g2_DrawStr(&u8g2, 42, 25, "VEGA");
+    u8g2_DrawStr(&u8g2, 6, 42, "INNOVATIONS");
+
+    // Draw device name
+    u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+    u8g2_DrawStr(&u8g2, 16, 55, "BMS-TESTBENCH");
+
+    // Draw mode and ID
+    char modeStr[16], idStr[16];
+    sprintf(modeStr, "MODE: %2d", mode);
+    sprintf(idStr, "ID: %2d", id);
+    u8g2_DrawStr(&u8g2, 5, 12, modeStr);
+    u8g2_DrawStr(&u8g2, 80, 12, idStr);
+
+    // Draw time and date
+    char timeStr[16], dateStr[16];
+    sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+    sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+    u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+    u8g2_DrawStr(&u8g2, 0, 62, dateStr);
 
     u8g2_SendBuffer(&u8g2);
 }

@@ -4,6 +4,7 @@
 #include "fatfs.h"
 #include <string.h>
 #include <stdio.h>
+#include "stdbool.h"
 
 /* Definitions for MMC/SDC command */
 #define CMD0     (0x40+0)     	/* GO_IDLE_STATE */
@@ -29,21 +30,23 @@
 #define CT_SDC		0x06		/* SD */
 #define CT_BLOCK	0x08		/* Block addressing */
 
-typedef enum {
-    SD_STATE_REMOVED,
-    SD_STATE_INSERTED,
-    SD_STATE_MOUNTED,
-//    SD_STATE_ERROR
-} SD_CardState;
+//typedef enum {
+//    SD_STATE_REMOVED,
+//    SD_STATE_INSERTED,
+//    SD_STATE_MOUNTED,
+////    SD_STATE_ERROR
+//} SD_CardState;
+//
+//typedef struct {
+//    SD_CardState state;
+//    FATFS fs;
+//    uint32_t total_space;
+//    uint32_t free_space;
+//    uint32_t last_check;
+//    char status_message[64];
+//} SD_CardInfo;
 
-typedef struct {
-    SD_CardState state;
-    FATFS fs;
-    uint32_t total_space;
-    uint32_t free_space;
-    uint32_t last_check;
-    char status_message[64];
-} SD_CardInfo;
+extern bool sd_ready;
 
 typedef enum {
     SD_OK = 0,
@@ -53,11 +56,13 @@ typedef enum {
     SD_READ_ERROR
 } SD_Status;
 
-SD_CardState SD_GetState(void);
-const char* SD_GetStatusMessage(void);
+//SD_CardState SD_GetState(void);
+//const char* SD_GetStatusMessage(void);
 void SD_Handler(void);
-
+void Check_SDCard(void);
 /* Function prototypes */
+
+static void SD_PowerOff(void);
 SD_Status SD_Init(void);
 SD_Status SD_DeInit(void);
 SD_Status SD_Get_Space(char* buffer, uint32_t* total, uint32_t* free_space);

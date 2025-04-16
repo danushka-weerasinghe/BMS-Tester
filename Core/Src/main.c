@@ -22,6 +22,7 @@
 #include "fatfs.h"
 #include "i2c.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -39,6 +40,7 @@
 #include "Switches.h"
 #include "MOD_BUS.h"
 #include "CAN_BUS.h"
+#include "Menu.h"
 
 /* USER CODE END Includes */
 
@@ -52,9 +54,9 @@
 
 //#define BUFFER_SIZE 256
 //char RS485Buffer[BUFFER_SIZE];
-
-#define RS485_BUFFER_SIZE 64
-char buffer[RS485_BUFFER_SIZE];
+//
+//#define RS485_BUFFER_SIZE 64
+//char buffer[RS485_BUFFER_SIZE];
 
 /* USER CODE END PD */
 
@@ -66,6 +68,10 @@ char buffer[RS485_BUFFER_SIZE];
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+#define BUFFER_SIZE 128
+char buffer[BUFFER_SIZE];
+uint32_t Total, Free;
 
 /* USER CODE END PV */
 
@@ -81,6 +87,18 @@ void display_lcd_scrolling(const char *message, uint16_t offset);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+int bufsize (char *buf)
+{
+	int i=0;
+	while (*buf++ != '\0') i++;
+	return i;
+}
+
+void clear_buffer (void)
+{
+	for (int i=0; i<BUFFER_SIZE; i++) buffer[i] = '\0';
+}
 
 /* USER CODE END 0 */
 
@@ -125,6 +143,7 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C3_Init();
   MX_FATFS_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   RTC_Init(&hi2c1);
@@ -138,9 +157,11 @@ int main(void)
   LED_Init();
 
   Display_Init();
+  MainTitlePage();
 
-//  MainTitlePage();
-//
+//  Menu_Init();
+//  Menu_Draw();
+
 //  display_lcd("System Starting...");
 //  HAL_Delay(1000);
 //
@@ -156,10 +177,7 @@ int main(void)
 
 //  RTC_TrimByDeviation(26, 120);
 //
-//  int counter = 0;
 
-//  StartReceiving();
-//  uint16_t DisplayOffset = 0;
 
 //  uint32_t Count = 0;
 
@@ -169,15 +187,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  Check_SDCard();
+	  LED_Toggle(1);
+	  HAL_Delay(1000);
 
 //	  snprintf(RS485Buffer, RS485_BUFFER_SIZE, "Testing, Count: %lu\r\n", Count);
-//
-//	  RS485_Send(RS485_CH3, RS485Buffer);
+//	  RS485_Send(RS485_CH2, RS485Buffer);
 //	  Count++;
-
-//      if(RS485_Available(RS485_CH2))
+//
+//      if(RS485_Available(RS485_CH1))
 //      {
-//          uint16_t length = RS485_GetData(RS485_CH2, buffer);
+//          uint16_t length = RS485_GetData(RS485_CH1, buffer);
 //
 //          if(length > 0)
 //          {
@@ -187,32 +207,35 @@ int main(void)
 //      }
 //      HAL_Delay(100);
 
-	  RTC_ReadTime();
-	  mode = DIP_GetMode();
-	  id = DIP_GetID();
-
-	  do {
-
-		  char timeStr[16];
-		  char dateStr[16];
-		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
-		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
-
-		  u8g2_ClearBuffer(&u8g2);
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
-		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
-
-		  char modeStr[16];
-		  char idStr[16];
-		  sprintf(modeStr, "MODE: %2d", mode);
-		  sprintf(idStr, "ID: %2d", id);
-
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
-		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+//	  RTC_ReadTime();
+//	  mode = DIP_GetMode();
+//	  id = DIP_GetID();
 //
-	  } while (u8g2_NextPage(&u8g2));
+//	  do {
+//
+//		  char timeStr[16];
+//		  char dateStr[16];
+//		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+//		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+//
+//		  u8g2_ClearBuffer(&u8g2);
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+//		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+//
+//		  char modeStr[16];
+//		  char idStr[16];
+//		  sprintf(modeStr, "MODE: %2d", mode);
+//		  sprintf(idStr, "ID: %2d", id);
+//
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
+//		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+//
+//	  } while (u8g2_NextPage(&u8g2));
+//
+//	  HAL_Delay(500);
+
 //	  counter++;
 //	  display_lcd(&counter);
 

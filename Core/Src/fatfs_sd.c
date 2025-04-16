@@ -7,14 +7,18 @@
 #include "fatfs_sd.h"
 #include "gpio.h"
 #include "string.h"
-//#include "LED_BuiltIn.h"
+#include "LED_BuiltIn.h"
+#include "stdbool.h"
+#include "Display.h"
 
 extern SPI_HandleTypeDef 	hspi3;
 #define HSPI_SDCARD		 	&hspi3
 #define	SD_CS_PORT			GPIOD
 #define SD_CS_PIN			SPI5_CS_02_Pin
-#define	SD_CD_PORT			CD_PIN_GPIO_Port
-#define SD_CD_PIN			CD_PIN_Pin
+#define	SD_CD_PORT			CD_GPIO_Port
+#define SD_CD_PIN			CD_Pin
+
+bool sd_ready;
 
 extern volatile uint16_t Timer1, Timer2;					/* 1ms Timer Counter */
 
@@ -32,68 +36,83 @@ FATFS *pfs;
 DWORD fre_clust;
 uint32_t total, free_space;
 
-static SD_CardInfo sd_info = {
-    .state = SD_STATE_REMOVED,
-    .last_check = 0
-};
+//static SD_CardInfo sd_info = {
+//    .state = SD_STATE_REMOVED,
+//    .last_check = 0
+//};
 
-SD_CardState SD_GetState(void)
-{
-    return sd_info.state;
-}
+//SD_CardState SD_GetState(void)
+//{
+//    return sd_info.state;
+//}
+//
+//const char* SD_GetStatusMessage(void)
+//{
+//    return sd_info.status_message;
+//}
 
-const char* SD_GetStatusMessage(void)
-{
-    return sd_info.status_message;
-}
-/*
-void SD_Handler(void)
-{
-    static uint32_t last_check = 0;
-    static SD_CardState current_state = SD_STATE_REMOVED;
-    char status_message[32];
+//void SD_Handler(void)
+//{
+//    static uint32_t last_check = 0;
+//    static SD_CardState current_state = SD_STATE_REMOVED;
+////    char status_message[32];
+//
+//    uint32_t current_time = HAL_GetTick();
+//
+//    // Check card status every 500ms
+//    if (current_time - last_check < 500) {
+//        return;
+//    }
+//    last_check = current_time;
+//
+//    bool card_present = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET);
+//
+//    switch(current_state) {
+//        case SD_STATE_REMOVED:
+//            if(card_present) {
+//                current_state = SD_STATE_INSERTED;
+////                strcpy(sd_info.status_message, "Card Inserted");
+//                LED_State(1, OFF);
+//            }
+//            break;
+//
+//        case SD_STATE_INSERTED:
+//            if(!card_present) {
+//                current_state = SD_STATE_REMOVED;
+////                strcpy(sd_info.status_message, "Card Removed");
+//                LED_State(1, OFF);
+//            } else {
+//                current_state = SD_STATE_MOUNTED;
+////                strcpy(sd_info.status_message, "Card Ready");
+//                LED_State(1, ON);
+//            }
+//            break;
+//
+//        case SD_STATE_MOUNTED:
+//            if(!card_present) {
+//                current_state = SD_STATE_REMOVED;
+////                strcpy(status_message, "Card Removed");
+//                LED_State(1, OFF);
+//            }
+//            break;
+//    }
+//}
 
-    uint32_t current_time = HAL_GetTick();
+void Check_SDCard(void) {
+    char buffer[50];
 
-    // Check card status every 500ms
-    if (current_time - last_check < 500) {
-        return;
+    if (HAL_GPIO_ReadPin(SD_CD_PORT, SD_CD_PIN) == GPIO_PIN_RESET) {
+        SD_Init();
+        sd_ready = true;
+        snprintf(buffer, sizeof(buffer), "SD Card is Present");
+    } else {
+        SD_DeInit();
+        sd_ready = false;
+        snprintf(buffer, sizeof(buffer), "SD Card is Not Present");
     }
-    last_check = current_time;
-
-    bool card_present = (HAL_GPIO_ReadPin(CD_GPIO_Port, CD_Pin) == GPIO_PIN_RESET);
-
-    switch(current_state) {
-        case SD_STATE_REMOVED:
-            if(card_present) {
-                current_state = SD_STATE_INSERTED;
-//                strcpy(sd_info.status_message, "Card Inserted");
-                LED_State(1, OFF);
-            }
-            break;
-
-        case SD_STATE_INSERTED:
-            if(!card_present) {
-                current_state = SD_STATE_REMOVED;
-//                strcpy(sd_info.status_message, "Card Removed");
-                LED_State(1, OFF);
-            } else {
-                current_state = SD_STATE_MOUNTED;
-//                strcpy(sd_info.status_message, "Card Ready");
-                LED_State(1, ON);
-            }
-            break;
-
-        case SD_STATE_MOUNTED:
-            if(!card_present) {
-                current_state = SD_STATE_REMOVED;
-//                strcpy(status_message, "Card Removed");
-                LED_State(1, OFF);
-            }
-            break;
-    }
+    display_lcd(buffer);
 }
-*/
+
 SD_Status SD_Init(void)
 {
 //    sd_info.state = SD_STATE_REMOVED;
@@ -106,6 +125,8 @@ SD_Status SD_DeInit(void)
 {
     fresult = f_mount(NULL, "/", 1);
     return (fresult == FR_OK) ? SD_OK : SD_MOUNT_ERROR;
+    Stat |= STA_NOINIT;  // Mark card as uninitialized
+    SD_PowerOff();       // Power off SD card
 }
 
 SD_Status SD_Get_Space(char* buffer, uint32_t* total, uint32_t* free_space)
@@ -229,17 +250,29 @@ static void SPI_RxBytePtr(uint8_t *buff)
 /* wait SD ready */
 static uint8_t SD_ReadyWait(void)
 {
-	uint8_t res;
+    uint8_t res;
+    uint16_t retry_count = 0;
 
-	/* timeout 500ms */
-	Timer2 = 500;
+    Timer2 = 500;  // 500ms timeout
 
-	/* if SD goes ready, receives 0xFF */
-	do {
-		res = SPI_RxByte();
-	} while ((res != 0xFF) && Timer2);
+    do {
+        res = SPI_RxByte();
+        retry_count++;
 
-	return res;
+        /* Visual feedback every 100 attempts */
+        if ((retry_count % 100) == 0) {
+            LED_Toggle(9);
+        }
+
+        /* Safety break after too many retries */
+        if (retry_count >= 5000) {
+            Stat |= STA_NOINIT;  // Mark card as uninitialized
+            SD_PowerOff();       // Power off SD card
+            return 0;
+        }
+    } while ((res != 0xFF) && Timer2);
+
+    return res;
 }
 
 /* power on */

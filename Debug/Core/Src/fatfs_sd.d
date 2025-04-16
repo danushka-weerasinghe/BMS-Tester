@@ -28,6 +28,8 @@ Core/Src/fatfs_sd.o: ../Core/Src/fatfs_sd.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/integer.h ../Core/Inc/fatfs_sd.h \
@@ -36,7 +38,9 @@ Core/Src/fatfs_sd.o: ../Core/Src/fatfs_sd.c \
  ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/gpio.h ../Core/Inc/main.h
+ ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/LED_BuiltIn.h \
+ ../Core/Inc/Display.h ../Core/Inc/U8g2\ Display/u8g2.h \
+ ../Core/Inc/U8g2\ Display/u8x8.h ../Core/Inc/gpio.h
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -66,6 +70,8 @@ Core/Src/fatfs_sd.o: ../Core/Src/fatfs_sd.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/integer.h:
@@ -80,3 +86,8 @@ Core/Src/fatfs_sd.o: ../Core/Src/fatfs_sd.c \
 ../FATFS/Target/user_diskio.h:
 ../Core/Inc/gpio.h:
 ../Core/Inc/main.h:
+../Core/Inc/LED_BuiltIn.h:
+../Core/Inc/Display.h:
+../Core/Inc/U8g2\ Display/u8g2.h:
+../Core/Inc/U8g2\ Display/u8x8.h:
+../Core/Inc/gpio.h:

@@ -28,8 +28,13 @@ Core/Src/Switches.o: ../Core/Src/Switches.c ../Core/Inc/Switches.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/LED_BuiltIn.h
+ ../Core/Inc/gpio.h ../Core/Inc/main.h ../Core/Inc/Menu.h \
+ ../Core/Inc/display.h ../Core/Inc/U8g2\ Display/u8g2.h \
+ ../Core/Inc/U8g2\ Display/u8x8.h ../Core/Inc/gpio.h \
+ ../Core/Inc/LED_BuiltIn.h
 ../Core/Inc/Switches.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -60,7 +65,14 @@ Core/Src/Switches.o: ../Core/Src/Switches.c ../Core/Inc/Switches.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/gpio.h:
 ../Core/Inc/main.h:
+../Core/Inc/Menu.h:
+../Core/Inc/display.h:
+../Core/Inc/U8g2\ Display/u8g2.h:
+../Core/Inc/U8g2\ Display/u8x8.h:
+../Core/Inc/gpio.h:
 ../Core/Inc/LED_BuiltIn.h:

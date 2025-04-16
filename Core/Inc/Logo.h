@@ -4,7 +4,7 @@
  *  Created on: Oct 20, 2023
  *      Author: PATHUM JEEWANTHA
  */
-#include "main.h"
+//#include "main.h"
 
 #define SCREEN_WIDTH  128
 #define SCREEN_HEIGHT 64
