@@ -11,6 +11,11 @@
 //static uint8_t last_timelapse_minute = 0;
 
 static I2C_HandleTypeDef *hi2c_rtc;
+
+//void RTC_SetI2CHandle(I2C_HandleTypeDef *hi2c) {
+//    hi2c_rtc = hi2c;
+//}
+
 DateTime time;
 
 // Convert decimal to BCD
@@ -25,7 +30,11 @@ static int BCD2DEC(uint8_t val) {
 
 void RTC_Init(I2C_HandleTypeDef *hi2c)
 {
-    hi2c_rtc = hi2c;
+//	if (hi2c_rtc = NULL) {
+//		return;
+//	}
+
+	hi2c_rtc = hi2c;
     uint8_t ctrl;
 
     // Step 1: Clear oscillator start bit first
