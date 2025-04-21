@@ -157,10 +157,10 @@ int main(void)
   LED_Init();
 
   Display_Init();
-  MainTitlePage();
+//  MainTitlePage();
 
-  Menu_Init();
-  Menu_Draw();
+//  Menu_Init();
+//  Menu_Draw();
 
 //  display_lcd("System Starting...");
 //  HAL_Delay(1000);
@@ -173,7 +173,7 @@ int main(void)
 //  HAL_Delay(500);
 //  Display_Clear();
 
-//  RTC_SetTime(00,35,12,4,10,4,25); /* Corrected 19 Sec lag */
+//  RTC_SetTime(00,31,9,4,21,4,25);
 
 //  RTC_TrimByDeviation(26, 120);
 
@@ -207,34 +207,34 @@ int main(void)
 //      }
 //      HAL_Delay(100);
 
-//	  RTC_ReadTime();
-//	  mode = DIP_GetMode();
-//	  id = DIP_GetID();
-//
-//	  do {
-//
-//		  char timeStr[16];
-//		  char dateStr[16];
-//		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
-//		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
-//
-//		  u8g2_ClearBuffer(&u8g2);
-//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-//		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
-//		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
-//
-//		  char modeStr[16];
-//		  char idStr[16];
-//		  sprintf(modeStr, "MODE: %2d", mode);
-//		  sprintf(idStr, "ID: %2d", id);
-//
-//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-//		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
-//		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
-//
-//	  } while (u8g2_NextPage(&u8g2));
-//
-//	  HAL_Delay(500);
+	  RTC_ReadTime();
+	  mode = DIP_GetMode();
+	  id = DIP_GetID();
+
+	  do {
+
+		  char timeStr[16];
+		  char dateStr[16];
+		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+
+		  u8g2_ClearBuffer(&u8g2);
+		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+
+		  char modeStr[16];
+		  char idStr[16];
+		  sprintf(modeStr, "MODE: %2d", mode);
+		  sprintf(idStr, "ID: %2d", id);
+
+		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
+		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+
+	  } while (u8g2_NextPage(&u8g2));
+
+	  HAL_Delay(500);
 
 //	  counter++;
 //	  display_lcd(&counter);
