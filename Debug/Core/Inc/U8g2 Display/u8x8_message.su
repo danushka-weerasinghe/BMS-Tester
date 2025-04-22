@@ -1,0 +1,2 @@
+../Core/Inc/U8g2 Display/u8x8_message.c:38:9:u8x8_draw_button_line	24	static
+../Core/Inc/U8g2 Display/u8x8_message.c:88:9:u8x8_UserInterfaceMessage	40	static

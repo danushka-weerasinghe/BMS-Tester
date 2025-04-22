@@ -1,0 +1,4 @@
+../Core/Src/Menu.c:16:6:Menu_Init	24	static
+../Core/Src/Menu.c:42:11:Menu_AddItem	32	static
+../Core/Src/Menu.c:68:6:Menu_Draw	32	static
+../Core/Src/Menu.c:99:6:Menu_Handler	16	static

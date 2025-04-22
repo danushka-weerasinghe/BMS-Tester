@@ -1,0 +1,5 @@
+../Core/Src/CAN_BUS.c:20:13:CAN_Filter_Config	3
+../Core/Src/CAN_BUS.c:46:6:CAN_Init	5
+../Core/Src/CAN_BUS.c:67:6:CAN_Send_Message	3
+../Core/Src/CAN_BUS.c:91:6:HAL_CAN_RxFifo0MsgPendingCallback	2
+../Core/Src/CAN_BUS.c:98:9:CAN_Get_Data	2

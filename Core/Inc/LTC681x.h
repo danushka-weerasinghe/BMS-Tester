@@ -10,10 +10,9 @@
 
 #include <main.h>
 #include "stdint.h"
+#include <stdbool.h>
 
-#include "main.h"
-
-#define IC_LTC6811
+#define IC_LTC6813
 
 #define MD_422HZ_1KHZ 0
 #define MD_27KHZ_14KHZ 1
@@ -69,14 +68,6 @@
 #define CFGR 0
 #define CFGRB 4
 #define CS_PIN 10
-
-#define CS_Pin GPIO_PIN_15
-#define CS_GPIO_Port GPIOB
-
-#define bool unsigned char
-#define true 1
-#define false 0
-
 
 /*! Cell Voltage data structure. */
 typedef struct

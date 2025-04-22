@@ -1,0 +1,5 @@
+../LED_BuiltIn/LED_BuiltIn.c:26:6:LED_Init	2
+../LED_BuiltIn/LED_BuiltIn.c:32:6:LED_State	3
+../LED_BuiltIn/LED_BuiltIn.c:40:6:LED_Toggle	3
+../LED_BuiltIn/LED_BuiltIn.c:46:6:LED_SetAll	2
+../LED_BuiltIn/LED_BuiltIn.c:54:6:LED_ToggleAll	2

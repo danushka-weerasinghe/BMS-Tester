@@ -1,7 +1,0 @@
-../Core/Src/display.c:60:16:u8x8_stm32_gpio_and_delay	7
-../Core/Src/display.c:102:16:u8x8_byte_4wire_hw_spi	6
-../Core/Src/display.c:141:6:Display_Init	1
-../Core/Src/display.c:160:6:Display_MainTitlePage	3
-../Core/Src/display.c:198:6:Display_MainTitlePage_1	3
-../Core/Src/display.c:227:6:Display_Address	1
-../Core/Src/display.c:248:6:Display_Reading	1

@@ -1,0 +1,5 @@
+../Core/Src/EEPROM.c:15:19:EEPROM_Init	4	static
+../Core/Src/EEPROM.c:21:19:EEPROM_WriteData	40	static
+../Core/Src/EEPROM.c:41:19:EEPROM_ReadData	32	static
+../Core/Src/EEPROM.c:55:10:EEPROM_GetCurrentAddr	4	static
+../Core/Src/EEPROM.c:60:10:EEPROM_GetUsedSpace	24	static

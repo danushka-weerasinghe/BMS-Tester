@@ -13,6 +13,7 @@
 #include "stdint.h"
 #include "LTC681x.h"
 #include "LTC6811.h"
+#include <stdbool.h>
 
 /* Initialize the Register limits */
 void LTC6811_init_reg_limits(uint8_t total_ic, //The number of ICs in the system

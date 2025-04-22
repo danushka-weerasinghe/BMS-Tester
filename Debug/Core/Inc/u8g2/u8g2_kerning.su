@@ -1,2 +1,0 @@
-../Core/Inc/u8g2/u8g2_kerning.c:47:9:u8g2_GetKerning	32	static
-../Core/Inc/u8g2/u8g2_kerning.c:78:9:u8g2_GetKerningByTable	32	static

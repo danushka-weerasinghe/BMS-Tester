@@ -6,7 +6,7 @@
  */
 
 #include "LTC681x.h"
-
+//#include "SPI.h"
 #include "stdint.h"
 #include <stdlib.h>
 #include "string.h"
@@ -80,7 +80,7 @@ void wakeup_idle(uint8_t total_ic) //Number of ICs in the system
     int i;
     for (i = 0; i < total_ic; i++)
     {
-        cs_low();
+    	HAL_GPIO_WritePin(GPIOB, CS_ISO_01_Pin, GPIO_PIN_RESET);
         spi_read_byte(0xff); //Guarantees the isoSPI will be in ready mode
         cs_high();
     }
@@ -99,11 +99,9 @@ void wakeup_sleep(uint8_t total_ic) //Number of ICs in the system
     for (i = 0; i < total_ic; i++)
     {
         cs_low();
-        delay_time_us(160);
-//       HAL_Delay(2500); // Guarantees the LTC681x will be in standby
+        __delay_cycles(2500); // Guarantees the LTC681x will be in standby
         cs_high();
-        delay_time_us(18);
-//        HAL_Delay(2500);
+        __delay_cycles(80);
     }
 }
 
@@ -820,9 +818,9 @@ void LTC681x_rdcv_reg(uint8_t reg, //Determines which cell voltage register is r
     cmd[2] = (uint8_t) (cmd_pec >> 8);
     cmd[3] = (uint8_t) (cmd_pec);
 
-    cs_low();
+    cs_low(CS_PIN);
     spi_write_read(cmd, 4, data, (REG_LEN * total_ic));
-    cs_high();
+    cs_high(CS_PIN);
 }
 
 /*
@@ -869,9 +867,9 @@ void LTC681x_rdaux_reg(uint8_t reg, //Determines which GPIO voltage register is 
     cmd[2] = (uint8_t) (cmd_pec >> 8);
     cmd[3] = (uint8_t) (cmd_pec);
 
-    cs_low();
+    cs_low(CS_PIN);
     spi_write_read(cmd, 4, data, (REG_LEN * total_ic));
-    cs_high();
+    cs_high(CS_PIN);
 }
 
 /*
@@ -909,9 +907,9 @@ void LTC681x_rdstat_reg(uint8_t reg, //Determines which stat register is read ba
     cmd[2] = (uint8_t) (cmd_pec >> 8);
     cmd[3] = (uint8_t) (cmd_pec);
 
-    cs_low();
+    cs_low(CS_PIN);
     spi_write_read(cmd, 4, data, (REG_LEN * total_ic));
-    cs_high();
+    cs_high(CS_PIN);
 }
 
 /* Helper function that parses voltage measurement registers */
@@ -974,10 +972,10 @@ uint8_t LTC681x_pladc()
     cmd[2] = (uint8_t) (cmd_pec >> 8);
     cmd[3] = (uint8_t) (cmd_pec);
 
-    cs_low();
+    cs_low(CS_PIN);
     spi_write_array(4, cmd);
     adc_state = spi_read_byte(0xFF);
-    cs_high();
+    cs_high(CS_PIN);
 
     return (adc_state);
 }
@@ -999,13 +997,12 @@ uint32_t LTC681x_pollAdc()
 
     cs_low();
     spi_write_array(4, cmd);
-    while ((counter < 400000) && (finished == 0))
+    while ((counter < 200000) && (finished == 0))
     {
         current_time = spi_read_byte(0xFF);
         if (current_time > 0)
         {
             finished = 1;
-
         }
         else
         {
@@ -1014,7 +1011,7 @@ uint32_t LTC681x_pollAdc()
     }
     cs_high();
 
-    return ((uint32_t)current_time);
+    return (counter);
 }
 
 /*

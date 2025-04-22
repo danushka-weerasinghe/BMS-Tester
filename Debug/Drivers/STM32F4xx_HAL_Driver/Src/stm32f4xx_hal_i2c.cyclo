@@ -73,10 +73,10 @@
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7122:13:I2C_DMAAbort	9
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7225:26:I2C_WaitOnFlagUntilTimeout	8
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7262:26:I2C_WaitOnMasterAddressFlagUntilTimeout	9
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7316:26:I2C_WaitOnTXEFlagUntilTimeout	7
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7357:26:I2C_WaitOnBTFFlagUntilTimeout	7
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7398:26:I2C_WaitOnSTOPFlagUntilTimeout	6
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7434:26:I2C_WaitOnSTOPRequestThroughIT	3
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7463:26:I2C_WaitOnRXNEFlagUntilTimeout	6
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7511:26:I2C_IsAcknowledgeFailed	2
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7536:13:I2C_ConvertOtherXferOptions	3
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7317:26:I2C_WaitOnTXEFlagUntilTimeout	7
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7358:26:I2C_WaitOnBTFFlagUntilTimeout	7
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7399:26:I2C_WaitOnSTOPFlagUntilTimeout	6
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7435:26:I2C_WaitOnSTOPRequestThroughIT	3
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7464:26:I2C_WaitOnRXNEFlagUntilTimeout	6
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7512:26:I2C_IsAcknowledgeFailed	2
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c:7537:13:I2C_ConvertOtherXferOptions	3

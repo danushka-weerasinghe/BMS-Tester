@@ -1,36 +1,44 @@
 /*
- * Display.h
+ * Display.c
  *
- *  Created on: Feb 26, 2025
- *      Author: Danushka Weerasinghe
+ *  Created on: Apr 8, 2025
+ *      Author: pavank
  */
 
 #ifndef INC_DISPLAY_H_
 #define INC_DISPLAY_H_
 
-#include <stdint.h>
-#include <stddef.h>
+//#include "main.h"
+#include "stdio.h"
+//#include "Logo.h"
+//#include "spi.h"
+//#include "RTC.h"
+#include "U8g2 Display/u8g2.h"
+#include "gpio.h"
 
-/**
- * @brief Initializes the display hardware and the u8g2 library.
- */
-extern void Display_Init(void);
+extern u8g2_t u8g2;
+extern SPI_HandleTypeDef hspi3;
 
-/**
- * @brief Displays the main title page.
- */
-extern void Display_MainTitlePage(void);
+typedef struct {
+    uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
+    uint8_t day;
+    uint8_t month;
+    uint8_t year;
+} TimeDate_t;
 
-/**
- * @brief Displays an alternate main title page.
- */
-extern void Display_MainTitlePage_1(void);
+void Display_Init(void);
+void Display_Clear(void);
+void Display_Update(void);
+void Display_PowerSave(uint8_t enable);
+void DisplayLogoScreen(void);
+void DisplayHomeScreen(TimeDate_t time, uint8_t mode, uint8_t id);
+void MainTitlePage(void);
+void display_lcd(const char *message);
+void display_progress_bar(const char *message, float percentage);
+void display_variable(int variable, uint8_t origin_x, uint8_t origin_y);
 
-
-/* New prototype to display a variable (e.g., an I2C address) */
-extern void Display_Address(uint8_t address);
-
-extern void Display_Reading(void);
-
+//uint8_t errorline;
 
 #endif /* INC_DISPLAY_H_ */
