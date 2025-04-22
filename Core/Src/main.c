@@ -175,7 +175,7 @@ int main(void)
 
 //  RTC_SetTime(00,31,9,4,21,4,25);
 
-//  RTC_TrimByDeviation(26, 120);
+//  RTC_TrimByDeviation(26, 120); /*Set Time*/
 
 //  RTC_SetTrim(0);
 
