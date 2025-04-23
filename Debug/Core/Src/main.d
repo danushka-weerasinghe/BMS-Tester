@@ -35,10 +35,11 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/main_data.h ../Core/Inc/INA229.h ../Core/Inc/config.h \
- ../Core/Inc/mcu.h ../Core/Inc/display.h ../Core/Inc/gpio_expander.h \
- ../Core/Inc/Temp_controller.h ../Core/Inc/INA229.h ../Core/Inc/config.h \
- ../Core/Inc/mcu.h ../Core/Inc/flash_LTC.h ../Core/Inc/LTC6811.h \
- ../Core/Inc/LTC681x.h ../Core/Inc/main.h ../Core/Inc/LTC681x.h
+ ../Core/Inc/mcu.h ../Core/Inc/display.h ../Core/Inc/Temp_controller.h \
+ ../Core/Inc/INA229.h ../Core/Inc/config.h ../Core/Inc/mcu.h \
+ ../Core/Inc/flash_LTC.h ../Core/Inc/LTC6811.h ../Core/Inc/LTC681x.h \
+ ../Core/Inc/main.h ../Core/Inc/LTC681x.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -83,7 +84,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/config.h:
 ../Core/Inc/mcu.h:
 ../Core/Inc/display.h:
-../Core/Inc/gpio_expander.h:
 ../Core/Inc/Temp_controller.h:
 ../Core/Inc/INA229.h:
 ../Core/Inc/config.h:
@@ -93,3 +93,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/LTC681x.h:
 ../Core/Inc/main.h:
 ../Core/Inc/LTC681x.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h:

@@ -27,8 +27,6 @@
 
 #include "display.h"
 
-#include "gpio_expander.h"
-
 #include "Temp_controller.h"
 
 
@@ -42,6 +40,10 @@
 #include "LTC6811.h"
 #include "LTC681x.h"
 #include <stdlib.h>
+
+#include "gpio_expander.h"
+
+//#include "../../Componets/GPIO expander/gpio_expander.h"
 
 
 /* USER CODE END Includes */
@@ -1121,7 +1123,7 @@ void analyze_cell_data()
 //	//Current
 ////	data_buffer_local[42] = BMS_IC;
 //}
-
+//
 
 
 
@@ -2297,7 +2299,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }

@@ -17,6 +17,7 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Inc/u8g2/subdir.mk
+-include Componets/GPIO\ expander/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

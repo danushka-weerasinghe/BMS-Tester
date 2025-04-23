@@ -1,3 +1,4 @@
+"./Componets/GPIO expander/Src/gpio_expander.o"
 "./Core/Inc/u8g2/mui.o"
 "./Core/Inc/u8g2/mui_u8g2.o"
 "./Core/Inc/u8g2/u8g2_bitmap.o"
@@ -121,7 +122,6 @@
 "./Core/Src/calibration.o"
 "./Core/Src/config.o"
 "./Core/Src/display.o"
-"./Core/Src/gpio_expander.o"
 "./Core/Src/main.o"
 "./Core/Src/mcu.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
