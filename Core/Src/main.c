@@ -42,6 +42,7 @@
 #include <stdlib.h>
 
 #include "gpio_expander.h"
+#include "rtc.h"
 
 //#include "../../Componets/GPIO expander/gpio_expander.h"
 
@@ -1178,6 +1179,8 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
+  RTC_Init();
+
 // int INA229
   for (int i = 0; i < NUM_INA229; i++)
   { INA229_config(ina229_devices[i]); HAL_Delay(10); }
@@ -1235,6 +1238,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//	  RTC_ReadTime();
+//	  char timeStr[16];
+//	  char dateStr[16];
+//	  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+//	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+//	  display_lcd(timeStr);
+//	  HAL_Delay(100);
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -2254,7 +2266,6 @@ temparature_data_read();
 
 		  	/////////////////////////////////////////////////////////////
 //Scan_I2C_Bus();
-
   }
   /* USER CODE END 3 */
 }

@@ -39,7 +39,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/INA229.h ../Core/Inc/config.h ../Core/Inc/mcu.h \
  ../Core/Inc/flash_LTC.h ../Core/Inc/LTC6811.h ../Core/Inc/LTC681x.h \
  ../Core/Inc/main.h ../Core/Inc/LTC681x.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/RTC/Inc/rtc.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -93,4 +94,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/LTC681x.h:
 ../Core/Inc/main.h:
 ../Core/Inc/LTC681x.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/RTC/Inc/rtc.h:

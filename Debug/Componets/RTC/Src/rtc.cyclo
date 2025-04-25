@@ -1,0 +1,8 @@
+../Componets/RTC/Src/rtc.c:16:16:DEC2BCD	1
+../Componets/RTC/Src/rtc.c:21:12:BCD2DEC	1
+../Componets/RTC/Src/rtc.c:25:6:RTC_Init	3
+../Componets/RTC/Src/rtc.c:58:6:RTC_ReadTime	1
+../Componets/RTC/Src/rtc.c:73:6:RTC_SetTime	1
+../Componets/RTC/Src/rtc.c:89:6:RTC_SetTrim	2
+../Componets/RTC/Src/rtc.c:101:6:RTC_TrimByFrequency	1
+../Componets/RTC/Src/rtc.c:107:6:RTC_TrimByDeviation	1

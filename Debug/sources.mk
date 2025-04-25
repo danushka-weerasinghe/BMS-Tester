@@ -23,6 +23,7 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Componets/GPIO\ expander/Src \
+Componets/RTC/Src \
 Core/Inc/u8g2 \
 Core/Src \
 Core/Startup \

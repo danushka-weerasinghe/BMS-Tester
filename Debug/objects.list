@@ -1,4 +1,5 @@
 "./Componets/GPIO expander/Src/gpio_expander.o"
+"./Componets/RTC/Src/rtc.o"
 "./Core/Inc/u8g2/mui.o"
 "./Core/Inc/u8g2/mui_u8g2.o"
 "./Core/Inc/u8g2/u8g2_bitmap.o"
