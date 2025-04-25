@@ -5,4 +5,3 @@
 ../Core/Src/display.c:198:6:Display_MainTitlePage_1	3
 ../Core/Src/display.c:227:6:Display_Address	1
 ../Core/Src/display.c:248:6:Display_Reading	1
-../Core/Src/display.c:274:6:display_lcd	2
