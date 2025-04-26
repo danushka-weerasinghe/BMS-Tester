@@ -22,9 +22,18 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Componets/Button\ &\ LED/Src \
+Componets/CAN/Src \
+Componets/Digital\ Pot/Src \
+Componets/Display/Src \
+Componets/EEPROM/Src \
 Componets/GPIO\ expander/Src \
+Componets/INA229/Inc \
+Componets/INA229/Src \
+Componets/ISO\ SPI/Src \
+Componets/RS485/Src \
 Componets/RTC/Src \
-Core/Inc/u8g2 \
+Componets/SD\ Card/Src \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
@@ -32,4 +41,5 @@ FATFS/App \
 FATFS/Target \
 Middlewares/Third_Party/FatFs/src \
 Middlewares/Third_Party/FatFs/src/option \
+Core/Inc/u8g2 \
 

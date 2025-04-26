@@ -17,8 +17,18 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Inc/u8g2/subdir.mk
+-include Componets/SD\ Card/Src/subdir.mk
 -include Componets/RTC/Src/subdir.mk
+-include Componets/RS485/Src/subdir.mk
+-include Componets/ISO\ SPI/Src/subdir.mk
+-include Componets/INA229/Src/subdir.mk
+-include Componets/INA229/Inc/subdir.mk
 -include Componets/GPIO\ expander/Src/subdir.mk
+-include Componets/EEPROM/Src/subdir.mk
+-include Componets/Display/Src/subdir.mk
+-include Componets/Digital\ Pot/Src/subdir.mk
+-include Componets/CAN/Src/subdir.mk
+-include Componets/Button\ &\ LED/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

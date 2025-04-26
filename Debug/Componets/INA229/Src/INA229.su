@@ -1,0 +1,16 @@
+../Componets/INA229/Src/INA229.c:36:6:INA229_writeReg	32	static
+../Componets/INA229/Src/INA229.c:57:6:INA229_config	16	static
+../Componets/INA229/Src/INA229.c:81:6:INA229_setCURRENT_LSB	16	static
+../Componets/INA229/Src/INA229.c:90:10:INA229_readReg	72	static
+../Componets/INA229/Src/INA229.c:118:7:INA229_getVSHUNT_mV	32	static
+../Componets/INA229/Src/INA229.c:154:7:INA229_getVBUS_V	32	static
+../Componets/INA229/Src/INA229.c:182:7:INA229_getDIETEMP_C	32	static
+../Componets/INA229/Src/INA229.c:207:7:INA229_getDIETEMP_F	24	static
+../Componets/INA229/Src/INA229.c:221:7:INA229_getCURRENT_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:246:7:INA229_getCURRENT_A	24	static
+../Componets/INA229/Src/INA229.c:259:7:INA229_getPOWER_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:273:7:INA229_getPOWER_W	24	static
+../Componets/INA229/Src/INA229.c:286:8:INA229_getENERGY_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:300:8:INA229_getENERGY_J	24	static
+../Componets/INA229/Src/INA229.c:313:8:INA229_getCHARGE_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:335:8:INA229_getCHARGE_C	24	static

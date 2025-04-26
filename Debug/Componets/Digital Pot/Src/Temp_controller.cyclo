@@ -1,0 +1,15 @@
+../Componets/Digital Pot/Src/Temp_controller.c:29:6:intToBinary	2
+../Componets/Digital Pot/Src/Temp_controller.c:35:6:assignBytes	2
+../Componets/Digital Pot/Src/Temp_controller.c:47:6:arrayComparison	3
+../Componets/Digital Pot/Src/Temp_controller.c:59:6:cell12_Temp_01_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:90:6:cell12_Temp_02_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:121:6:cell12_Temp_03_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:152:6:cell11_Temp_01_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:183:6:cell11_Temp_02_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:214:6:cell11_Temp_03_Set	1
+../Componets/Digital Pot/Src/Temp_controller.c:246:6:cell12_Temp_01_startup	1
+../Componets/Digital Pot/Src/Temp_controller.c:281:6:cell12_Temp_02_startup	1
+../Componets/Digital Pot/Src/Temp_controller.c:315:6:cell12_Temp_03_startup	1
+../Componets/Digital Pot/Src/Temp_controller.c:350:6:cell11_Temp_01_startup	1
+../Componets/Digital Pot/Src/Temp_controller.c:384:6:cell11_Temp_02_startup	1
+../Componets/Digital Pot/Src/Temp_controller.c:421:6:cell11_Temp_03_startup	1
