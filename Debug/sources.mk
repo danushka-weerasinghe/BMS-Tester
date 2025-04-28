@@ -41,5 +41,4 @@ FATFS/App \
 FATFS/Target \
 Middlewares/Third_Party/FatFs/src \
 Middlewares/Third_Party/FatFs/src/option \
-Core/Inc/u8g2 \
 

@@ -1,5 +1,7 @@
-Core/Src/LTC681x.o: ../Core/Src/LTC681x.c ../Core/Inc/LTC681x.h \
- ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+Componets/Button & LED/Src/button_led.o: \
+ ../Componets/Button\ &\ LED/Src/button_led.c \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -29,9 +31,9 @@ Core/Src/LTC681x.o: ../Core/Src/LTC681x.c ../Core/Inc/LTC681x.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/main.h
-../Core/Inc/LTC681x.h:
-../Core/Inc/main.h:
+ ../Core/Inc/main.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -63,3 +65,4 @@ Core/Src/LTC681x.o: ../Core/Src/LTC681x.c ../Core/Inc/LTC681x.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:

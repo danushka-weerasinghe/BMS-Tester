@@ -43,6 +43,7 @@
 
 #include "gpio_expander.h"
 #include "rtc.h"
+#include "button_led.h"
 
 //#include "../../Componets/GPIO expander/gpio_expander.h"
 
@@ -1180,10 +1181,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   RTC_Init();
+  LED_Init();
+  LED_SetAll(1);
+  HAL_Delay(100);
+  LED_SetAll(0);
 
 // int INA229
-  for (int i = 0; i < NUM_INA229; i++)
-  { INA229_config(ina229_devices[i]); HAL_Delay(10); }
+//  for (int i = 0; i < NUM_INA229; i++)
+//  { INA229_config(ina229_devices[i]); HAL_Delay(10); }
 
 
 
@@ -1239,6 +1244,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  LED_Test_All();
+	  HAL_Delay(500);
+//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
+//	  LED_ToggleCell(CELL12_CELL12);
+//	  HAL_Delay(500);
+//	  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , LOW);
+//	  LED_Cell(CELL11_CELL12, Low);
+//	  HAL_Delay(1000);
+
+//	  LED_Test_All();
+//	  LED_Set(7, 1);
+//	  LED_Toggle(3);
+//	  LED_Temp(CELL12_TEMP_01, 1);
+//	  HAL_Delay(100);
+//	  LED_Temp(CELL12_TEMP_01, 0);
+//	  LED_RS485(DC_Y, 1);
+//	  LED_ToggleTemp(CELL11_TEMP_03);
+
 //	  RTC_ReadTime();
 //	  char timeStr[16];
 //	  char dateStr[16];
@@ -1246,6 +1269,7 @@ int main(void)
 //	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
 //	  display_lcd(timeStr);
 //	  HAL_Delay(100);
+//	  LED_Set(7, 0);
 
 
     /* USER CODE END WHILE */
@@ -1361,7 +1385,7 @@ int main(void)
 //			  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_04, CELL_02_LED_01 , LOW);
 //			  Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_04, CELL_03_LED_01 , LOW);
 
-
+/*
 
 //	    HAL_Delay(100);
 //
@@ -2267,6 +2291,7 @@ temparature_data_read();
 
 		  	/////////////////////////////////////////////////////////////
 //Scan_I2C_Bus();
+*/
   }
   /* USER CODE END 3 */
 }
