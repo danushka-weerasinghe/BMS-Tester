@@ -1,4 +1,4 @@
-../Componets/INA229/Src/mcu.c:22:6:mcu_spiInit	1
-../Componets/INA229/Src/mcu.c:31:9:mcu_spiTransfer	4
-../Componets/INA229/Src/mcu.c:67:6:mcu_msWait	1
-../Componets/INA229/Src/mcu.c:77:6:mcu_usWait	2
+../Componets/INA229/Src/mcu.c:26:6:mcu_spiInit	1
+../Componets/INA229/Src/mcu.c:35:9:mcu_spiTransfer	4
+../Componets/INA229/Src/mcu.c:71:6:mcu_msWait	1
+../Componets/INA229/Src/mcu.c:81:6:mcu_usWait	2

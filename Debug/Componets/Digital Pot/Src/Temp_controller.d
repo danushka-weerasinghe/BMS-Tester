@@ -31,10 +31,6 @@ Componets/Digital Pot/Src/Temp_controller.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main_data.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- ../Core/Inc/mcu.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -68,8 +64,4 @@ Componets/Digital Pot/Src/Temp_controller.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main_data.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-../Core/Inc/mcu.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h:

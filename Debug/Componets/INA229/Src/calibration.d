@@ -1,5 +1,7 @@
-Componets/INA229/Inc/calibration.o: ../Componets/INA229/Inc/calibration.c \
- ../Componets/INA229/Inc/config.h ../Componets/INA229/Inc/INA229.h \
+Componets/INA229/Src/calibration.o: ../Componets/INA229/Src/calibration.c \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -31,11 +33,10 @@ Componets/INA229/Inc/calibration.o: ../Componets/INA229/Inc/calibration.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main_data.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h \
- ../Core/Inc/mcu.h ../Core/Inc/mcu.h
-../Componets/INA229/Inc/config.h:
-../Componets/INA229/Inc/INA229.h:
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -68,7 +69,4 @@ Componets/INA229/Inc/calibration.o: ../Componets/INA229/Inc/calibration.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main_data.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h:
-../Core/Inc/mcu.h:
-../Core/Inc/mcu.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h:

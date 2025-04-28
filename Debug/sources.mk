@@ -28,7 +28,6 @@ Componets/Digital\ Pot/Src \
 Componets/Display/Src \
 Componets/EEPROM/Src \
 Componets/GPIO\ expander/Src \
-Componets/INA229/Inc \
 Componets/INA229/Src \
 Componets/ISO\ SPI/Src \
 Componets/RS485/Src \
@@ -41,5 +40,4 @@ FATFS/App \
 FATFS/Target \
 Middlewares/Third_Party/FatFs/src \
 Middlewares/Third_Party/FatFs/src/option \
-Core/Inc/u8g2 \
 

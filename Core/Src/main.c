@@ -157,7 +157,9 @@ float busVoltage_26 = 0 ;
 float temperatureC_26 = 0 ;
 
 
-#define NUM_INA229 26
+
+
+
 
 
  INA229_State* ina229_devices[NUM_INA229] = {&INA229_0, &INA229_1, &INA229_2, &INA229_3, &INA229_4, &INA229_5,
@@ -1388,6 +1390,9 @@ HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_RESET);
 //
   busVoltage_01 = INA229_getVBUS_V(INA229_0);
 
+
+
+
 //
 //HAL_Delay(1000);
   HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_SET);
@@ -1718,6 +1723,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 							  HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
 							  HAL_Delay(10);
 							  		  busVoltage_07 = INA229_getVBUS_V(INA229_6);
+							  		 ina229_readings[0].voltage_V = INA229_getVBUS_V(INA229_6);
 							  		HAL_Delay(10);
 							  //
 							  //HAL_Delay(10);

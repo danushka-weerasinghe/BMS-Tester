@@ -8,9 +8,12 @@
 #ifndef INC_MAIN_DATA_H_
 #define INC_MAIN_DATA_H_
 
-#include "INA229.h"
-#include  "config.h"
-#include "mcu.h"
+
+
+
+#define NUM_INA229 26
+//
+//extern INA229_Reading ina229_readings[NUM_INA229];
 
 //to fix the fixed resistance(resistance that will be available at powerup fot all the cards)
 //#define start_Resistance_fix

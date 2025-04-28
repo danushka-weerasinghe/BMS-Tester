@@ -9,6 +9,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "main_data.h"
+
+
 /* support C++ sources */
 #ifdef __cplusplus
 extern "C" {
@@ -53,6 +56,28 @@ extern void mcu_msWait(uint16_t msWait);
  *                  this function to return immediately.
  */
 extern void mcu_usWait(uint16_t usWait);
+
+
+/*
+ *  ======== INA229_Reading ========
+ *  Structure to hold a single measurement set from an INA229 sensor
+ *
+ *  @param voltage_V    - Measured bus voltage in Volts
+ *  @param current_A    - Measured current in Amperes
+ *  @param temperature_C - Measured internal die temperature in Celsius
+ */
+
+typedef struct {
+    float voltage_V;      // Bus voltage in Volts
+    float current_A;      // Current in Amperes
+    float temperature_C;  // Internal die temperature in Celsius
+} INA229_Reading;
+
+//#define NUM_INA229 26
+
+extern INA229_Reading ina229_readings[NUM_INA229];
+
+
 
 /* support C++ sources */
 #ifdef __cplusplus

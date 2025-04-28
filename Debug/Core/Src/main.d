@@ -35,13 +35,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/main_data.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- ../Core/Inc/mcu.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h \
- ../Core/Inc/mcu.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h \
@@ -88,13 +87,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
 ../Core/Inc/main_data.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-../Core/Inc/mcu.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h:
-../Core/Inc/mcu.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h:

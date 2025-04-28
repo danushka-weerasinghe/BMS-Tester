@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+
+
 #include "mcu.h"
 
 /*
@@ -12,6 +14,8 @@
  */
 
 #include "main.h"  // for SPI_HandleTypeDef definitions
+
+
 
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
@@ -85,3 +89,6 @@ void mcu_usWait(uint16_t usWait)
 
 }
 /********* MCU SPECIFIC DELAY CODE ENDS HERE ************/
+
+INA229_Reading ina229_readings[NUM_INA229] = {0};
+
