@@ -41,9 +41,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   0002d59d  00000000  00000000  0009a409  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000f7e4e  00000000  00000000  000c79a6  2**0
+ 19 .debug_str    000f7e4f  00000000  00000000  000c79a6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  001bf7f4  2**0
+ 20 .comment      00000043  00000000  00000000  001bf7f5  2**0
                   CONTENTS, READONLY
  21 .debug_frame  000111b8  00000000  00000000  001bf838  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -14629,7 +14629,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
  800641e:	eef0 7a40 	vmov.f32	s15, s0
  8006422:	4b8d      	ldr	r3, [pc, #564]	@ (8006658 <main+0xb48>)
  8006424:	edc3 7a00 	vstr	s15, [r3]
-							  		 ina229_readings[0].voltage_V = INA229_getVBUS_V(INA229_6);
+							  		INA229_Readings[0].voltage_V = INA229_getVBUS_V(INA229_6);
  8006428:	4b8a      	ldr	r3, [pc, #552]	@ (8006654 <main+0xb44>)
  800642a:	681b      	ldr	r3, [r3, #0]
  800642c:	4618      	mov	r0, r3

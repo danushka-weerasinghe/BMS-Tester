@@ -90,5 +90,5 @@ void mcu_usWait(uint16_t usWait)
 }
 /********* MCU SPECIFIC DELAY CODE ENDS HERE ************/
 
-INA229_Reading ina229_readings[NUM_INA229] = {0};
+INA229_Reading INA229_Readings[NUM_INA229] = {0};
 

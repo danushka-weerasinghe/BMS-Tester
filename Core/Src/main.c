@@ -1723,7 +1723,7 @@ Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_02_LED_01 , HIGH);
 							  HAL_GPIO_WritePin(CELL12_CS_07_GPIO_Port, CELL12_CS_07_Pin, GPIO_PIN_RESET);
 							  HAL_Delay(10);
 							  		  busVoltage_07 = INA229_getVBUS_V(INA229_6);
-							  		 ina229_readings[0].voltage_V = INA229_getVBUS_V(INA229_6);
+							  		INA229_Readings[0].voltage_V = INA229_getVBUS_V(INA229_6);
 							  		HAL_Delay(10);
 							  //
 							  //HAL_Delay(10);

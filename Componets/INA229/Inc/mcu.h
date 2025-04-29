@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "main_data.h"
+#include "main_data.h"  // Include this to get NUM_INA229 definition
 
 
 /* support C++ sources */
@@ -69,13 +69,13 @@ extern void mcu_usWait(uint16_t usWait);
 
 typedef struct {
     float voltage_V;      // Bus voltage in Volts
-    float current_A;      // Current in Amperes
+    float current_mA;      // Current in milliAmperes
     float temperature_C;  // Internal die temperature in Celsius
 } INA229_Reading;
 
-//#define NUM_INA229 26
 
-extern INA229_Reading ina229_readings[NUM_INA229];
+
+extern INA229_Reading INA229_Readings[NUM_INA229];
 
 
 
