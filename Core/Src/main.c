@@ -149,10 +149,10 @@ int main(void)
   RTC_Init(&hi2c1);
 
 
-  RS485_Init(RS485_CH1);
-  RS485_Init(RS485_CH2);
-  RS485_Init(RS485_CH3);
-  RS485_Init(RS485_CH6);
+  RS485_Init(RS485_CHANNEL_1);
+  RS485_Init(RS485_CHANNEL_2);
+  RS485_Init(RS485_CHANNEL_3);
+  RS485_Init(RS485_CHANNEL_4);
 
   LED_Init();
 
@@ -187,6 +187,30 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      uint8_t matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
+      RS485_GetMatrixData(matrix);
+
+      // Update display with RS485 data
+      u8g2_FirstPage(&u8g2);
+      do {
+          u8g2_ClearBuffer(&u8g2);
+
+          u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+
+          for (int i = 0; i < RS485_CHANNEL_COUNT; i++) {
+              // Only display non-empty channels
+              if (strlen((char*)matrix[i]) > 0) {
+                  char line[64];
+                  sprintf(line, "CH %d: %s", i + 1, matrix[i]);
+                  u8g2_DrawStr(&u8g2, 0, (i + 1) * 15, line); // Adjust Y position for each channel
+              }
+          }
+
+          u8g2_SendBuffer(&u8g2);
+      } while (u8g2_NextPage(&u8g2));
+
+      HAL_Delay(100); // Update every second
+
 //	  Check_SDCard();
 //	  LED_Toggle(1);
 //	  HAL_Delay(1000);
@@ -207,34 +231,34 @@ int main(void)
 //      }
 //      HAL_Delay(100);
 
-	  RTC_ReadTime();
-	  mode = DIP_GetMode();
-	  id = DIP_GetID();
-
-	  do {
-
-		  char timeStr[16];
-		  char dateStr[16];
-		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
-		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
-
-		  u8g2_ClearBuffer(&u8g2);
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
-		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
-
-		  char modeStr[16];
-		  char idStr[16];
-		  sprintf(modeStr, "MODE: %2d", mode);
-		  sprintf(idStr, "ID: %2d", id);
-
-		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
-		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
-		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
-
-	  } while (u8g2_NextPage(&u8g2));
-
-	  HAL_Delay(500);
+//	  RTC_ReadTime();
+//	  mode = DIP_GetMode();
+//	  id = DIP_GetID();
+//
+//	  do {
+//
+//		  char timeStr[16];
+//		  char dateStr[16];
+//		  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+//		  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
+//
+//		  u8g2_ClearBuffer(&u8g2);
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 85, 62, timeStr);
+//		  u8g2_DrawStr(&u8g2, 0, 62, dateStr);
+//
+//		  char modeStr[16];
+//		  char idStr[16];
+//		  sprintf(modeStr, "MODE: %2d", mode);
+//		  sprintf(idStr, "ID: %2d", id);
+//
+//		  u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		  u8g2_DrawStr(&u8g2, 5, 8, modeStr);
+//		  u8g2_DrawStr(&u8g2, 80, 8, idStr);
+//
+//	  } while (u8g2_NextPage(&u8g2));
+//
+//	  HAL_Delay(500);
 
 //	  counter++;
 //	  display_lcd(&counter);

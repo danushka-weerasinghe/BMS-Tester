@@ -10,12 +10,15 @@
 
 #include "stm32f4xx_hal.h"
 
+#define RS485_BUFFER_SIZE 64
+#define RS485_CHANNEL_COUNT 4
+
 // Channel mapping
 typedef enum {
-    RS485_CH1 = 0,  // USART1
-    RS485_CH2,      // USART2
-    RS485_CH3,      // USART3
-    RS485_CH6       // USART6
+    RS485_CHANNEL_1 = 0,
+    RS485_CHANNEL_2,
+    RS485_CHANNEL_3,
+    RS485_CHANNEL_4
 } RS485_Channel;
 
 // Initialize RS485 channel
@@ -29,6 +32,8 @@ uint8_t RS485_Available(RS485_Channel channel);
 
 // Get received data (returns length)
 uint16_t RS485_GetData(RS485_Channel channel, char* buffer);
+
+void RS485_GetMatrixData(uint8_t matrix[][RS485_BUFFER_SIZE]);
 
 #endif /* INC_MOD_BUS_H_ */
 

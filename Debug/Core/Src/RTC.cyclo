@@ -1,0 +1,8 @@
+../Core/Src/RTC.c:22:16:DEC2BCD	1
+../Core/Src/RTC.c:27:12:BCD2DEC	1
+../Core/Src/RTC.c:31:6:RTC_Init	3
+../Core/Src/RTC.c:69:6:RTC_ReadTime	1
+../Core/Src/RTC.c:84:6:RTC_SetTime	1
+../Core/Src/RTC.c:100:6:RTC_SetTrim	2
+../Core/Src/RTC.c:112:6:RTC_TrimByFrequency	1
+../Core/Src/RTC.c:118:6:RTC_TrimByDeviation	1

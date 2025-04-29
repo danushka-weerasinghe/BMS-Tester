@@ -1,5 +1,6 @@
-../Core/Src/MOD_BUS.c:31:6:RS485_Init	1
-../Core/Src/MOD_BUS.c:42:6:RS485_Send	2
-../Core/Src/MOD_BUS.c:62:9:RS485_Available	1
-../Core/Src/MOD_BUS.c:67:10:RS485_GetData	2
-../Core/Src/MOD_BUS.c:97:6:HAL_UARTEx_RxEventCallback	3
+../Core/Src/MOD_BUS.c:29:6:RS485_Init	1
+../Core/Src/MOD_BUS.c:40:6:RS485_Send	2
+../Core/Src/MOD_BUS.c:60:9:RS485_Available	1
+../Core/Src/MOD_BUS.c:65:10:RS485_GetData	2
+../Core/Src/MOD_BUS.c:75:6:RS485_GetMatrixData	1
+../Core/Src/MOD_BUS.c:80:6:HAL_UARTEx_RxEventCallback	3
