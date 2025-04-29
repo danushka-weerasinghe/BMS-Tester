@@ -17,8 +17,8 @@
 ../Core/Src/main.c:2216:6:Scan_I2C_Bus	8	static
 ../Core/Src/main.c:2241:6:SetVoltageAndMeasure	40	static
 ../Core/Src/main.c:2288:6:PerformVoltageSequence	64	static
-../Core/Src/main.c:2328:27:get_i2c_handle	16	static
-../Core/Src/main.c:2333:22:get_ina_handle	16	static
-../Core/Src/main.c:2337:6:Voltage_Sequence_Automatic	64	static
-../Core/Src/main.c:2359:6:Set_voltage_and_measure	32	static
-../Core/Src/main.c:2396:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:2366:27:get_i2c_handle	16	static
+../Core/Src/main.c:2371:22:get_ina_handle	16	static
+../Core/Src/main.c:2375:6:Voltage_Sequence_Automatic	64	static
+../Core/Src/main.c:2397:6:Set_voltage_and_measure	32	static
+../Core/Src/main.c:2437:6:Error_Handler	4	static,ignoring_inline_asm

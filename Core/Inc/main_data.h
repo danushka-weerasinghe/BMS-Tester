@@ -11,7 +11,7 @@
 
 
 
-#define NUM_INA229 26
+#define NUM_INA229 25
 //
 //extern INA229_Reading ina229_readings[NUM_INA229];
 

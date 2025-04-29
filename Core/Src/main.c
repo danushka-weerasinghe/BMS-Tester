@@ -2318,10 +2318,48 @@ void PerformVoltageSequence(void) {
 
 // Define the configurations table
 static const Cell_Config cell_configs[] = {
+		// First GPIO Expander (ID_01) - Cells 1-3
+
+		// FOR THE FIRST 12 CELLS
     // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
-    {0,        I2C2_BUS, 0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
-    {1,        I2C2_BUS, 1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
-    {2,        I2C2_BUS, 2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01}
+    { 0,        I2C2_BUS,  0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
+    { 1,        I2C2_BUS,  1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
+    { 2,        I2C2_BUS,  2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01},
+
+	// Second GPIO Expander (ID_02) - Cells 4-6
+    { 3,        I2C2_BUS,  3,       GPIOE,     CELL12_CS_04_Pin, CELL_01_LED_01},
+    { 4,        I2C2_BUS,  4,       GPIOE,     CELL12_CS_05_Pin, CELL_02_LED_01},
+    { 5,        I2C2_BUS,  5,       GPIOI,     CELL12_CS_06_Pin, CELL_03_LED_01},
+	// Third GPIO Expander (ID_03) - Cells 7-9
+    { 6,        I2C2_BUS,  6,       GPIOC,     CELL12_CS_07_Pin, CELL_01_LED_01},
+    { 7,        I2C2_BUS,  7,       GPIOI,     CELL12_CS_08_Pin, CELL_02_LED_01},
+    { 8,        I2C2_BUS,  8,       GPIOI,     CELL12_CS_09_Pin, CELL_03_LED_01},
+
+	// Fourth GPIO Expander (ID_04) - Cells 10-12
+    { 9,        I2C2_BUS,  9,       GPIOI,     CELL12_CS_10_Pin, CELL_01_LED_01},
+    {10,        I2C2_BUS, 10,       GPIOF,     CELL12_CS_11_Pin, CELL_02_LED_01},
+    {11,        I2C2_BUS, 11,       GPIOF,     CELL12_CS_12_Pin, CELL_03_LED_01},
+
+	// FOR THE SECOND 12 CELLS
+    // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
+    { 0,        I2C3_BUS, 12,       GPIOB,     CELL11_CS_01_Pin, CELL_01_LED_01},
+    { 1,        I2C3_BUS, 13,       GPIOB,     CELL11_CS_02_Pin, CELL_02_LED_01},
+    { 2,        I2C3_BUS, 14,       GPIOF,     CELL11_CS_03_Pin, CELL_03_LED_01},
+
+	// Second GPIO Expander (ID_02) - Cells 4-6
+    { 3,        I2C3_BUS, 15,       GPIOF,     CELL11_CS_04_Pin, CELL_01_LED_01},
+    { 4,        I2C3_BUS, 16,       GPIOF,     CELL11_CS_05_Pin, CELL_02_LED_01},
+    { 5,        I2C3_BUS, 17,       GPIOF,     CELL11_CS_06_Pin, CELL_03_LED_01},
+	// Third GPIO Expander (ID_03) - Cells 7-9
+    { 6,        I2C3_BUS, 18,       GPIOF,     CELL11_CS_07_Pin, CELL_01_LED_01},
+    { 7,        I2C3_BUS, 19,       GPIOG,     CELL11_CS_08_Pin, CELL_02_LED_01},
+    { 8,        I2C3_BUS, 20,       GPIOG,     CELL11_CS_09_Pin, CELL_03_LED_01},
+
+	// Fourth GPIO Expander (ID_04) - Cells 10-12
+    { 9,        I2C3_BUS, 21,       GPIOE,     CELL11_CS_10_Pin, CELL_01_LED_01},
+    {10,        I2C3_BUS, 22,       GPIOE,     CELL11_CS_11_Pin, CELL_02_LED_01},
+    {11,        I2C3_BUS, 23,       GPIOE,     CELL11_CS_12_Pin, CELL_03_LED_01}
+
 };
 
 // Helper function to get I2C handle from bus number
@@ -2375,6 +2413,9 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     // Read voltage and temperature
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
+    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
+
+    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
