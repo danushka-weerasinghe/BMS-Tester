@@ -126,6 +126,7 @@
 "./Componets/INA229/Src/mcu.o"
 "./Componets/ISO SPI/Src/LTC6811.o"
 "./Componets/ISO SPI/Src/LTC681x.o"
+"./Componets/ISO SPI/Src/LTC68xx_API.o"
 "./Componets/RS485/Src/test.o"
 "./Componets/RTC/Src/rtc.o"
 "./Componets/SD Card/Src/test.o"
