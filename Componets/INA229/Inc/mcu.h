@@ -71,6 +71,8 @@ typedef struct {
     float voltage_V;      // Bus voltage in Volts
     float current_mA;      // Current in milliAmperes
     float temperature_C;  // Internal die temperature in Celsius
+    uint8_t cell_id;
+    uint8_t reading_valid;
 } INA229_Reading;
 
 

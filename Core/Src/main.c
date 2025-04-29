@@ -221,7 +221,27 @@ static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
-void Scan_I2C_Bus(void);
+//void Scan_I2C_Bus(void);
+
+
+// Define configuration structure using constant values
+typedef struct {
+    uint8_t cell_id;      // Cell ID as a number instead of enum
+    uint8_t i2c_bus;      // 2 for hi2c2, 3 for hi2c3
+    uint8_t ina_index;    // Index of INA229 (0-23)
+    GPIO_TypeDef* gpio;   // GPIO port (this is actually a constant address)
+    uint16_t cs_pin;      // Chip select pin
+    uint16_t led_pin;     // LED pin
+} Cell_Config;
+
+
+// Function declarations
+void SetVoltageAndMeasure(I2C_HandleTypeDef *hi2c, CellID cell, float voltage, INA229_Handle ina229_device);
+void PerformVoltageSequence(void);
+
+void Voltage_Sequence_Automatic(void);
+
+void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 
 
 /* USER CODE END PFP */
@@ -481,6 +501,13 @@ int main(void)
 		  cell11_Temp_03_Set(resistance[4]);
 
 	  ////////////////////////////////////////////////////////////
+
+	        // Perform voltage sequence and measurements
+//	        PerformVoltageSequence();
+
+	        Voltage_Sequence_Automatic();
+
+
 		  HAL_Delay(2000);
 	  Set_Output_Voltage(&hi2c2, CELL_1, 2.0f);
 Expander_SetPinState(&hi2c2, GPIO_EXPANDER_ID_01, CELL_01_LED_01 , HIGH);
@@ -2208,6 +2235,155 @@ void Scan_I2C_Bus(void)
             HAL_Delay(1000U);  /* Display the address for 1 second */
         }
     }
+}
+
+// Helper function to set voltage and take measurements
+void SetVoltageAndMeasure(I2C_HandleTypeDef *hi2c, CellID cell, float voltage, INA229_Handle ina229_device) {
+    // Set the voltage
+    Set_Output_Voltage(hi2c, cell, voltage);
+
+    // Turn on LED indicator
+    uint8_t expander_id;
+    uint16_t led_pin;
+
+    // Determine expander ID and LED pin based on cell
+    if (cell <= CELL_3) {
+        expander_id = GPIO_EXPANDER_ID_01;
+        led_pin = (cell == CELL_1) ? CELL_01_LED_01 :
+                 (cell == CELL_2) ? CELL_02_LED_01 : CELL_03_LED_01;
+    } else if (cell <= CELL_6) {
+        expander_id = GPIO_EXPANDER_ID_02;
+        led_pin = (cell == CELL_4) ? CELL_01_LED_01 :
+                 (cell == CELL_5) ? CELL_02_LED_01 : CELL_03_LED_01;
+    } else if (cell <= CELL_9) {
+        expander_id = GPIO_EXPANDER_ID_03;
+        led_pin = (cell == CELL_7) ? CELL_01_LED_01 :
+                 (cell == CELL_8) ? CELL_02_LED_01 : CELL_03_LED_01;
+    } else {
+        expander_id = GPIO_EXPANDER_ID_04;
+        led_pin = (cell == CELL_10) ? CELL_01_LED_01 :
+                 (cell == CELL_11) ? CELL_02_LED_01 : CELL_03_LED_01;
+    }
+
+    Expander_SetPinState(hi2c, expander_id, led_pin, HIGH);
+
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_RESET);
+
+    // Small delay to allow voltage to stabilize
+    HAL_Delay(10);
+
+    // Take measurements
+    INA229_Readings[cell].voltage_V = INA229_getVBUS_V(ina229_device);
+    INA229_Readings[cell].temperature_C = INA229_getDIETEMP_C(ina229_device);
+    INA229_Readings[cell].cell_id = cell;
+    INA229_Readings[cell].reading_valid = 1;
+
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_SET);
+
+    // Turn off LED
+    Expander_SetPinState(hi2c, expander_id, led_pin, LOW);
+}
+
+// Function to perform the voltage sequence for all cells
+void PerformVoltageSequence(void) {
+    // Define voltage sequence
+    float voltages[] = {2.0f, 2.5f, 2.8f, 3.3f, 3.4f, 3.6f, 4.0f, 4.2f};
+    int num_voltages = sizeof(voltages) / sizeof(voltages[0]);
+
+    // For each voltage in the sequence
+    for (int v = 0; v < num_voltages; v++) {
+        // For each cell
+        for (int i = 0; i < NUM_INA229; i++) {
+            // Determine which I2C bus to use based on cell number
+            I2C_HandleTypeDef *hi2c = (i < 12) ? &hi2c2 : &hi2c3;
+
+            // Set voltage and measure
+            SetVoltageAndMeasure(hi2c, i, voltages[v], ina229_devices[i]);
+
+            // Small delay between cells
+            HAL_Delay(10);
+        }
+        // Delay between voltage changes
+        HAL_Delay(2000);
+    }
+}
+
+
+
+
+
+// Helper macros to make the table more readable
+#define I2C2_BUS 2
+#define I2C3_BUS 3
+
+// Define the configurations table
+static const Cell_Config cell_configs[] = {
+    // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
+    {0,        I2C2_BUS, 0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
+    {1,        I2C2_BUS, 1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
+    {2,        I2C2_BUS, 2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01}
+};
+
+// Helper function to get I2C handle from bus number
+static I2C_HandleTypeDef* get_i2c_handle(uint8_t bus) {
+    return (bus == I2C2_BUS) ? &hi2c2 : &hi2c3;
+}
+
+// Helper function to get INA handle from index
+static INA229_Handle get_ina_handle(uint8_t index) {
+    return INA229_0 + index;  // Assuming INA handles are sequential
+}
+
+void Voltage_Sequence_Automatic(void)
+{
+
+    const float test_voltages[] = {2.0f, 2.5f, 2.8f, 3.3f, 3.4f, 3.6f, 4.0f, 4.2f};
+    const int num_voltages = sizeof(test_voltages) / sizeof(test_voltages[0]);
+    const int num_cells = sizeof(cell_configs) / sizeof(cell_configs[0]);
+
+    for(int v = 0; v < num_voltages; v++) {
+        for(int c = 0; c < num_cells; c++) {
+        	Set_voltage_and_measure(&cell_configs[c], test_voltages[v]);
+            HAL_Delay(100);  // Delay between cells
+        }
+        HAL_Delay(1000);  // Delay between voltage levels
+    }
+
+
+
+
+
+
+}
+
+void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
+
+{
+    // Get the actual handles from the configuration
+    I2C_HandleTypeDef* hi2c = get_i2c_handle(cell->i2c_bus);
+    INA229_Handle ina = get_ina_handle(cell->ina_index);
+
+    // Set voltage for the cell
+    Set_Output_Voltage(hi2c, cell->cell_id, voltage);
+
+    // Turn on LED
+    Expander_SetPinState(hi2c,
+                        GPIO_EXPANDER_ID_01 + (cell->cell_id / 3),
+                        cell->led_pin,
+                        HIGH);
+
+    // Read voltage and temperature
+    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
+    INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
+    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
+
+    // Turn off LED
+    HAL_Delay(10);
+    Expander_SetPinState(hi2c,
+                        GPIO_EXPANDER_ID_01 + (cell->cell_id / 3),
+                        cell->led_pin,
+                        LOW);
 }
 
 
