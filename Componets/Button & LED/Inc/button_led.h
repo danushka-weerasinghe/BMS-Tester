@@ -16,8 +16,6 @@ extern uint8_t id;
 extern GPIO_TypeDef* DIP_SWITCH_PORTS[];
 extern const uint16_t DIP_SWITCH_PINS[];
 
-//const uint16_t BUTTON_PINS[] = {PUSH_BUTTON_01_Pin, PUSH_BUTTON_02_Pin, PUSH_BUTTON_03_Pin, PUSH_BUTTON_04_Pin};
-
 extern I2C_HandleTypeDef hi2c2;
 extern I2C_HandleTypeDef hi2c3;
 
@@ -100,7 +98,7 @@ typedef struct {
     uint16_t pin;                  // Pin on the GPIO expander
 } Cell_LED_Config;
 
-//void Push_ButtonHandler(uint16_t GPIO_Pin);
+void Push_ButtonHandler(uint16_t GPIO_Pin);
 
 uint8_t DIP_GetMode(void);   /* Returns mode value (0-15) from GPIOG */
 uint8_t DIP_GetID(void);     // Returns ID value (0-15) from GPIOD */

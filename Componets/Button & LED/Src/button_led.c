@@ -12,7 +12,13 @@
 uint8_t mode;
 uint8_t id;
 
-// LED configuration array
+uint32_t currentTime;
+uint32_t previousTime;
+
+/* Push button array */
+const uint16_t BUTTON_PINS[] = {PUSH_BUTTON_01_Pin, PUSH_BUTTON_02_Pin, PUSH_BUTTON_03_Pin, PUSH_BUTTON_04_Pin};
+
+/* LED configuration array */
 LED_Config leds[NUM_LEDS] = {
     {GPIOH, LED_01_Pin}, // LED_1
     {GPIOH, LED_02_Pin}, // LED_2
@@ -175,6 +181,16 @@ void LED_SetAll(LED_Set_State state) {
     for (uint8_t i = 0; i < NUM_TEMP_LEDS; i++) {
         HAL_GPIO_WritePin(temp_leds[i].port, temp_leds[i].pin, state == High ? GPIO_PIN_RESET : GPIO_PIN_SET); // Active low
     }
+    for (uint8_t i = 0; i < NUM_CELL_LEDS; i++) {
+        I2C_HandleTypeDef *i2c_handle = cell_leds[i].i2c_handle;
+        uint8_t expander_id = cell_leds[i].expander_id;
+        uint16_t pin = cell_leds[i].pin;
+
+        // Send command to the GPIO expander for each cell LED
+        Expander_SetPinState(i2c_handle, expander_id, pin, state == High ? GPIO_PIN_RESET : GPIO_PIN_SET); // Active low
+        // Update cell LED state array
+        cell_led_states[i] = (state == High) ? GPIO_PIN_RESET : GPIO_PIN_SET;
+    }
 }
 
 // Toggle all LEDs
@@ -226,10 +242,10 @@ uint8_t DIP_GetMode(void)
     mode = 0;
 
     /* Read MODE switches from GPIOG (first 4 switches) */
-    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_01_Pin) == GPIO_PIN_RESET) mode |= 0x01;
-    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_02_Pin) == GPIO_PIN_RESET) mode |= 0x02;
-    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_03_Pin) == GPIO_PIN_RESET) mode |= 0x04;
-    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_04_Pin) == GPIO_PIN_RESET) mode |= 0x08;
+    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_04_Pin) == GPIO_PIN_RESET) mode |= 0x01;
+    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_03_Pin) == GPIO_PIN_RESET) mode |= 0x02;
+    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_02_Pin) == GPIO_PIN_RESET) mode |= 0x04;
+    if(HAL_GPIO_ReadPin(GPIOG, DIP_SWITCH_MODE_01_Pin) == GPIO_PIN_RESET) mode |= 0x08;
 
     return mode;
 }
@@ -239,24 +255,24 @@ uint8_t DIP_GetID(void)
     id = 0;
 
     /* Read ID switches from GPIOD (last 4 switches) */
-    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_01_Pin) == GPIO_PIN_RESET) id |= 0x01;
-    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_02_Pin) == GPIO_PIN_RESET) id |= 0x02;
-    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_03_Pin) == GPIO_PIN_RESET) id |= 0x04;
-    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_04_Pin) == GPIO_PIN_RESET) id |= 0x08;
+    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_04_Pin) == GPIO_PIN_RESET) id |= 0x01;
+    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_03_Pin) == GPIO_PIN_RESET) id |= 0x02;
+    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_02_Pin) == GPIO_PIN_RESET) id |= 0x04;
+    if(HAL_GPIO_ReadPin(GPIOD, DIP_SWITCH_01_Pin) == GPIO_PIN_RESET) id |= 0x08;
 
     return id;
 }
 
-//void Push_ButtonHandler(uint16_t GPIO_Pin)
-//{
-//    currentTime = HAL_GetTick();
-//
-//    for(int j = 0; j < 4; j++) {
-//        if((GPIO_Pin == BUTTON_PINS[j]) && (currentTime - previousTime > 100)) {
-////        	Menu_Handler(j);
-//            LED_Toggle(j+1);  // Keep your existing LED toggle
-//            previousTime = currentTime;
-//            break;
-//        }
-//    }
-//}
+void Push_ButtonHandler(uint16_t GPIO_Pin)
+{
+    currentTime = HAL_GetTick();
+
+    for(int j = 0; j < 4; j++) {
+        if((GPIO_Pin == BUTTON_PINS[j]) && (currentTime - previousTime > 150)) {
+//        	Menu_Handler(j);
+            LED_Toggle(j+1);  // Keep your existing LED toggle
+            previousTime = currentTime;
+            break;
+        }
+    }
+}
