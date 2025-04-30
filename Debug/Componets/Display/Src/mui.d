@@ -1,3 +1,3 @@
 Componets/Display/Src/mui.o: ../Componets/Display/Src/mui.c \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/mui.h
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/mui.h:
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/mui.h
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/mui.h:
