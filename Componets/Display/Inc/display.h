@@ -32,5 +32,4 @@ extern void Display_Address(uint8_t address);
 
 extern void Display_Reading(void);
 
-
 #endif /* INC_DISPLAY_H_ */

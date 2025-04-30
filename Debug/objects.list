@@ -1,4 +1,4 @@
-"./Componets/Button & LED/Src/test.o"
+"./Componets/Button & LED/Src/button_led.o"
 "./Componets/CAN/Src/test.o"
 "./Componets/Digital Pot/Src/Temp_controller.o"
 "./Componets/Display/Src/display.o"

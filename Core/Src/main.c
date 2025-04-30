@@ -44,6 +44,7 @@
 
 #include "gpio_expander.h"
 #include "rtc.h"
+#include "button_led.h"
 
 //#include "../../Componets/GPIO expander/gpio_expander.h"
 
@@ -301,8 +302,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   RTC_Init();
+  LED_Init();		/* Reset all LEDs */
 
-// int INA229
+// int INA229;
   for (int i = 0; i < NUM_INA229; i++)
   { INA229_config(ina229_devices[i]); HAL_Delay(10); }
 
@@ -367,6 +369,7 @@ int main(void)
 //	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
 //	  display_lcd(timeStr);
 //	  HAL_Delay(100);
+//	  LED_Set(7, 0);
 
 
     /* USER CODE END WHILE */
@@ -1399,6 +1402,7 @@ temparature_data_read();
 
 		  	/////////////////////////////////////////////////////////////
 //Scan_I2C_Bus();
+
   }
   /* USER CODE END 3 */
 }
@@ -2028,7 +2032,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, USART3_ENABLE_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin|DIP_SWITCH_01_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, USART3_ENABLE_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, DISPLAY_IO_1_Pin|DISPLAY_IO_2_Pin|BACKLIGHT_1_Pin|BACKLIGHT_2_Pin
@@ -2174,10 +2178,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CS1_Pin USART3_ENABLE_Pin DISPLAY_CS_Pin SPI5_CS_02_Pin
-                           DIP_SWITCH_01_Pin */
-  GPIO_InitStruct.Pin = CS1_Pin|USART3_ENABLE_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin
-                          |DIP_SWITCH_01_Pin;
+  /*Configure GPIO pins : CS1_Pin USART3_ENABLE_Pin DISPLAY_CS_Pin SPI5_CS_02_Pin */
+  GPIO_InitStruct.Pin = CS1_Pin|USART3_ENABLE_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -2195,8 +2197,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(CD_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : DIP_SWITCH_02_Pin DIP_SWITCH_03_Pin DIP_SWITCH_04_Pin */
-  GPIO_InitStruct.Pin = DIP_SWITCH_02_Pin|DIP_SWITCH_03_Pin|DIP_SWITCH_04_Pin;
+  /*Configure GPIO pins : DIP_SWITCH_01_Pin DIP_SWITCH_02_Pin DIP_SWITCH_03_Pin DIP_SWITCH_04_Pin */
+  GPIO_InitStruct.Pin = DIP_SWITCH_01_Pin|DIP_SWITCH_02_Pin|DIP_SWITCH_03_Pin|DIP_SWITCH_04_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
@@ -2206,6 +2208,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -2427,6 +2433,11 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
                         LOW);
 }
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    UNUSED(GPIO_Pin);
+    Push_ButtonHandler(GPIO_Pin);
+}
 
 /* USER CODE END 4 */
 
