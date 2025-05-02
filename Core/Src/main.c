@@ -146,13 +146,13 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
-  RTC_Init(&hi2c1);
+//  RTC_Init(&hi2c1);
 
 
-  RS485_Init(RS485_CHANNEL_1);
-  RS485_Init(RS485_CHANNEL_2);
-  RS485_Init(RS485_CHANNEL_3);
-  RS485_Init(RS485_CHANNEL_4);
+  MODBUS_Init(MODBUS_PC);
+  MODBUS_Init(MODBUS_DC);
+  MODBUS_Init(MODBUS_CH3);
+  MODBUS_Init(MODBUS_CH4);
 
   LED_Init();
 
@@ -181,39 +181,70 @@ int main(void)
 
 //  uint32_t Count = 0;
 
+//  srand(HAL_GetTick());
+//  char randomPacket[64];
+//  size_t packetSize = 8;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      uint8_t matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
-      RS485_GetMatrixData(matrix);
+//      for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
+//          ProcessMODBUSData(i);
+//      }
+////      osDelay(50);
+//
+//	  UpdateChannelDisplay(); // Update display for all channels
+//      HAL_Delay(100);
 
-      // Update display with RS485 data
-      u8g2_FirstPage(&u8g2);
-      do {
-          u8g2_ClearBuffer(&u8g2);
+//	    for (size_t i = 0; i < packetSize; i++) {
+//	        uint8_t randomByte = rand() % 256; // Generate a random byte (0x00 - 0xFF)
+//	        sprintf(&randomPacket[i * 3], "%02X ", randomByte); // Format as "XX "
+//	    }
+//	    randomPacket[packetSize * 3 - 1] = '\0'; // Null-terminate the packet
+//
+//	    MODBUS_Send(MODBUS_CH3, randomPacket);
+//        HAL_Delay(500);
 
-          u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+//		uint8_t matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
+//		uint8_t previous_matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
+//
+//	    RS485_GetMatrixData(matrix);
+//
+//	    for (int i = 0; i < RS485_CHANNEL_COUNT; i++) {
+//	        // Check if the data for this channel has changed
+//	        if (strcmp((char*)matrix[i], (char*)previous_matrix[i]) != 0) {
+//	            UpdateChannelDisplay(i, (const uint8_t*)matrix[i], strlen((const char *)matrix[i])); // Update display for the channel
+//	            strcpy((char*)previous_matrix[i], (char*)matrix[i]); // Update the previous state
+//	        }
+//	    }
 
-          for (int i = 0; i < RS485_CHANNEL_COUNT; i++) {
-              // Only display non-empty channels
-              if (strlen((char*)matrix[i]) > 0) {
-                  char line[64];
-                  sprintf(line, "CH %d: %s", i + 1, matrix[i]);
-                  u8g2_DrawStr(&u8g2, 0, (i + 1) * 15, line); // Adjust Y position for each channel
-              }
-          }
+	    // Draw something visible
+//	    u8g2_SetFont(&u8g2, u8g2_font_ncenB08_tr);
+//	    u8g2_DrawStr(&u8g2, 0, 15, "Update Area");
 
-          u8g2_SendBuffer(&u8g2);
-      } while (u8g2_NextPage(&u8g2));
+	    // Update a specific area
+//	    UpdateDisplayArea(0, 6, 16, 2); // Top-left corner, 16 blocks wide, 2 pages tall
+//      uint8_t matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
+//      uint8_t previous_matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};
+//
+//      RS485_GetMatrixData(matrix);
+//
+//      for (int i = 0; i < RS485_CHANNEL_COUNT; i++) {
+//          // Check if the data for this channel has changed
+//          if (strcmp((char*)matrix[i], (char*)previous_matrix[i]) != 0) {
+//              UpdateChannel(i, (char*)matrix[i]);
+//              strcpy((char*)previous_matrix[i], (char*)matrix[i]); // Update the previous state
+//          }
+//      }
 
-      HAL_Delay(100); // Update every second
+//      HAL_Delay(100); // Update every second
 
 //	  Check_SDCard();
 //	  LED_Toggle(1);
-//	  HAL_Delay(1000);
+//	  HAL_Delay(100);
 
 //	  snprintf(RS485Buffer, RS485_BUFFER_SIZE, "Testing, Count: %lu\r\n", Count);
 //	  RS485_Send(RS485_CH2, RS485Buffer);

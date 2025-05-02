@@ -202,17 +202,49 @@ void DisplayHomeScreen(TimeDate_t time, uint8_t mode, uint8_t id) {
     u8g2_SendBuffer(&u8g2);
 }
 
-//void display_variable(int variable, uint8_t origin_x, uint8_t origin_y) {
-//    // Clear the specific area (optional)
-//    u8g2_ClearBuffer(&u8g2);
-//
-//    // Draw the updated variable
-//    char buffer[10];
-//    sprintf(buffer, "Var: %d", variable);
-//
-//    // Draw the updated variable at the provided coordinates (origin_x, origin_y)
-//    u8g2_DrawStr(&u8g2, origin_x, origin_y, buffer); // x=origin_x, y=origin_y are coordinates
-//
-//    // Update only a specific area of the display (adjusted region based on origin)
-//    u8g2_UpdateDisplayArea(&u8g2, origin_x, origin_y, 60, 20);  // Update region (origin_x, origin_y) to (origin_x + 60, origin_y + 20)
-//}
+void UpdateChannel(uint8_t channel, const char *data) {
+
+    uint8_t page = channel * 2; // Assuming each channel occupies 2 pages (16 pixels)
+	//    u8g2_SetDrawColor(&u8g2, 0); // Set color to "erase"
+    u8g2_SetDrawColor(&u8g2, 1); // Set color to "draw"
+    u8g2_DrawFrame(&u8g2, 0, page * 8, u8g2_GetDisplayWidth(&u8g2), 16); // Adjust area
+
+    // Display updated data
+    char line[64];
+    sprintf(line, "CH %d: %s", channel + 1, data);
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB08_tr);
+    u8g2_DrawStr(&u8g2, 0, (channel + 1) * 15, line); // Adjust Y position
+    u8g2_UpdateDisplayArea(&u8g2, 0, channel, u8g2_GetDisplayWidth(&u8g2) / 8, 2); // Update specific area
+}
+
+void UpdateDisplayArea(uint8_t x_start, uint8_t y_start, uint8_t width, uint8_t height) {
+    // Debug: Log the area being updated
+//    printf("UpdateDisplayArea called with x_start=%d, y_start=%d, width=%d, height=%d\n",
+//           x_start, y_start, width, height);
+
+    // Validate parameters
+    uint8_t display_width = u8g2_GetDisplayWidth(&u8g2) / 8; // Width in blocks
+    uint8_t display_height = u8g2_GetDisplayHeight(&u8g2) / 8; // Height in pages
+
+    if (x_start >= display_width || y_start >= display_height) {
+//        printf("Invalid area parameters. Falling back to full update.\n");
+        u8g2_SendBuffer(&u8g2);
+        return;
+    }
+
+    // Ensure width and height do not exceed the display dimensions
+    uint8_t effective_width = (x_start + width > display_width) ? (display_width - x_start) : width;
+    uint8_t effective_height = (y_start + height > display_height) ? (display_height - y_start) : height;
+
+    // Debug: Log adjusted area
+//    printf("Adjusted area: x_start=%d, y_start=%d, width=%d, height=%d\n",
+//           x_start, y_start, effective_width, effective_height);
+
+    // Perform the partial update
+    u8g2_UpdateDisplayArea(&u8g2, x_start, y_start, effective_width, effective_height);
+
+    // Optional: Add debugging visualization
+    u8g2_SetDrawColor(&u8g2, 1); // Set color to "draw"
+//    u8g2_DrawFrame(&u8g2, x_start * 8, y_start * 8, effective_width * 8, effective_height * 8); // Pixel dimensions
+    u8g2_SendBuffer(&u8g2); // For debugging visuals
+}

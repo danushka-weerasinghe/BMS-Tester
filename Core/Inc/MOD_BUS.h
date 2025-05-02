@@ -10,30 +10,54 @@
 
 #include "stm32f4xx_hal.h"
 
-#define RS485_BUFFER_SIZE 64
-#define RS485_CHANNEL_COUNT 4
+#define MODBUS_BUFFER_SIZE 64
+#define MODBUS_CHANNEL_COUNT 4
+#define PACKET_SIZE 8
 
 // Channel mapping
 typedef enum {
-    RS485_CHANNEL_1 = 0,
-    RS485_CHANNEL_2,
-    RS485_CHANNEL_3,
-    RS485_CHANNEL_4
-} RS485_Channel;
+    MODBUS_PC = 0,
+	MODBUS_DC,
+	MODBUS_CH3,
+	MODBUS_CH4
+} MODBUS_Channel;
+
+//typedef struct {
+//    UART_HandleTypeDef* huart;
+//    GPIO_TypeDef* dePort;
+//    uint16_t dePin;
+//} MODBUS_Handle;
+
+typedef struct {
+    uint8_t buffer[MODBUS_BUFFER_SIZE];
+    uint16_t head;
+    uint16_t tail;
+    uint32_t overruns;
+} CircularBuffer;
 
 // Initialize RS485 channel
-void RS485_Init(RS485_Channel channel);
+void MODBUS_Init(MODBUS_Channel channel);
 
 // Send data on specified channel
-void RS485_Send(RS485_Channel channel, const char* msg);
+//void MODBUS_Send(MODBUS_Channel channel, const char* msg);
+void MODBUS_Send(MODBUS_Channel channel, const uint8_t* data, uint16_t size);
 
 // Check if data available
-uint8_t RS485_Available(RS485_Channel channel);
+uint8_t MODBUS_Available(MODBUS_Channel channel);
 
 // Get received data (returns length)
-uint16_t RS485_GetData(RS485_Channel channel, char* buffer);
+//uint16_t MODBUS_GetData(MODBUS_Channel channel, char* buffer);
+uint16_t MODBUS_GetPacket(MODBUS_Channel channel, uint8_t* buffer);
 
-void RS485_GetMatrixData(uint8_t matrix[][RS485_BUFFER_SIZE]);
+//void MODBUS_GetMatrixData(uint8_t matrix[][MODBUS_BUFFER_SIZE]);
+
+//void UpdateAllChannelDisplay();
+
+void UpdateChannelDisplay(MODBUS_Channel channel, const uint8_t *data, uint16_t size);
+
+void MODBUS_ProcessData(MODBUS_Channel channel);
+
+void MODBUS_TestDisplay(void);
 
 #endif /* INC_MOD_BUS_H_ */
 

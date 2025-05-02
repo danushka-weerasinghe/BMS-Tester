@@ -9,3 +9,5 @@
 ../Core/Src/Display.c:141:6:display_progress_bar	48	static
 ../Core/Src/Display.c:167:6:DisplayLogoScreen	16	static
 ../Core/Src/Display.c:176:6:DisplayHomeScreen	104	static
+../Core/Src/Display.c:205:6:UpdateChannel	96	static
+../Core/Src/Display.c:220:6:UpdateDisplayArea	40	static

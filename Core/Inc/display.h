@@ -37,8 +37,7 @@ void DisplayHomeScreen(TimeDate_t time, uint8_t mode, uint8_t id);
 void MainTitlePage(void);
 void display_lcd(const char *message);
 void display_progress_bar(const char *message, float percentage);
-void display_variable(int variable, uint8_t origin_x, uint8_t origin_y);
-
-//uint8_t errorline;
+void UpdateChannel(uint8_t channel, const char *data);
+void UpdateDisplayArea(uint8_t x_start, uint8_t y_start, uint8_t width, uint8_t height);
 
 #endif /* INC_DISPLAY_H_ */
