@@ -127,7 +127,7 @@
 "./Componets/ISO SPI/Src/LTC6811.o"
 "./Componets/ISO SPI/Src/LTC681x.o"
 "./Componets/ISO SPI/Src/LTC68xx_API.o"
-"./Componets/RS485/Src/test.o"
+"./Componets/RS485/Src/modbus.o"
 "./Componets/RTC/Src/rtc.o"
 "./Componets/SD Card/Src/test.o"
 "./Core/Src/main.o"

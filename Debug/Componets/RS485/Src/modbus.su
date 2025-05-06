@@ -1,0 +1,8 @@
+../Componets/RS485/Src/modbus.c:33:13:MODBUS_ChannelToString	16	static
+../Componets/RS485/Src/modbus.c:57:13:CircularBuffer_Write	32	static
+../Componets/RS485/Src/modbus.c:69:17:CircularBuffer_Read	32	static
+../Componets/RS485/Src/modbus.c:78:6:MODBUS_Init	24	static
+../Componets/RS485/Src/modbus.c:122:6:MODBUS_Send	24	static
+../Componets/RS485/Src/modbus.c:140:6:UpdateChannelDisplay	80	static
+../Componets/RS485/Src/modbus.c:295:6:HAL_UARTEx_RxEventCallback	24	static
+../Componets/RS485/Src/modbus.c:312:6:MODBUS_TestDisplay	16	static

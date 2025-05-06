@@ -45,6 +45,7 @@
 #include "gpio_expander.h"
 #include "rtc.h"
 #include "button_led.h"
+#include "modbus.h"
 
 //#include "../../Componets/GPIO expander/gpio_expander.h"
 
@@ -303,6 +304,10 @@ int main(void)
 
   RTC_Init();
   LED_Init();		/* Reset all LEDs */
+  MODBUS_Init(MODBUS_PC);
+  MODBUS_Init(MODBUS_DC);
+  MODBUS_Init(MODBUS_CH3);
+  MODBUS_Init(MODBUS_CH4);
 
 // int INA229;
   for (int i = 0; i < NUM_INA229; i++)
@@ -365,11 +370,12 @@ int main(void)
 //	  RTC_ReadTime();
 //	  char timeStr[16];
 //	  char dateStr[16];
-//	  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
+////	  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
 //	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
 //	  display_lcd(timeStr);
 //	  HAL_Delay(100);
-//	  LED_Set(7, 0);
+////	  LED_Set(7, 0);
+//	  LED_Toggle(1);
 
 
     /* USER CODE END WHILE */
@@ -495,7 +501,7 @@ int main(void)
 //	     HAL_Delay(100); // Delay between sequences
 
 		  ////////////////////////////////////////////////////
-
+/*
 		  cell12_Temp_01_Set(resistance[0]);
 		  cell12_Temp_02_Set(resistance[1]);
 		  cell12_Temp_03_Set(resistance[2]);
@@ -1402,7 +1408,7 @@ temparature_data_read();
 
 		  	/////////////////////////////////////////////////////////////
 //Scan_I2C_Bus();
-
+*/
   }
   /* USER CODE END 3 */
 }
