@@ -34,4 +34,8 @@ extern void Display_Reading(void);
 
 void display_lcd(const char *message);
 
+void UpdateChannel(uint8_t channel, const char *data);
+
+void UpdateDisplayArea(uint8_t x_start, uint8_t y_start, uint8_t width, uint8_t height);
+
 #endif /* INC_DISPLAY_H_ */

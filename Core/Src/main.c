@@ -330,9 +330,9 @@ int main(void)
   MODBUS_Init(MODBUS_CH4);
 
 // int INA229;
-  for (int i = 0; i < NUM_INA229; i++)
-  { INA229_config(ina229_devices[i]); HAL_Delay(10); }
-
+//  for (int i = 0; i < NUM_INA229; i++)
+//  { INA229_config(ina229_devices[i]); HAL_Delay(10); }
+//
 
 
   mcu_spiInit(0);
@@ -349,10 +349,10 @@ int main(void)
 
 	LTC6811_init_cfg(TOTAL_IC, BMS_IC);
 	uint8_t main_current_ic;
-	for (main_current_ic = 0; main_current_ic < TOTAL_IC; main_current_ic++) {
-		LTC6811_set_cfgr(main_current_ic, BMS_IC, REF_ON, ADCOPT, GPIOBITS_A,
-				DCCBITS_A, DCTOBITS, UV, OV);
-	}
+//	for (main_current_ic = 0; main_current_ic < TOTAL_IC; main_current_ic++) {
+//		LTC6811_set_cfgr(main_current_ic, BMS_IC, REF_ON, ADCOPT, GPIOBITS_A,
+//				DCCBITS_A, DCTOBITS, UV, OV);
+//	}
 	LTC6811_wrcfg(TOTAL_IC, BMS_IC);
 	LTC6811_reset_crc_count(TOTAL_IC, BMS_IC);
 	LTC6811_init_reg_limits(TOTAL_IC, BMS_IC);
@@ -393,7 +393,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  MODBUS_TestDisplay();
 //		for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
 //			ProcessMODBUSData(i);
 //		}
