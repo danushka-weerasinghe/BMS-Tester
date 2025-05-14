@@ -60,6 +60,9 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+//#define RS485_BUFFER_SIZE 8
+//#define TEST_MSG "RS485\r\n"
+
 uint8_t address;
 HAL_StatusTypeDef result;
 
@@ -201,7 +204,8 @@ UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
 
-
+//uint8_t rx_buffer[RS485_BUFFER_SIZE];
+//uint8_t rx_complete = 0;
 
 /* USER CODE END PV */
 
@@ -251,7 +255,23 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
+//void RS485_Send(uint8_t *data, uint16_t len)
+//{
+//    HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_SET);
+//    HAL_Delay(1);
+//    HAL_UART_Transmit(&huart1, data, len, 1000);
+//    while(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_TC) == RESET);
+//    HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+//}
+//
+//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+//{
+//    if(huart->Instance == USART1)
+//    {
+//        rx_complete = 1;
+//        HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+//    }
+//}
 
 /* USER CODE END 0 */
 
@@ -339,6 +359,9 @@ int main(void)
 
   //--------------------------------------------------------------//
 
+//	HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+//	HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+
   /* Initialize the display module */
   Display_Init();
 
@@ -367,6 +390,33 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+//	  RS485_Send(USART_6, "Testing from USART_6\r\n");
+//
+//      if(RS485_Available(USART_3))
+//      {
+//          char buffer[64];
+//          uint16_t length = RS485_GetData(USART_3, buffer);
+//
+//          if(length > 0)
+//          {
+//              buffer[length] = '\0';  // Null terminate
+//              display_lcd(buffer);
+//          }
+//      }
+
+//	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
+//
+//	    // Check if we received any data
+//	    if(rx_complete)
+//	    {
+//	        // Echo received data to LCD
+//	        display_lcd((char*)rx_buffer);
+//	        rx_complete = 0;
+//	    }
+
+	    HAL_Delay(1000);
+
 //	  RTC_ReadTime();
 //	  char timeStr[16];
 //	  char dateStr[16];
@@ -375,7 +425,7 @@ int main(void)
 //	  display_lcd(timeStr);
 //	  HAL_Delay(100);
 ////	  LED_Set(7, 0);
-//	  LED_Toggle(1);
+	  LED_Toggle(1);
 
 
     /* USER CODE END WHILE */

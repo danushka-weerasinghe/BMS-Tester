@@ -271,3 +271,11 @@ void Display_Reading(void)
     // Send the buffer to the display
     u8g2_SendBuffer(&u8g2);
 }
+
+void display_lcd(const char *message)
+{
+    u8g2_ClearBuffer(&u8g2);
+    u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+    u8g2_DrawStr(&u8g2, 0, 30, message);
+    u8g2_SendBuffer(&u8g2);
+}
