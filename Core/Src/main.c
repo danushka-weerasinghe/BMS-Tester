@@ -383,6 +383,9 @@ int main(void)
 
 #endif
 
+//	srand(HAL_GetTick());
+//	char randomPacket[64];
+//	size_t packetSize = 8;
 
   /* USER CODE END 2 */
 
@@ -390,6 +393,22 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  MODBUS_TestDisplay();
+//		for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
+//			ProcessMODBUSData(i);
+//		}
+//
+//	  UpdateChannelDisplay(); // Update display for all channels
+//		HAL_Delay(100);
+
+//		for (size_t i = 0; i < packetSize; i++) {
+//			uint8_t randomByte = rand() % 256; // Generate a random byte (0x00 - 0xFF)
+//			sprintf(&randomPacket[i * 3], "%02X ", randomByte); // Format as "XX "
+//		}
+//		randomPacket[packetSize * 3 - 1] = '\0'; // Null-terminate the packet
+//
+//		MODBUS_Send(MODBUS_PC, randomPacket, packetSize);
+//		  HAL_Delay(500);
 
 //	  RS485_Send(USART_6, "Testing from USART_6\r\n");
 //
@@ -415,7 +434,7 @@ int main(void)
 //	        rx_complete = 0;
 //	    }
 
-	    HAL_Delay(1000);
+//	    HAL_Delay(1000);
 
 //	  RTC_ReadTime();
 //	  char timeStr[16];
@@ -423,10 +442,9 @@ int main(void)
 ////	  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
 //	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
 //	  display_lcd(timeStr);
-//	  HAL_Delay(100);
 ////	  LED_Set(7, 0);
 	  LED_Toggle(1);
-
+	  HAL_Delay(100);
 
     /* USER CODE END WHILE */
 

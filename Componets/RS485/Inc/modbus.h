@@ -10,7 +10,7 @@
 
 #include "stm32f4xx_hal.h"
 
-#define MODBUS_BUFFER_SIZE 64
+#define MODBUS_BUFFER_SIZE 8
 #define MODBUS_CHANNEL_COUNT 4
 #define PACKET_SIZE 8
 
