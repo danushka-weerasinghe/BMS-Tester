@@ -10,7 +10,7 @@
 
 #include "stm32f4xx_hal.h"
 
-#define MODBUS_BUFFER_SIZE 64
+#define MODBUS_BUFFER_SIZE 8
 #define MODBUS_CHANNEL_COUNT 4
 #define PACKET_SIZE 8
 
@@ -52,6 +52,11 @@ uint16_t MODBUS_GetPacket(MODBUS_Channel channel, uint8_t* buffer);
 //void MODBUS_GetMatrixData(uint8_t matrix[][MODBUS_BUFFER_SIZE]);
 
 //void UpdateAllChannelDisplay();
+
+//static uint16_t CircularBuffer_Read(CircularBuffer* cb, uint8_t* dest, uint16_t maxSize);
+//
+//static void CircularBuffer_Write(CircularBuffer* cb, const uint8_t* data, uint16_t size);
+
 
 void UpdateChannelDisplay(MODBUS_Channel channel, const uint8_t *data, uint16_t size);
 

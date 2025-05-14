@@ -205,7 +205,7 @@ int main(void)
 //	    }
 //	    randomPacket[packetSize * 3 - 1] = '\0'; // Null-terminate the packet
 //
-//	    MODBUS_Send(MODBUS_CH3, randomPacket);
+//	    MODBUS_Send(MODBUS_PC, randomPacket, packetSize);
 //        HAL_Delay(500);
 
 //		uint8_t matrix[RS485_CHANNEL_COUNT][RS485_BUFFER_SIZE] = {0};

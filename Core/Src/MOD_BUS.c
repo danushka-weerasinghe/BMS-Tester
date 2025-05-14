@@ -47,7 +47,7 @@ static MODBUS_Handle channels[MODBUS_CHANNEL_COUNT] = {
     {&huart6, USART6_ENABLE_GPIO_Port, USART6_ENABLE_Pin}
 };
 
-static const char* channelNames[] = {"PC", "DC", "CH3", "CH4"};
+//static const char* channelNames[] = {"PC", "DC", "CH3", "CH4"};
 
 // Circular buffer operations
 static void CircularBuffer_Write(CircularBuffer* cb, const uint8_t* data, uint16_t size) {
@@ -62,14 +62,14 @@ static void CircularBuffer_Write(CircularBuffer* cb, const uint8_t* data, uint16
     }
 }
 
-static uint16_t CircularBuffer_Read(CircularBuffer* cb, uint8_t* dest, uint16_t maxSize) {
-    uint16_t count = 0;
-    while (cb->tail != cb->head && count < maxSize) {
-        dest[count++] = cb->buffer[cb->tail];
-        cb->tail = (cb->tail + 1) % MODBUS_BUFFER_SIZE;
-    }
-    return count;
-}
+//static uint16_t CircularBuffer_Read(CircularBuffer* cb, uint8_t* dest, uint16_t maxSize) {
+//    uint16_t count = 0;
+//    while (cb->tail != cb->head && count < maxSize) {
+//        dest[count++] = cb->buffer[cb->tail];
+//        cb->tail = (cb->tail + 1) % MODBUS_BUFFER_SIZE;
+//    }
+//    return count;
+//}
 
 void MODBUS_Init(MODBUS_Channel channel) {
     if (channel >= MODBUS_CHANNEL_COUNT) return;

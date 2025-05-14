@@ -1,6 +1,5 @@
 ../Core/Src/MOD_BUS.c:29:13:MODBUS_ChannelToString	16	static
 ../Core/Src/MOD_BUS.c:53:13:CircularBuffer_Write	32	static
-../Core/Src/MOD_BUS.c:65:17:CircularBuffer_Read	32	static
 ../Core/Src/MOD_BUS.c:74:6:MODBUS_Init	24	static
 ../Core/Src/MOD_BUS.c:118:6:MODBUS_Send	24	static
 ../Core/Src/MOD_BUS.c:136:6:UpdateChannelDisplay	80	static
