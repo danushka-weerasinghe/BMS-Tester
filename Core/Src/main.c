@@ -266,10 +266,10 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 //
 //void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 //{
-//    if(huart->Instance == USART1)
+//    if(huart->Instance == USART2)
 //    {
 //        rx_complete = 1;
-//        HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+//        HAL_UARTEx_ReceiveToIdle_IT(&huart2, rx_buffer, RS485_BUFFER_SIZE);
 //    }
 //}
 
@@ -359,8 +359,8 @@ int main(void)
 
   //--------------------------------------------------------------//
 
-//	HAL_GPIO_WritePin(USART1_ENABLE_GPIO_Port, USART1_ENABLE_Pin, GPIO_PIN_RESET);
-//	HAL_UARTEx_ReceiveToIdle_IT(&huart1, rx_buffer, RS485_BUFFER_SIZE);
+//	HAL_GPIO_WritePin(USART2_ENABLE_GPIO_Port, USART2_ENABLE_Pin, GPIO_PIN_RESET);
+//	HAL_UARTEx_ReceiveToIdle_IT(&huart2, rx_buffer, RS485_BUFFER_SIZE);
 
   /* Initialize the display module */
   Display_Init();
@@ -393,6 +393,20 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      uint8_t command[] = {0x10, 0x20, 0x30};
+      MODBUS_Send(MODBUS_PC, command, sizeof(command));
+
+      // Receive and process data
+//      if (MODBUS_Available(MODBUS_PC)) {
+//          uint8_t response[MODBUS_BUFFER_SIZE];
+//          uint16_t length = MODBUS_GetPacket(MODBUS_PC, response);
+//
+//          if (length > 0) {
+//              UpdateChannelDisplay(MODBUS_PC, response, length);
+//          }
+//      }
+
+
 //		for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
 //			ProcessMODBUSData(i);
 //		}
@@ -424,8 +438,8 @@ int main(void)
 //      }
 
 //	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
-//
-//	    // Check if we received any data
+
+	    // Check if we received any data
 //	    if(rx_complete)
 //	    {
 //	        // Echo received data to LCD
@@ -443,7 +457,7 @@ int main(void)
 //	  display_lcd(timeStr);
 ////	  LED_Set(7, 0);
 	  LED_Toggle(1);
-	  HAL_Delay(100);
+	  HAL_Delay(500);
 
     /* USER CODE END WHILE */
 
@@ -2136,8 +2150,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CELL12_CS_07_Pin SPI3_CS_03_Pin SPI3_CS_02_Pin USART6_ENABLE_Pin */
-  GPIO_InitStruct.Pin = CELL12_CS_07_Pin|SPI3_CS_03_Pin|SPI3_CS_02_Pin|USART6_ENABLE_Pin;
+  /*Configure GPIO pins : CELL12_CS_07_Pin SPI3_CS_03_Pin SPI3_CS_02_Pin */
+  GPIO_InitStruct.Pin = CELL12_CS_07_Pin|SPI3_CS_03_Pin|SPI3_CS_02_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -2211,9 +2225,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
   /*Configure GPIO pins : CELL11_CS_01_Pin CELL11_CS_02_Pin GPIO_11_Pin GPIO_12_Pin
-                           CS_Pin LED_03_Pin LED_07_Pin USART1_ENABLE_Pin */
+                           CS_Pin LED_03_Pin LED_07_Pin */
   GPIO_InitStruct.Pin = CELL11_CS_01_Pin|CELL11_CS_02_Pin|GPIO_11_Pin|GPIO_12_Pin
-                          |CS_Pin|LED_03_Pin|LED_07_Pin|USART1_ENABLE_Pin;
+                          |CS_Pin|LED_03_Pin|LED_07_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -2251,18 +2265,32 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CS1_Pin USART3_ENABLE_Pin DISPLAY_CS_Pin SPI5_CS_02_Pin */
-  GPIO_InitStruct.Pin = CS1_Pin|USART3_ENABLE_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin;
+  /*Configure GPIO pins : CS1_Pin DISPLAY_CS_Pin SPI5_CS_02_Pin */
+  GPIO_InitStruct.Pin = CS1_Pin|DISPLAY_CS_Pin|SPI5_CS_02_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USART3_ENABLE_Pin */
+  GPIO_InitStruct.Pin = USART3_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(USART3_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PUSH_BUTTON_01_Pin PUSH_BUTTON_02_Pin PUSH_BUTTON_03_Pin PUSH_BUTTON_04_Pin */
   GPIO_InitStruct.Pin = PUSH_BUTTON_01_Pin|PUSH_BUTTON_02_Pin|PUSH_BUTTON_03_Pin|PUSH_BUTTON_04_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USART6_ENABLE_Pin */
+  GPIO_InitStruct.Pin = USART6_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(USART6_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CD_Pin */
   GPIO_InitStruct.Pin = CD_Pin;
@@ -2281,6 +2309,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USART1_ENABLE_Pin */
+  GPIO_InitStruct.Pin = USART1_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(USART1_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

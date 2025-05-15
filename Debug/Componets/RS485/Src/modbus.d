@@ -30,10 +30,9 @@ Componets/RS485/Src/modbus.o: ../Componets/RS485/Src/modbus.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/main.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/display.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8g2.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8x8.h
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8x8.h \
+ ../Core/Inc/main.h
 C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/RS485/Inc/modbus.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -65,7 +64,6 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/RS485/Inc/modbus.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/Inc/main.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/display.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8g2.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8x8.h:
+../Core/Inc/main.h:
