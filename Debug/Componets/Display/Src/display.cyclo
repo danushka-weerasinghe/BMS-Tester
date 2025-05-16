@@ -8,3 +8,4 @@
 ../Componets/Display/Src/display.c:275:6:display_lcd	1
 ../Componets/Display/Src/display.c:283:6:UpdateChannel	1
 ../Componets/Display/Src/display.c:298:6:UpdateDisplayArea	5
+../Componets/Display/Src/display.c:340:6:Test_UpdateDisplayArea	2

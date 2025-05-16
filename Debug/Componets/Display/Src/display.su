@@ -8,3 +8,4 @@
 ../Componets/Display/Src/display.c:275:6:display_lcd	16	static
 ../Componets/Display/Src/display.c:283:6:UpdateChannel	96	static
 ../Componets/Display/Src/display.c:298:6:UpdateDisplayArea	40	static
+../Componets/Display/Src/display.c:340:6:Test_UpdateDisplayArea	32	static

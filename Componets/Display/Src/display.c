@@ -275,7 +275,7 @@ void Display_Reading(void)
 void display_lcd(const char *message)
 {
     u8g2_ClearBuffer(&u8g2);
-    u8g2_SetFont(&u8g2, u8g2_font_wqy12_t_chinese3);
+    u8g2_SetFont(&u8g2, u8g2_font_tom_thumb_4x6_tr);
     u8g2_DrawStr(&u8g2, 0, 30, message);
     u8g2_SendBuffer(&u8g2);
 }
@@ -325,4 +325,48 @@ void UpdateDisplayArea(uint8_t x_start, uint8_t y_start, uint8_t width, uint8_t 
     u8g2_SetDrawColor(&u8g2, 1); // Set color to "draw"
 //    u8g2_DrawFrame(&u8g2, x_start * 8, y_start * 8, effective_width * 8, effective_height * 8); // Pixel dimensions
     u8g2_SendBuffer(&u8g2); // For debugging visuals
+}
+
+//void Display_UpdateArea(uint8_t channel, const char* message) {
+//    char buffer[64] = {0};
+//    snprintf(buffer, sizeof(buffer), "CH%d: %s", channel + 1, message);
+//
+//    u8g2_ClearBuffer(&u8g2);
+//    u8g2_SetFont(&u8g2, u8g2_font_5x7_tr);
+//    u8g2_DrawStr(&u8g2, 0, (channel + 1) * 10, buffer);
+//    u8g2_SendBuffer(&u8g2);
+//}
+
+void Test_UpdateDisplayArea() {
+    u8g2_ClearBuffer(&u8g2);
+
+    // Fill the screen with initial content for context
+    u8g2_SetFont(&u8g2, u8g2_font_5x7_tr);
+    for (uint8_t y = 0; y < u8g2_GetDisplayHeight(&u8g2) / 8; y++) {
+        char buffer[10];
+        snprintf(buffer, sizeof(buffer), "Row %d", y);
+        u8g2_DrawStr(&u8g2, 0, (y + 1) * 10, buffer);
+    }
+    u8g2_SendBuffer(&u8g2);
+
+    // Delay for observation
+    HAL_Delay(2000);
+
+    // Test updating the top-left corner
+    u8g2_SetDrawColor(&u8g2, 1); // Set color to draw
+    u8g2_DrawBox(&u8g2, 0, 0, 16, 16); // Draw a filled box
+    UpdateDisplayArea(0, 0, 2, 2); // Update the top-left area
+    HAL_Delay(2000);
+
+    // Test updating the middle area
+    u8g2_ClearBuffer(&u8g2);
+    u8g2_DrawStr(&u8g2, 40, 20, "Middle");
+    UpdateDisplayArea(5, 2, 5, 3); // Update a middle section
+    HAL_Delay(2000);
+
+    // Test updating the bottom-right corner
+    u8g2_ClearBuffer(&u8g2);
+    u8g2_DrawBox(&u8g2, u8g2_GetDisplayWidth(&u8g2) - 16, u8g2_GetDisplayHeight(&u8g2) - 16, 16, 16);
+    UpdateDisplayArea((u8g2_GetDisplayWidth(&u8g2) / 8) - 2, (u8g2_GetDisplayHeight(&u8g2) / 8) - 2, 2, 2);
+    HAL_Delay(2000);
 }

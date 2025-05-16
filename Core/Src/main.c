@@ -60,9 +60,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-//#define RS485_BUFFER_SIZE 8
-//#define TEST_MSG "RS485\r\n"
-
 uint8_t address;
 HAL_StatusTypeDef result;
 
@@ -203,9 +200,6 @@ UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
-
-//uint8_t rx_buffer[RS485_BUFFER_SIZE];
-//uint8_t rx_complete = 0;
 
 /* USER CODE END PV */
 
@@ -393,26 +387,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      uint8_t command[] = {0x10, 0x20, 0x30};
-      MODBUS_Send(MODBUS_PC, command, sizeof(command));
-
-      // Receive and process data
-//      if (MODBUS_Available(MODBUS_PC)) {
-//          uint8_t response[MODBUS_BUFFER_SIZE];
-//          uint16_t length = MODBUS_GetPacket(MODBUS_PC, response);
-//
-//          if (length > 0) {
-//              UpdateChannelDisplay(MODBUS_PC, response, length);
-//          }
-//      }
-
-
-//		for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
-//			ProcessMODBUSData(i);
-//		}
-//
-//	  UpdateChannelDisplay(); // Update display for all channels
-//		HAL_Delay(100);
 
 //		for (size_t i = 0; i < packetSize; i++) {
 //			uint8_t randomByte = rand() % 256; // Generate a random byte (0x00 - 0xFF)
@@ -422,32 +396,6 @@ int main(void)
 //
 //		MODBUS_Send(MODBUS_PC, randomPacket, packetSize);
 //		  HAL_Delay(500);
-
-//	  RS485_Send(USART_6, "Testing from USART_6\r\n");
-//
-//      if(RS485_Available(USART_3))
-//      {
-//          char buffer[64];
-//          uint16_t length = RS485_GetData(USART_3, buffer);
-//
-//          if(length > 0)
-//          {
-//              buffer[length] = '\0';  // Null terminate
-//              display_lcd(buffer);
-//          }
-//      }
-
-//	    RS485_Send((uint8_t*)TEST_MSG, strlen(TEST_MSG));
-
-	    // Check if we received any data
-//	    if(rx_complete)
-//	    {
-//	        // Echo received data to LCD
-//	        display_lcd((char*)rx_buffer);
-//	        rx_complete = 0;
-//	    }
-
-//	    HAL_Delay(1000);
 
 //	  RTC_ReadTime();
 //	  char timeStr[16];

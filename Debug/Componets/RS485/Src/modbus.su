@@ -1,0 +1,6 @@
+../Componets/RS485/Src/modbus.c:31:6:MODBUS_Init	24	static
+../Componets/RS485/Src/modbus.c:43:6:MODBUS_Send	24	static
+../Componets/RS485/Src/modbus.c:61:6:MODBUS_UpdateDisplay	160	static
+../Componets/RS485/Src/modbus.c:106:6:HAL_UARTEx_RxEventCallback	24	static
+../Componets/RS485/Src/modbus.c:123:6:LCD_DisplayModbusData	56	static
+../Componets/RS485/Src/modbus.c:129:6:MODBUS_TestDisplay	16	static

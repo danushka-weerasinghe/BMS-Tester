@@ -59,38 +59,75 @@ void MODBUS_Send(MODBUS_Channel channel, const uint8_t* data, uint16_t size) {
 }
 
 void MODBUS_UpdateDisplay(MODBUS_Channel channel, const uint8_t* data, uint16_t size) {
-    char buffer[64] = {0};
-    char hex[4];
-    snprintf(buffer, sizeof(buffer), "CH%d: ", channel + 1);
+    u8g2_ClearBuffer(&u8g2);
+    u8g2_SetFont(&u8g2, u8g2_font_tom_thumb_4x6_tr);
 
-    for (uint16_t i = 0; i < size && i < MODBUS_BUFFER_SIZE; i++) {
-        snprintf(hex, sizeof(hex), "%02X ", data[i]);
-        strcat(buffer, hex);
+    char buffer[128] = {0};  // Adjust buffer size to safely fit data
+    int charsWritten = snprintf(buffer, sizeof(buffer), "CH%d: ", channel + 1);
+
+    // Add hex representation of the data
+    for (uint16_t i = 0; i < size && charsWritten < sizeof(buffer) - 3; i++) {
+        charsWritten += snprintf(buffer + charsWritten, sizeof(buffer) - charsWritten, "%02X ", data[i]);
     }
 
-    u8g2_ClearBuffer(&u8g2);
-    u8g2_SetFont(&u8g2, u8g2_font_5x7_tr);
-    u8g2_DrawStr(&u8g2, 0, (channel + 1) * 10, buffer);
+    // Break into lines if necessary
+    uint8_t yPosition = (channel + 1) * 10;
+    char* line = buffer;
+    while (*line) {
+        char* nextLine = strchr(line, '\n');
+        if (nextLine) *nextLine = '\0';
+
+        u8g2_DrawStr(&u8g2, 0, yPosition, line);
+        yPosition += 10;  // Move to the next line
+
+        if (nextLine) line = nextLine + 1;
+        else break;
+    }
+
     u8g2_SendBuffer(&u8g2);
+
+//    char buffer[64] = {0};
+//
+//    snprintf(buffer, sizeof(buffer), "CH%d: ", channel + 1);
+//    for (uint16_t i = 0; i < size && i < MODBUS_BUFFER_SIZE; i++) {
+//        char hex[4];
+//        snprintf(hex, sizeof(hex), "%02X ", data[i]);
+//        strcat(buffer, hex);
+//    }
+//
+//    u8g2_DrawStr(&u8g2, 0, (channel + 1) * 10, buffer);  // Adjust Y-position for visibility
+//    u8g2_SendBuffer(&u8g2);
 }
 
-void MODBUS_ProcessData(MODBUS_Channel channel) {
-    // Placeholder: Implement user-defined logic here
-}
+//void MODBUS_ProcessData(MODBUS_Channel channel) {
+//    // Placeholder: Implement user-defined logic here
+//}
 
-// Callback for receiving data
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size) {
     for (int i = 0; i < MODBUS_CHANNEL_COUNT; i++) {
         if (huart == modbusChannels[i].huart) {
             MODBUS_Handle* ch = &modbusChannels[i];
             ch->rxSize = Size;
 
-            // Optional: Process received data or update display
-            MODBUS_UpdateDisplay(i, ch->rxBuffer, Size);
+            // Display received data directly to the LCD
+            LCD_DisplayModbusData(i, ch->rxBuffer, Size);
+//            MODBUS_UpdateDisplay(i, ch->rxBuffer, Size);
 
             // Restart reception
             HAL_UARTEx_ReceiveToIdle_IT(huart, ch->rxBuffer, MODBUS_BUFFER_SIZE);
             break;
         }
     }
+}
+
+void LCD_DisplayModbusData(int channelIndex, uint8_t* data, uint16_t size) {
+    char displayBuffer[MODBUS_BUFFER_SIZE + 16]; // Adjust size as needed
+    snprintf(displayBuffer, sizeof(displayBuffer), "CH %d: %.*s", channelIndex, size, data);
+    display_lcd(displayBuffer); // Assuming LCD_Print is your function to display text on the LCD
+}
+
+void MODBUS_TestDisplay(void) {
+    uint8_t testData[] = {0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F, 0x7A, 0x8B};
+    MODBUS_UpdateDisplay(0, testData, sizeof(testData));  // Use channel 0 for testing
+    HAL_Delay(1000);  // Wait to observe the display
 }

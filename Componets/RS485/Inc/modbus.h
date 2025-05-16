@@ -35,4 +35,6 @@ void MODBUS_UpdateDisplay(MODBUS_Channel channel, const uint8_t* data, uint16_t 
 // Process received data (placeholder for user-defined processing)
 void MODBUS_ProcessData(MODBUS_Channel channel);
 
+void MODBUS_TestDisplay(void);
+
 #endif /* INC_MOD_BUS_H_ */
