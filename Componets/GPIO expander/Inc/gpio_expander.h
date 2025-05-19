@@ -42,7 +42,7 @@ extern I2C_HandleTypeDef hi2c3;
  */
 
 /* Names for pins on GPIO_EXPANDER_ID_01 (Port 0) */
-#define ALERT_PIN_CELL_01    (1U << 0)  // Port0, bit 0
+#define ALERT_PIN_CELL_01    (1U << 0)  // Port0, bit 0  //This pin used to Relay control for open wire Testing
 #define CELL_01_VOLTAGE_01   (1U << 1)  // Port0, bit 1
 #define CELL_01_VOLTAGE_02   (1U << 2)  // Port0, bit 2
 #define CELL_01_VOLTAGE_03   (1U << 3)  // Port0, bit 3
@@ -52,14 +52,14 @@ extern I2C_HandleTypeDef hi2c3;
 #define CELL_02_VOLTAGE_01   (1U << 7)  // Port0, bit 7
 
 /* Names for pins on GPIO_EXPANDER_ID_02 (Port 1) */
-#define ALERT_PIN_CELL_02    (1U << (0+8))  // Port0, bit 0
+#define ALERT_PIN_CELL_02    (1U << (0+8))  // Port0, bit 0  //This pin used to Relay control for open wire Testing
 #define CELL_02_LED_01       (1U << (1+8))  // Port0, bit 1
 #define CELL_03_LED_01       (1U << (2+8))  // Port0, bit 2
-#define EXPANDER_FAN_CTRL    (1U << (3+8))  // Port0, bit 3
+#define EXPANDER_FAN_CTRL    (1U << (3+8))  // Port0, bit 3  //This pin is not populate
 #define CELL_03_VOLTAGE_03   (1U << (4+8))  // Port0, bit 4
 #define CELL_03_VOLTAGE_02   (1U << (5+8))  // Port0, bit 5
 #define CELL_03_VOLTAGE_01   (1U << (6+8))  // Port0, bit 6
-#define ALERT_PIN_CELL_03    (1U << (7+8))  // Port0, bit 7
+#define ALERT_PIN_CELL_03    (1U << (7+8))  // Port0, bit 7  //This pin used to Relay control for open wire Testing
 
 
 /* Direction macros for each pin  (Port 0) */
@@ -93,7 +93,7 @@ extern I2C_HandleTypeDef hi2c3;
 
 
 
-// Define an enumeration for 12 cells.
+// Define an enumeration for all 24 cells.
 typedef enum {
     CELL_1 = 0,
     CELL_2,
@@ -106,10 +106,50 @@ typedef enum {
     CELL_9,
     CELL_10,
     CELL_11,
-    CELL_12
+    CELL_12,
+    CELL_13,
+    CELL_14,
+    CELL_15,
+    CELL_16,
+    CELL_17,
+    CELL_18,
+    CELL_19,
+    CELL_20,
+    CELL_21,
+    CELL_22,
+    CELL_23,
+    CELL_24,
+    MAX_CELLS
 } CellID;
 
 
+// Define an enumeration for all 24 cells.
+typedef enum {
+    CELL_1_LED = 0,
+    CELL_2_LED,
+    CELL_3_LED,
+    CELL_4_LED,
+    CELL_5_LED,
+    CELL_6_LED,
+    CELL_7_LED,
+    CELL_8_LED,
+    CELL_9_LED,
+    CELL_10_LED,
+    CELL_11_LED,
+    CELL_12_LED,
+    CELL_13_LED,
+    CELL_14_LED,
+    CELL_15_LED,
+    CELL_16_LED,
+    CELL_17_LED,
+    CELL_18_LED,
+    CELL_19_LED,
+    CELL_20_LED,
+    CELL_21_LED,
+    CELL_22_LED,
+    CELL_23_LED,
+    CELL_24_LED
+} LEDID;
 
 
 /* Public API */
@@ -154,7 +194,10 @@ HAL_StatusTypeDef Expander_SetPinState(I2C_HandleTypeDef *hi2c,
                                       uint8_t state);
 
 // Function prototype to set output voltage for a cell.
-void Set_Output_Voltage(I2C_HandleTypeDef *hi2c, CellID cell, float voltage);
+void Set_Output_Voltage( CellID cell, float voltage);
+
+// Function prototype to set LED on and off
+void Set_LED_status ( CellID cell, uint8_t state);
 
 
 #endif /* INC_GPIO_EXPANDER_H_ */

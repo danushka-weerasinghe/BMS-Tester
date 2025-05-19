@@ -1,6 +1,6 @@
 ../Componets/GPIO expander/Src/gpio_expander.c:43:19:Expander_InitPinDirections	2
 ../Componets/GPIO expander/Src/gpio_expander.c:105:19:Expander_SetPinState	7
 ../Componets/GPIO expander/Src/gpio_expander.c:186:19:Expander_InitAllDevices	3
-../Componets/GPIO expander/Src/gpio_expander.c:212:20:get_voltage_map	1
-../Componets/GPIO expander/Src/gpio_expander.c:220:13:get_cell_control_params	13
-../Componets/GPIO expander/Src/gpio_expander.c:308:6:Set_Output_Voltage	5
+../Componets/GPIO expander/Src/gpio_expander.c:213:13:get_cell_control_params	25
+../Componets/GPIO expander/Src/gpio_expander.c:430:6:Set_Output_Voltage	5
+../Componets/GPIO expander/Src/gpio_expander.c:467:6:Set_LED_status	2

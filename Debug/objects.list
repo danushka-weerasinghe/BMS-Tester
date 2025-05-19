@@ -130,6 +130,7 @@
 "./Componets/RS485/Src/test.o"
 "./Componets/RTC/Src/rtc.o"
 "./Componets/SD Card/Src/test.o"
+"./Core/Src/BMS_test_protocol.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"

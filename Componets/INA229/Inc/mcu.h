@@ -80,6 +80,7 @@ typedef struct {
 extern INA229_Reading INA229_Readings[NUM_INA229];
 
 
+void init_ina229_devices(void);
 
 /* support C++ sources */
 #ifdef __cplusplus

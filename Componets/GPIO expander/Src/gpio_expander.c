@@ -46,26 +46,26 @@ HAL_StatusTypeDef Expander_InitPinDirections(I2C_HandleTypeDef *hi2c, uint8_t de
     uint8_t port0_config = 0;
 
     // Build Port 0 configuration mask using the defined direction macros:
-    port0_config |= (ALERT_PIN_CELL_01_DIR == PIN_INPUT) ? ALERT_PIN_CELL_01 : 0;
-    port0_config |= (CELL_01_VOLTAGE_01_DIR == PIN_INPUT) ? CELL_01_VOLTAGE_01 : 0;
-    port0_config |= (CELL_01_VOLTAGE_02_DIR == PIN_INPUT) ? CELL_01_VOLTAGE_02 : 0;
-    port0_config |= (CELL_01_VOLTAGE_03_DIR == PIN_INPUT) ? CELL_01_VOLTAGE_03 : 0;
-    port0_config |= (CELL_01_LED_01_DIR       == PIN_INPUT) ? CELL_01_LED_01       : 0;
-    port0_config |= (CELL_02_VOLTAGE_03_DIR == PIN_INPUT) ? CELL_02_VOLTAGE_03 : 0;
-    port0_config |= (CELL_02_VOLTAGE_02_DIR == PIN_INPUT) ? CELL_02_VOLTAGE_02 : 0;
-    port0_config |= (CELL_02_VOLTAGE_01_DIR == PIN_INPUT) ? CELL_02_VOLTAGE_01 : 0;
+    port0_config |= (ALERT_PIN_CELL_01_DIR   == PIN_INPUT) ? ALERT_PIN_CELL_01  : 0;
+    port0_config |= (CELL_01_VOLTAGE_01_DIR  == PIN_INPUT) ? CELL_01_VOLTAGE_01 : 0;
+    port0_config |= (CELL_01_VOLTAGE_02_DIR  == PIN_INPUT) ? CELL_01_VOLTAGE_02 : 0;
+    port0_config |= (CELL_01_VOLTAGE_03_DIR  == PIN_INPUT) ? CELL_01_VOLTAGE_03 : 0;
+    port0_config |= (CELL_01_LED_01_DIR      == PIN_INPUT) ? CELL_01_LED_01     : 0;
+    port0_config |= (CELL_02_VOLTAGE_03_DIR  == PIN_INPUT) ? CELL_02_VOLTAGE_03 : 0;
+    port0_config |= (CELL_02_VOLTAGE_02_DIR  == PIN_INPUT) ? CELL_02_VOLTAGE_02 : 0;
+    port0_config |= (CELL_02_VOLTAGE_01_DIR  == PIN_INPUT) ? CELL_02_VOLTAGE_01 : 0;
 
     // For Port 1, use the corresponding direction macros if needed.
     // In this example, we build Port 1 configuration mask similarly:
     uint8_t port1_config = 0;
-    port1_config |= (ALERT_PIN_CELL_02_DIR   == PIN_INPUT) ? (1U << 0) : 0;
-    port1_config |= (CELL_02_LED_01_DIR      == PIN_INPUT) ? (1U << 1) : 0;
-    port1_config |= (CELL_03_LED_01_DIR      == PIN_INPUT) ? (1U << 2) : 0;
-    port1_config |= (EXPANDER_FAN_CTRL_DIR   == PIN_INPUT) ? (1U << 3) : 0;
-    port1_config |= (CELL_03_VOLTAGE_03_DIR  == PIN_INPUT) ? (1U << 4) : 0;
-    port1_config |= (CELL_03_VOLTAGE_02_DIR  == PIN_INPUT) ? (1U << 5) : 0;
-    port1_config |= (CELL_03_VOLTAGE_01_DIR  == PIN_INPUT) ? (1U << 6) : 0;
-    port1_config |= (ALERT_PIN_CELL_03_DIR   == PIN_INPUT) ? (1U << 7) : 0;
+    port1_config |= (ALERT_PIN_CELL_02_DIR   == PIN_INPUT) ? ALERT_PIN_CELL_02  : 0;
+    port1_config |= (CELL_02_LED_01_DIR      == PIN_INPUT) ? CELL_02_LED_01 	: 0;
+    port1_config |= (CELL_03_LED_01_DIR      == PIN_INPUT) ? CELL_03_LED_01 	: 0;
+    port1_config |= (EXPANDER_FAN_CTRL_DIR   == PIN_INPUT) ? EXPANDER_FAN_CTRL 	: 0;
+    port1_config |= (CELL_03_VOLTAGE_03_DIR  == PIN_INPUT) ? CELL_03_VOLTAGE_03	: 0;
+    port1_config |= (CELL_03_VOLTAGE_02_DIR  == PIN_INPUT) ? CELL_03_VOLTAGE_02 : 0;
+    port1_config |= (CELL_03_VOLTAGE_01_DIR  == PIN_INPUT) ? CELL_03_VOLTAGE_01 : 0;
+    port1_config |= (ALERT_PIN_CELL_03_DIR   == PIN_INPUT) ? ALERT_PIN_CELL_03 	: 0;
 
     // Write configuration to Port 0 register.
     status = HAL_I2C_Mem_Write(hi2c,
@@ -208,134 +208,282 @@ HAL_StatusTypeDef Expander_InitAllDevices(I2C_HandleTypeDef *hi2c)
 }
 
 
-// In this example all cells share the same voltage mapping.
-static VoltageMap* get_voltage_map(CellID cell)
-{
-    (void)cell;  // Unused since mapping is the same for all cells.
-    return default_map;
-}
-
 // Helper function to get the expander address and MUX control pin definitions for a given cell.
 // Each cell has three control pins (S0, S1, S2) that drive your MUX select lines.
-static void get_cell_control_params(CellID cell, uint8_t *expanderAddr, uint16_t *sel0, uint16_t *sel1, uint16_t *sel2)
+static void get_cell_control_params(CellID cell, uint8_t *expander_Address, uint16_t *v_set_pin_01, uint16_t *v_set_pin_02, uint16_t *v_set_pin_03 ,uint16_t *LED_PIN )
 {
     switch(cell)
     {
+
+    // for the cell 01 to 12
         case CELL_1:
-            *expanderAddr = GPIO_EXPANDER_ID_01;
-            *sel0 = CELL_01_VOLTAGE_01;
-            *sel1 = CELL_01_VOLTAGE_02;
-            *sel2 = CELL_01_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
             break;
+
         case CELL_2:
-            *expanderAddr = GPIO_EXPANDER_ID_01;
-            *sel0 = CELL_02_VOLTAGE_01;
-            *sel1 = CELL_02_VOLTAGE_02;
-            *sel2 = CELL_02_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
             break;
+
         case CELL_3:
-            *expanderAddr = GPIO_EXPANDER_ID_01;
-            *sel0 = CELL_03_VOLTAGE_01;
-            *sel1 = CELL_03_VOLTAGE_02;
-            *sel2 = CELL_03_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
             break;
+
         case CELL_4:
-            *expanderAddr = GPIO_EXPANDER_ID_02;
-            *sel0 = CELL_01_VOLTAGE_01;
-            *sel1 = CELL_01_VOLTAGE_02;
-            *sel2 = CELL_01_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
             break;
+
         case CELL_5:
-            *expanderAddr = GPIO_EXPANDER_ID_02;
-            *sel0 = CELL_02_VOLTAGE_01;
-            *sel1 = CELL_02_VOLTAGE_02;
-            *sel2 = CELL_02_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
             break;
+
         case CELL_6:
-            *expanderAddr = GPIO_EXPANDER_ID_02;
-            *sel0 = CELL_03_VOLTAGE_01;
-            *sel1 = CELL_03_VOLTAGE_02;
-            *sel2 = CELL_03_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
             break;
+
         case CELL_7:
-            *expanderAddr = GPIO_EXPANDER_ID_03;
-            *sel0 = CELL_01_VOLTAGE_01;
-            *sel1 = CELL_01_VOLTAGE_02;
-            *sel2 = CELL_01_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
             break;
+
         case CELL_8:
-            *expanderAddr = GPIO_EXPANDER_ID_03;
-            *sel0 = CELL_02_VOLTAGE_01;
-            *sel1 = CELL_02_VOLTAGE_02;
-            *sel2 = CELL_02_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
             break;
+
         case CELL_9:
-            *expanderAddr = GPIO_EXPANDER_ID_03;
-            *sel0 = CELL_03_VOLTAGE_01;
-            *sel1 = CELL_03_VOLTAGE_02;
-            *sel2 = CELL_03_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
             break;
+
         case CELL_10:
-            *expanderAddr = GPIO_EXPANDER_ID_04;
-            *sel0 = CELL_01_VOLTAGE_01;
-            *sel1 = CELL_01_VOLTAGE_02;
-            *sel2 = CELL_01_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
             break;
+
         case CELL_11:
-            *expanderAddr = GPIO_EXPANDER_ID_04;
-            *sel0 = CELL_02_VOLTAGE_01;
-            *sel1 = CELL_02_VOLTAGE_02;
-            *sel2 = CELL_02_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
             break;
+
         case CELL_12:
-            *expanderAddr = GPIO_EXPANDER_ID_04;
-            *sel0 = CELL_03_VOLTAGE_01;
-            *sel1 = CELL_03_VOLTAGE_02;
-            *sel2 = CELL_03_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
             break;
+
+            // for the cell 12 to 24
+
+        case CELL_13:
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
+
+            break;
+
+        case CELL_14:
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
+
+            break;
+
+        case CELL_15:
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
+            break;
+
+        case CELL_16:
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
+            break;
+
+        case CELL_17:
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
+            break;
+
+        case CELL_18:
+            *expander_Address = GPIO_EXPANDER_ID_02;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
+            break;
+
+        case CELL_19:
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
+            break;
+
+        case CELL_20:
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
+            break;
+
+        case CELL_21:
+            *expander_Address = GPIO_EXPANDER_ID_03;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
+            break;
+
+        case CELL_22:
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
+            break;
+
+        case CELL_23:
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_02_VOLTAGE_01;
+            *v_set_pin_02 = CELL_02_VOLTAGE_02;
+            *v_set_pin_03 = CELL_02_VOLTAGE_03;
+            *LED_PIN  =     CELL_02_LED_01;
+            break;
+
+        case CELL_24:
+            *expander_Address = GPIO_EXPANDER_ID_04;
+            *v_set_pin_01 = CELL_03_VOLTAGE_01;
+            *v_set_pin_02 = CELL_03_VOLTAGE_02;
+            *v_set_pin_03 = CELL_03_VOLTAGE_03;
+            *LED_PIN  =     CELL_03_LED_01 ;
+            break;
+
+
+
         default:
             // Default to CELL_1 if an invalid cell is specified
-            *expanderAddr = GPIO_EXPANDER_ID_01;
-            *sel0 = CELL_01_VOLTAGE_01;
-            *sel1 = CELL_01_VOLTAGE_02;
-            *sel2 = CELL_01_VOLTAGE_03;
+            *expander_Address = GPIO_EXPANDER_ID_01;
+            *v_set_pin_01 = CELL_01_VOLTAGE_01;
+            *v_set_pin_02 = CELL_01_VOLTAGE_02;
+            *v_set_pin_03 = CELL_01_VOLTAGE_03;
+            *LED_PIN  =     CELL_01_LED_01;
             break;
     }
 }
 
 // Function to set the output voltage for a given cell by selecting the appropriate MUX channel.
 // Example usage: Set_Output_Voltage(&hi2c2, CELL_1, 2.5f);
-void Set_Output_Voltage(I2C_HandleTypeDef *hi2c, CellID cell, float voltage)
+void Set_Output_Voltage( CellID cell, float voltage)
 {
-    // Get the voltage mapping for this cell (all cells share the same mapping in this example)
-    VoltageMap *map = get_voltage_map(cell);
-    if (map == NULL) return;
+
+    // Get the correct I2C handle based on cell ID
+    I2C_HandleTypeDef *target_i2c;
+    if (cell <= 11) {
+        target_i2c = &hi2c2;
+    } else {
+        target_i2c = &hi2c3;
+    }
 
     // Look up the MUX channel for the desired voltage.
     uint8_t mux_channel = 0xFF;
     for (int i = 0; i < 8; i++) {
-        if (map[i].voltage == voltage) {
-            mux_channel = map[i].mux_channel;
+        if (default_map[i].voltage == voltage) {
+            mux_channel = default_map[i].mux_channel;
             break;
         }
     }
     if (mux_channel == 0xFF) return; // Voltage not found
 
-    // Convert mux_channel into its 3 select bits.
-    uint8_t s0 = (mux_channel >> 0) & 0x01;
-    uint8_t s1 = (mux_channel >> 1) & 0x01;
-    uint8_t s2 = (mux_channel >> 2) & 0x01;
+    // Convert mux_channel into its 3 select bits.This is use for the Analog mux switch
+    uint8_t ANG_MUX_PIN_A = (mux_channel >> 0) & 0x01;
+    uint8_t ANG_MUX_PIN_B = (mux_channel >> 1) & 0x01;
+    uint8_t ANG_MUX_PIN_C = (mux_channel >> 2) & 0x01;
 
     // Get the expander address and control pins for this cell.
-    uint8_t expanderAddr;
-    uint16_t sel0, sel1, sel2;
-    get_cell_control_params(cell, &expanderAddr, &sel0, &sel1, &sel2);
+    uint8_t expander_Address;
+    uint16_t v_set_pin_01, v_set_pin_02, v_set_pin_03, LED_PIN ;
+    get_cell_control_params(cell, &expander_Address, &v_set_pin_01, &v_set_pin_02, &v_set_pin_03 ,&LED_PIN);
 
     // Set the multiplexer select lines accordingly.
-    Expander_SetPinState(hi2c, expanderAddr, sel0, s0);
-    Expander_SetPinState(hi2c, expanderAddr, sel1, s1);
-    Expander_SetPinState(hi2c, expanderAddr, sel2, s2);
+    Expander_SetPinState(target_i2c, expander_Address, v_set_pin_01, ANG_MUX_PIN_A);
+    Expander_SetPinState(target_i2c, expander_Address, v_set_pin_02, ANG_MUX_PIN_B);
+    Expander_SetPinState(target_i2c, expander_Address, v_set_pin_03, ANG_MUX_PIN_C);
 }
 
+void Set_LED_status ( CellID cell, uint8_t state)
 
+{
+
+    // Get the correct I2C handle based on cell ID
+    I2C_HandleTypeDef *target_i2c;
+    if (cell <= 11) {
+        target_i2c = &hi2c2;
+    } else {
+        target_i2c = &hi2c3;
+    }
+
+    // Get the expander address and control pins for this cell.
+    uint8_t expander_Address;
+    uint16_t v_set_pin_01, v_set_pin_02, v_set_pin_03, LED_PIN;
+
+    get_cell_control_params(cell, &expander_Address, &v_set_pin_01, &v_set_pin_02, &v_set_pin_03 ,&LED_PIN);
+
+    // Set the multiplexer select lines accordingly.
+    Expander_SetPinState(target_i2c, expander_Address, LED_PIN, state);
+
+}
 

@@ -50,7 +50,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h \
  D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RTC/Inc/rtc.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h \
+ ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -107,3 +108,5 @@ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/I
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RTC/Inc/rtc.h:
 D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h:
+../Core/Inc/BMS_test_protocol.h:
+../Core/Inc/main.h:

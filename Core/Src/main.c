@@ -46,6 +46,8 @@
 #include "rtc.h"
 #include "button_led.h"
 
+#include "BMS_test_protocol.h"
+
 //#include "../../Componets/GPIO expander/gpio_expander.h"
 
 
@@ -164,11 +166,7 @@ float temperatureC_26 = 0 ;
 
 
 
- INA229_State* ina229_devices[NUM_INA229] = {&INA229_0, &INA229_1, &INA229_2, &INA229_3, &INA229_4, &INA229_5,
-								&INA229_6, &INA229_7, &INA229_8, &INA229_9, &INA229_10,
-								&INA229_11, &INA229_12, &INA229_13, &INA229_14, &INA229_15,
-								&INA229_16, &INA229_17, &INA229_18, &INA229_19,
-								&INA229_20, &INA229_21, &INA229_22, &INA229_23, &INA229_24, &INA229_25};
+INA229_Handle ina229_devices[NUM_INA229];
 
 
 
@@ -243,6 +241,34 @@ void Voltage_Sequence_Automatic(void);
 
 void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 
+void init_ina229_devices(void) {
+    ina229_devices[0] = INA229_0;
+    ina229_devices[1] = INA229_1;
+    ina229_devices[2] = INA229_2;
+    ina229_devices[3] = INA229_3;
+    ina229_devices[4] = INA229_4;
+    ina229_devices[5] = INA229_5;
+    ina229_devices[6] = INA229_6;
+    ina229_devices[7] = INA229_7;
+    ina229_devices[8] = INA229_8;
+    ina229_devices[9] = INA229_9;
+    ina229_devices[10] = INA229_10;
+    ina229_devices[11] = INA229_11;
+    ina229_devices[12] = INA229_12;
+    ina229_devices[13] = INA229_13;
+    ina229_devices[14] = INA229_14;
+    ina229_devices[15] = INA229_15;
+    ina229_devices[16] = INA229_16;
+    ina229_devices[17] = INA229_17;
+    ina229_devices[18] = INA229_18;
+    ina229_devices[19] = INA229_19;
+    ina229_devices[20] = INA229_20;
+    ina229_devices[21] = INA229_21;
+    ina229_devices[22] = INA229_22;
+    ina229_devices[23] = INA229_23;
+    ina229_devices[24] = INA229_24;
+    ina229_devices[25] = INA229_25;
+}
 
 /* USER CODE END PFP */
 
@@ -303,7 +329,8 @@ int main(void)
   RTC_Init();
   LED_Init();		/* Reset all LEDs */
 
-// int INA229;
+  init_ina229_devices();
+
   for (int i = 0; i < NUM_INA229; i++)
   { INA229_config(ina229_devices[i]); HAL_Delay(10); }
 
@@ -388,27 +415,111 @@ int main(void)
 
 	        // Perform voltage sequence and measurements
 
+//		  Set_Output_Voltage(CELL_1, 4.2f);
+//
+//		  HAL_Delay(1000);
+//
+//		  Set_Output_Voltage(CELL_1, 2.0f);
+//
+//		  HAL_Delay(1000);
+//
+//		  Set_Output_Voltage(CELL_15, 4.2f);
+//
+//		  HAL_Delay(1000);
+//
+//
+//		  Set_Output_Voltage(CELL_15, 2.0f);
+//
+//		  HAL_Delay(1000);
+//
+//		  Set_Output_Voltage(CELL_24, 4.2f);
+//
+//		  HAL_Delay(1000);
+//
+//		  Set_Output_Voltage(CELL_24, 2.0f);
 
-	        Voltage_Sequence_Automatic();
+//	        Voltage_Sequence_Automatic();
+
+	        // Process battery tests
+
+	        Set_LED_status(CELL_1,HIGH);
+	        Set_LED_status(CELL_2,HIGH);
+	        Set_LED_status(CELL_3,HIGH);
+	        Set_LED_status(CELL_4,HIGH);
+	        Set_LED_status(CELL_5,HIGH);
+	        Set_LED_status(CELL_6,HIGH);
+	        Set_LED_status(CELL_7,HIGH);
+	        Set_LED_status(CELL_8,HIGH);
+	        Set_LED_status(CELL_9,HIGH);
+	        Set_LED_status(CELL_10,HIGH);
+	        Set_LED_status(CELL_11,HIGH);
+	        Set_LED_status(CELL_12,HIGH);
+	        Set_LED_status(CELL_13,HIGH);
+	        Set_LED_status(CELL_14,HIGH);
+	        Set_LED_status(CELL_15,HIGH);
+	        Set_LED_status(CELL_16,HIGH);
+	        Set_LED_status(CELL_17,HIGH);
+	        Set_LED_status(CELL_18,HIGH);
+	        Set_LED_status(CELL_19,HIGH);
+	        Set_LED_status(CELL_20,HIGH);
+	        Set_LED_status(CELL_21,HIGH);
+	        Set_LED_status(CELL_22,HIGH);
+	        Set_LED_status(CELL_23,HIGH);
+	        Set_LED_status(CELL_24,HIGH);
+		  Set_LED_status(CELL_13,HIGH);
+		  Set_LED_status(CELL_14,HIGH);
+
+	        Set_Output_Voltage(CELL_1, 4.2f);
+	        HAL_Delay(1000);
+	        Set_LED_status(CELL_13,LOW);
+	        Set_LED_status(CELL_14,LOW);
+
+	        Set_LED_status(CELL_1,LOW);
+	        Set_LED_status(CELL_2,LOW);
+	        Set_LED_status(CELL_3,LOW);
+	        Set_LED_status(CELL_4,LOW);
+	        Set_LED_status(CELL_5,LOW);
+	        Set_LED_status(CELL_6,LOW);
+	        Set_LED_status(CELL_7,LOW);
+	        Set_LED_status(CELL_8,LOW);
+	        Set_LED_status(CELL_9,LOW);
+	        Set_LED_status(CELL_10,LOW);
+	        Set_LED_status(CELL_11,LOW);
+	        Set_LED_status(CELL_12,LOW);
+	        Set_LED_status(CELL_13,LOW);
+	        Set_LED_status(CELL_14,LOW);
+	        Set_LED_status(CELL_15,LOW);
+	        Set_LED_status(CELL_16,LOW);
+	        Set_LED_status(CELL_17,LOW);
+	        Set_LED_status(CELL_18,LOW);
+	        Set_LED_status(CELL_19,LOW);
+	        Set_LED_status(CELL_20,LOW);
+	        Set_LED_status(CELL_21,LOW);
+	        Set_LED_status(CELL_22,LOW);
+	        Set_LED_status(CELL_23,LOW);
+	        Set_LED_status(CELL_24,LOW);
+	        Set_Output_Voltage(CELL_1, 2.0f);
+	        HAL_Delay(1000);
 
 
 
 
-HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
-
-
-cell_voltage_read();
-delay_time_us(500000);
-temparature_data_read();
-
-HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
-
-HAL_Delay(10);
-
-
-cell_voltage_read();
-delay_time_us(500000);
-temparature_data_read();
+//
+//HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
+//
+//
+//cell_voltage_read();
+//delay_time_us(500000);
+//temparature_data_read();
+//
+//HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+//
+//HAL_Delay(10);
+//
+//
+//cell_voltage_read();
+//delay_time_us(500000);
+//temparature_data_read();
 
 
 //delay_time_us(500000);
@@ -1363,7 +1474,7 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     {
 
     // Set voltage for the cell
-    Set_Output_Voltage(hi2c, cell->cell_id, voltage);
+    Set_Output_Voltage(cell->cell_id, voltage);
 
     // Turn on LED
     Expander_SetPinState(hi2c,
