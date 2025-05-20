@@ -61,6 +61,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+float set_volt = 2.0;
+
 uint8_t address;
 HAL_StatusTypeDef result;
 
@@ -321,15 +323,9 @@ int main(void)
 	        Voltage_Sequence_Automatic();
 
 	        // Process battery tests
-
-
-
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
 	        	Set_LED_status(cell, ON);
 	        }
-
-
-	        HAL_Delay(1000);
 
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
 	        	Set_LED_status(cell, OFF);
@@ -348,7 +344,9 @@ int main(void)
 	        }
 	        HAL_Delay(1000);
 
-
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_LED_status(cell, ON);
+	        }
 
 //
 //HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
@@ -1353,15 +1351,20 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     Set_LED_status(cell->cell_id, OFF);
 
     }
+    HAL_Delay(10);
     // Read voltage and temperature
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
+    HAL_Delay(1);
     INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
+    HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
     HAL_Delay(10);
 
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
+    HAL_Delay(1);
     INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+    HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
     // Turn off LED
