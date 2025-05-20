@@ -464,7 +464,7 @@ void Set_Output_Voltage( CellID cell, float voltage)
     Expander_SetPinState(target_i2c, expander_Address, v_set_pin_03, ANG_MUX_PIN_C);
 }
 
-void Set_LED_status ( CellID cell, uint8_t state)
+void Set_LED_status ( CellID cell, uint8_t LED_state)
 
 {
 
@@ -483,7 +483,7 @@ void Set_LED_status ( CellID cell, uint8_t state)
     get_cell_control_params(cell, &expander_Address, &v_set_pin_01, &v_set_pin_02, &v_set_pin_03 ,&LED_PIN);
 
     // Set the multiplexer select lines accordingly.
-    Expander_SetPinState(target_i2c, expander_Address, LED_PIN, state);
+    Expander_SetPinState(target_i2c, expander_Address, LED_PIN, LED_state);
 
 }
 

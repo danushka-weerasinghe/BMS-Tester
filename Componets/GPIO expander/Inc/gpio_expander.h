@@ -19,6 +19,10 @@ extern I2C_HandleTypeDef hi2c3;
 #define HIGH 1
 #define LOW 0
 
+//This macro use for the LED ON and OFF ,this pin inverted because this drive low side
+#define ON 0
+#define OFF 1
+
 #define PIN_INPUT   1
 #define PIN_OUTPUT  0
 

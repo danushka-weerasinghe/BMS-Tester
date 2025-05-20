@@ -48,7 +48,7 @@
 
 #include "BMS_test_protocol.h"
 
-//#include "../../Componets/GPIO expander/gpio_expander.h"
+
 
 
 /* USER CODE END Includes */
@@ -73,101 +73,8 @@ int count =0 ;
 #define T_char  750
 #define T_frame 1750
 
-float busVoltage_01 = 0 ;
-float temperatureC_01 = 0 ;
-
-float busVoltage_02 = 0 ;
-float temperatureC_02 = 0 ;
-
-float busVoltage_03 = 0 ;
-float temperatureC_03 = 0 ;
-
-
-float busVoltage_04 = 0 ;
-float temperatureC_04 = 0 ;
-
-float busVoltage_05 = 0 ;
-float temperatureC_05 = 0 ;
-
-
-float busVoltage_06 = 0 ;
-float temperatureC_06 = 0 ;
-
-float busVoltage_07 = 0 ;
-float temperatureC_07 = 0 ;
-
-float busVoltage_08 = 0 ;
-float temperatureC_08 = 0 ;
-
-float busVoltage_09 = 0 ;
-float temperatureC_09 = 0 ;
-
-
-float busVoltage_10 = 0 ;
-float temperatureC_10 = 0 ;
-
-float busVoltage_11 = 0 ;
-float temperatureC_11 = 0 ;
-
-
-float busVoltage_12 = 0 ;
-float temperatureC_12 = 0 ;
-
-float busVoltage_13 = 0 ;
-float temperatureC_13 = 0 ;
-
-float busVoltage_14 = 0 ;
-float temperatureC_14 = 0 ;
-
-
-float busVoltage_15 = 0 ;
-float temperatureC_15 = 0 ;
-
-float busVoltage_16 = 0 ;
-float temperatureC_16 = 0 ;
-
-
-float busVoltage_17 = 0 ;
-float temperatureC_17 = 0 ;
-
-float busVoltage_18 = 0 ;
-float temperatureC_18 = 0 ;
-
-
-float busVoltage_19 = 0 ;
-float temperatureC_19 = 0 ;
-
-float busVoltage_20 = 0 ;
-float temperatureC_20 = 0 ;
-
-float busVoltage_21 = 0 ;
-float temperatureC_21 = 0 ;
-
-
-float busVoltage_22 = 0 ;
-float temperatureC_22 = 0 ;
-
-float busVoltage_23 = 0 ;
-float temperatureC_23 = 0 ;
-
-
-float busVoltage_24 = 0 ;
-float temperatureC_24 = 0 ;
-
-float busVoltage_25 = 0 ;
-float temperatureC_25 = 0 ;
-
-float busVoltage_26 = 0 ;
-float temperatureC_26 = 0 ;
-
-
-
-
-
-
 
 INA229_Handle ina229_devices[NUM_INA229];
-
 
 
 
@@ -226,7 +133,6 @@ static void MX_USART6_UART_Init(void);
 // Define configuration structure using constant values
 typedef struct {
     uint8_t cell_id;      // Cell ID as a number instead of enum
-    uint8_t i2c_bus;      // 2 for hi2c2, 3 for hi2c3
     uint8_t ina_index;    // Index of INA229 (0-23)
     GPIO_TypeDef* gpio;   // GPIO port (this is actually a constant address)
     uint16_t cs_pin;      // Chip select pin
@@ -241,34 +147,8 @@ void Voltage_Sequence_Automatic(void);
 
 void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 
-void init_ina229_devices(void) {
-    ina229_devices[0] = INA229_0;
-    ina229_devices[1] = INA229_1;
-    ina229_devices[2] = INA229_2;
-    ina229_devices[3] = INA229_3;
-    ina229_devices[4] = INA229_4;
-    ina229_devices[5] = INA229_5;
-    ina229_devices[6] = INA229_6;
-    ina229_devices[7] = INA229_7;
-    ina229_devices[8] = INA229_8;
-    ina229_devices[9] = INA229_9;
-    ina229_devices[10] = INA229_10;
-    ina229_devices[11] = INA229_11;
-    ina229_devices[12] = INA229_12;
-    ina229_devices[13] = INA229_13;
-    ina229_devices[14] = INA229_14;
-    ina229_devices[15] = INA229_15;
-    ina229_devices[16] = INA229_16;
-    ina229_devices[17] = INA229_17;
-    ina229_devices[18] = INA229_18;
-    ina229_devices[19] = INA229_19;
-    ina229_devices[20] = INA229_20;
-    ina229_devices[21] = INA229_21;
-    ina229_devices[22] = INA229_22;
-    ina229_devices[23] = INA229_23;
-    ina229_devices[24] = INA229_24;
-    ina229_devices[25] = INA229_25;
-}
+void init_ina229_devices(void) ;
+
 
 /* USER CODE END PFP */
 
@@ -438,69 +318,35 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-//	        Voltage_Sequence_Automatic();
+	        Voltage_Sequence_Automatic();
 
 	        // Process battery tests
 
-	        Set_LED_status(CELL_1,HIGH);
-	        Set_LED_status(CELL_2,HIGH);
-	        Set_LED_status(CELL_3,HIGH);
-	        Set_LED_status(CELL_4,HIGH);
-	        Set_LED_status(CELL_5,HIGH);
-	        Set_LED_status(CELL_6,HIGH);
-	        Set_LED_status(CELL_7,HIGH);
-	        Set_LED_status(CELL_8,HIGH);
-	        Set_LED_status(CELL_9,HIGH);
-	        Set_LED_status(CELL_10,HIGH);
-	        Set_LED_status(CELL_11,HIGH);
-	        Set_LED_status(CELL_12,HIGH);
-	        Set_LED_status(CELL_13,HIGH);
-	        Set_LED_status(CELL_14,HIGH);
-	        Set_LED_status(CELL_15,HIGH);
-	        Set_LED_status(CELL_16,HIGH);
-	        Set_LED_status(CELL_17,HIGH);
-	        Set_LED_status(CELL_18,HIGH);
-	        Set_LED_status(CELL_19,HIGH);
-	        Set_LED_status(CELL_20,HIGH);
-	        Set_LED_status(CELL_21,HIGH);
-	        Set_LED_status(CELL_22,HIGH);
-	        Set_LED_status(CELL_23,HIGH);
-	        Set_LED_status(CELL_24,HIGH);
-		  Set_LED_status(CELL_13,HIGH);
-		  Set_LED_status(CELL_14,HIGH);
 
-	        Set_Output_Voltage(CELL_1, 4.2f);
-	        HAL_Delay(1000);
-	        Set_LED_status(CELL_13,LOW);
-	        Set_LED_status(CELL_14,LOW);
 
-	        Set_LED_status(CELL_1,LOW);
-	        Set_LED_status(CELL_2,LOW);
-	        Set_LED_status(CELL_3,LOW);
-	        Set_LED_status(CELL_4,LOW);
-	        Set_LED_status(CELL_5,LOW);
-	        Set_LED_status(CELL_6,LOW);
-	        Set_LED_status(CELL_7,LOW);
-	        Set_LED_status(CELL_8,LOW);
-	        Set_LED_status(CELL_9,LOW);
-	        Set_LED_status(CELL_10,LOW);
-	        Set_LED_status(CELL_11,LOW);
-	        Set_LED_status(CELL_12,LOW);
-	        Set_LED_status(CELL_13,LOW);
-	        Set_LED_status(CELL_14,LOW);
-	        Set_LED_status(CELL_15,LOW);
-	        Set_LED_status(CELL_16,LOW);
-	        Set_LED_status(CELL_17,LOW);
-	        Set_LED_status(CELL_18,LOW);
-	        Set_LED_status(CELL_19,LOW);
-	        Set_LED_status(CELL_20,LOW);
-	        Set_LED_status(CELL_21,LOW);
-	        Set_LED_status(CELL_22,LOW);
-	        Set_LED_status(CELL_23,LOW);
-	        Set_LED_status(CELL_24,LOW);
-	        Set_Output_Voltage(CELL_1, 2.0f);
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_LED_status(cell, ON);
+	        }
+
+
 	        HAL_Delay(1000);
 
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_LED_status(cell, OFF);
+	        }
+	        HAL_Delay(1000);
+
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_Output_Voltage(cell, 4.2);
+	        }
+
+
+	        HAL_Delay(1000);
+
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_Output_Voltage(cell, 2.0);
+	        }
+	        HAL_Delay(1000);
 
 
 
@@ -1344,6 +1190,37 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+void init_ina229_devices(void) {
+    ina229_devices[0] = INA229_0;
+    ina229_devices[1] = INA229_1;
+    ina229_devices[2] = INA229_2;
+    ina229_devices[3] = INA229_3;
+    ina229_devices[4] = INA229_4;
+    ina229_devices[5] = INA229_5;
+    ina229_devices[6] = INA229_6;
+    ina229_devices[7] = INA229_7;
+    ina229_devices[8] = INA229_8;
+    ina229_devices[9] = INA229_9;
+    ina229_devices[10] = INA229_10;
+    ina229_devices[11] = INA229_11;
+    ina229_devices[12] = INA229_12;
+    ina229_devices[13] = INA229_13;
+    ina229_devices[14] = INA229_14;
+    ina229_devices[15] = INA229_15;
+    ina229_devices[16] = INA229_16;
+    ina229_devices[17] = INA229_17;
+    ina229_devices[18] = INA229_18;
+    ina229_devices[19] = INA229_19;
+    ina229_devices[20] = INA229_20;
+    ina229_devices[21] = INA229_21;
+    ina229_devices[22] = INA229_22;
+    ina229_devices[23] = INA229_23;
+    ina229_devices[24] = INA229_24;
+    ina229_devices[25] = INA229_25;
+}
+
+
+
 void Scan_I2C_Bus(void)
 {
 
@@ -1378,58 +1255,54 @@ static const Cell_Config cell_configs[] = {
 		// First GPIO Expander (ID_01) - Cells 1-3
 
 		// FOR THE FIRST 12 CELLS
-    // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
-    { 0,        I2C2_BUS,  0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
-    { 1,        I2C2_BUS,  1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
-    { 2,        I2C2_BUS,  2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01},
+    // Cell ID, INA idx, GPIO port,  CS pin,           LED pin
+    { 0,          0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
+    { 1,          1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
+    { 2,          2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01},
 
 	// Second GPIO Expander (ID_02) - Cells 4-6
-    { 3,        I2C2_BUS,  3,       GPIOE,     CELL12_CS_04_Pin, CELL_01_LED_01},
-    { 4,        I2C2_BUS,  4,       GPIOE,     CELL12_CS_05_Pin, CELL_02_LED_01},
-    { 5,        I2C2_BUS,  5,       GPIOI,     CELL12_CS_06_Pin, CELL_03_LED_01},
+    { 3,          3,       GPIOE,     CELL12_CS_04_Pin, CELL_01_LED_01},
+    { 4,          4,       GPIOE,     CELL12_CS_05_Pin, CELL_02_LED_01},
+    { 5,          5,       GPIOI,     CELL12_CS_06_Pin, CELL_03_LED_01},
 	// Third GPIO Expander (ID_03) - Cells 7-9
-    { 6,        I2C2_BUS,  6,       GPIOC,     CELL12_CS_07_Pin, CELL_01_LED_01},
-    { 7,        I2C2_BUS,  7,       GPIOI,     CELL12_CS_08_Pin, CELL_02_LED_01},
-    { 8,        I2C2_BUS,  8,       GPIOI,     CELL12_CS_09_Pin, CELL_03_LED_01},
+    { 6,          6,       GPIOC,     CELL12_CS_07_Pin, CELL_01_LED_01},
+    { 7,          7,       GPIOI,     CELL12_CS_08_Pin, CELL_02_LED_01},
+    { 8,          8,       GPIOI,     CELL12_CS_09_Pin, CELL_03_LED_01},
 
 	// Fourth GPIO Expander (ID_04) - Cells 10-12
-    { 9,        I2C2_BUS,  9,       GPIOI,     CELL12_CS_10_Pin, CELL_01_LED_01},
-    {10,        I2C2_BUS, 10,       GPIOF,     CELL12_CS_11_Pin, CELL_02_LED_01},
-    {11,        I2C2_BUS, 11,       GPIOF,     CELL12_CS_12_Pin, CELL_03_LED_01},
-
-	//12 cell CSU voltage and current reading
-	{12,        I2C3_BUS, 12,       GPIOF,     CSU_12_CELLS_Pin, CELL_01_LED_01},
+    { 9,          9,       GPIOI,     CELL12_CS_10_Pin, CELL_01_LED_01},
+    {10,         10,       GPIOF,     CELL12_CS_11_Pin, CELL_02_LED_01},
+    {11,         11,       GPIOF,     CELL12_CS_12_Pin, CELL_03_LED_01},
 
 	// FOR THE SECOND 12 CELLS
     // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
-    { 0,        I2C3_BUS, 13,       GPIOB,     CELL11_CS_01_Pin, CELL_01_LED_01},
-    { 1,        I2C3_BUS, 14,       GPIOB,     CELL11_CS_02_Pin, CELL_02_LED_01},
-    { 2,        I2C3_BUS, 15,       GPIOF,     CELL11_CS_03_Pin, CELL_03_LED_01},
+    {12,         13,       GPIOB,     CELL11_CS_01_Pin, CELL_01_LED_01},
+    {13,         14,       GPIOB,     CELL11_CS_02_Pin, CELL_02_LED_01},
+    {14,         15,       GPIOF,     CELL11_CS_03_Pin, CELL_03_LED_01},
 
 	// Second GPIO Expander (ID_02) - Cells 4-6
-    { 3,        I2C3_BUS, 16,       GPIOF,     CELL11_CS_04_Pin, CELL_01_LED_01},
-    { 4,        I2C3_BUS, 17,       GPIOF,     CELL11_CS_05_Pin, CELL_02_LED_01},
-    { 5,        I2C3_BUS, 18,       GPIOF,     CELL11_CS_06_Pin, CELL_03_LED_01},
+    {15,         16,       GPIOF,     CELL11_CS_04_Pin, CELL_01_LED_01},
+    {16,         17,       GPIOF,     CELL11_CS_05_Pin, CELL_02_LED_01},
+    {17,         18,       GPIOF,     CELL11_CS_06_Pin, CELL_03_LED_01},
 	// Third GPIO Expander (ID_03) - Cells 7-9
-    { 6,        I2C3_BUS, 19,       GPIOF,     CELL11_CS_07_Pin, CELL_01_LED_01},
-    { 7,        I2C3_BUS, 20,       GPIOG,     CELL11_CS_08_Pin, CELL_02_LED_01},
-    { 8,        I2C3_BUS, 21,       GPIOG,     CELL11_CS_09_Pin, CELL_03_LED_01},
+    {18,         19,       GPIOF,     CELL11_CS_07_Pin, CELL_01_LED_01},
+    {19,         20,       GPIOG,     CELL11_CS_08_Pin, CELL_02_LED_01},
+    {20,         21,       GPIOG,     CELL11_CS_09_Pin, CELL_03_LED_01},
 
 	// Fourth GPIO Expander (ID_04) - Cells 10-12
-    { 9,        I2C3_BUS, 22,       GPIOE,     CELL11_CS_10_Pin, CELL_01_LED_01},
-    {10,        I2C3_BUS, 23,       GPIOE,     CELL11_CS_11_Pin, CELL_02_LED_01},
-    {11,        I2C3_BUS, 24,       GPIOE,     CELL11_CS_12_Pin, CELL_03_LED_01},
+    {21,         22,       GPIOE,     CELL11_CS_10_Pin, CELL_01_LED_01},
+    {22,         23,       GPIOE,     CELL11_CS_11_Pin, CELL_02_LED_01},
+    {23,         24,       GPIOE,     CELL11_CS_12_Pin, CELL_03_LED_01},
+
+	//12 cell CSU voltage and current reading
+	{24,         12,       GPIOF,     CSU_12_CELLS_Pin, CELL_01_LED_01},
 
 	//11 cell CSU voltage and current reading
-	{13,        I2C3_BUS, 25,       GPIOE,     CSU_11_CELLS_Pin, CELL_03_LED_01}
+	{25,         25,       GPIOE,     CSU_11_CELLS_Pin, CELL_03_LED_01}
 
 
 };
 
-// Helper function to get I2C handle from bus number
-static I2C_HandleTypeDef* get_i2c_handle(uint8_t bus) {
-    return (bus == I2C2_BUS) ? &hi2c2 : &hi2c3;
-}
 
 // Helper function to get INA handle from index
 static INA229_Handle get_ina_handle(uint8_t index) {
@@ -1465,11 +1338,10 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
 
 {
     // Get the actual handles from the configuration
-    I2C_HandleTypeDef* hi2c = get_i2c_handle(cell->i2c_bus);
     INA229_Handle ina = get_ina_handle(cell->ina_index);
 
-    // Only set voltage and control LED for cells 0-11 (skip CSU cells 12 and 13)
-    if (cell->cell_id != 12 && cell->cell_id != 13)
+    // Only set voltage and control LED for cells 0-11 (skip CSU cells 12 and 13) COZ this is for the slave board reading
+    if (cell->cell_id != 24 && cell->cell_id != 25)
 
     {
 
@@ -1477,10 +1349,9 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     Set_Output_Voltage(cell->cell_id, voltage);
 
     // Turn on LED
-    Expander_SetPinState(hi2c,
-                        GPIO_EXPANDER_ID_01 + (cell->cell_id / 3),
-                        cell->led_pin,
-                        HIGH);
+
+    Set_LED_status(cell->cell_id, OFF);
+
     }
     // Read voltage and temperature
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
@@ -1497,14 +1368,12 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     HAL_Delay(10);
 
     // Only turn off LED for cells 0-11 (skip CSU cells 12 and 13)
-    if (cell->cell_id != 12 && cell->cell_id != 13)
+    if (cell->cell_id != 24 && cell->cell_id != 25)
 
     {
 
-    Expander_SetPinState(hi2c,
-                        GPIO_EXPANDER_ID_01 + (cell->cell_id / 3),
-                        cell->led_pin,
-                        LOW);
+    Set_LED_status(cell->cell_id, ON);
+
     }
 }
 
