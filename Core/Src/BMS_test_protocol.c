@@ -23,6 +23,7 @@ bool receiving_message = false;
 uint8_t rs485_rx_buffer[RS485_BUFFER_SIZE];
 uint8_t rs485_tx_buffer[RS485_BUFFER_SIZE];
 uint16_t rs485_rx_index = 0;
+int count_1 = 0;
 
 void RS485_ProcessByte(uint8_t byte) {
     if (byte == RS485_MSG_START) {
@@ -42,44 +43,60 @@ void RS485_ProcessByte(uint8_t byte) {
 }
 
 void RS485_ProcessMessage(void) {
-    if (current_message.complete) {
+    count_1 = 1;
+    HAL_Delay(1000);
 
+    if (current_message.data[0] == 0x04) {
+        count_1 = 2;
+        HAL_Delay(1000);
 
-        uint8_t num_sequences = current_message.data[0];
+        uint8_t num_sequences = current_message.data[1];
         int current_pos = 1;
-        float out_V;
+        current_message.length = 10 ;
 
-        for(uint8_t seq = 0; seq < num_sequences && current_pos < current_message.length; seq++)
-        {
-            uint8_t header = current_message.data[current_pos++];
-            uint8_t command = current_message.data[current_pos++];
+        for (int i=0;i<current_message.length;i++){
 
-            // Common parameters remain at fixed positions
-            int id = current_message.data[3];
-            float volt = current_message.data[4];
-            int id_LED = current_message.data[5];
-            int LED_State = current_message.data[6];
-            int time = current_message.data[7];
+//        for (uint8_t seq = 0; seq < num_sequences && current_pos < current_message.length; seq++) {
+//            uint8_t header = current_message.data[current_pos++];
+//            uint8_t command = current_message.data[current_pos++];
+//            int id = current_message.data[current_pos++];
+//            float volt = (float)current_message.data[current_pos++];
+//            int id_LED = current_message.data[current_pos++];
+//            int LED_State = current_message.data[current_pos++];
+//            int time = current_message.data[current_pos++];
 
-            if(header == 0xAA) {
-                switch(command) {
+          int  header = 0xAA ;
+            int command = 0x01;
+
+            int id = 4 ;
+            float volt = 2;
+
+            if (current_message.data[0] == 0x04) {
+                switch (current_message.data[1]) {
                     case 0x01:
                         Set_Output_Voltage(id, volt);
+                        count_1 = 3;
+                        HAL_Delay(1000);
+
                         break;
                     case 0x02:
-                        Set_LED_status(id_LED, LED_State);
+//                        Set_LED_status(id_LED, LED_State);
+                        count_1 = 4;
+                        HAL_Delay(1000);
                         break;
                     case 0x03:
-                        HAL_Delay(time);
+//                        HAL_Delay(time);
                         break;
-                    case 0x04:
-                    	Get_INA_Voltage(&cell_configs[id]);
+                    case 0x04: {
+                        Get_INA_Voltage(&cell_configs[id]);
+                        // You'll need to store float properly – not just one byte
                         break;
+                    }
                 }
             }
         }
-}
-
+//        }
+    }
 }
 
 
