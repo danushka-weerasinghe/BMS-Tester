@@ -1,0 +1,9 @@
+../Core/Src/BMS_test_protocol.c:27:6:RS485_ProcessByte	5
+../Core/Src/BMS_test_protocol.c:44:6:RS485_ProcessMessage	9
+../Core/Src/BMS_test_protocol.c:86:6:init_ina229_devices	1
+../Core/Src/BMS_test_protocol.c:178:22:get_ina_handle	1
+../Core/Src/BMS_test_protocol.c:182:6:Voltage_Sequence_Automatic	3
+../Core/Src/BMS_test_protocol.c:207:6:Set_voltage_and_measure	5
+../Core/Src/BMS_test_protocol.c:256:7:Get_INA_Voltage	1
+../Core/Src/BMS_test_protocol.c:276:7:Get_INA_Current	1
+../Core/Src/BMS_test_protocol.c:295:7:Get_INA_Temp	1
