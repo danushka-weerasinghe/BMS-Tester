@@ -65,6 +65,7 @@ float set_volt = 2.0;
 
 
 
+
 uint8_t address;
 HAL_StatusTypeDef result;
 
@@ -153,13 +154,39 @@ static void MX_USART6_UART_Init(void);
 //
 //void init_ina229_devices(void) ;
 
+void sendData (uint8_t *data);
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+uint8_t Tx_Data[16];
+uint8_t Rx_Data[16];
+int indx = 0;
 
+void sendData (uint8_t *data)
+{
+	// Pull DE high to enable TX operation
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
+
+	HAL_UART_Transmit(&huart1, data, strlen (data) , 1000);
+	// Pull RE Low to enable RX operation
+
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+
+}
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, Rx_Data, 16);
+}
 
 /* USER CODE END 0 */
 
@@ -210,6 +237,8 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
+
+
   RTC_Init();
   LED_Init();		/* Reset all LEDs */
 
@@ -254,6 +283,10 @@ int main(void)
   Expander_InitAllDevices(&hi2c2);
   Expander_InitAllDevices(&hi2c3);
 
+  HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
+
 //fixing the startup resistance of temperature cards
 #ifdef start_Resistance_fix
 		  cell12_Temp_01_startup(10);
@@ -286,7 +319,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
+	  sprintf(Tx_Data, "F103 %d", indx++);
+	    sendData (Tx_Data);
+	    HAL_Delay(1000);
 
 		  cell12_Temp_01_Set(resistance[0]);
 		  cell12_Temp_02_Set(resistance[1]);
@@ -322,7 +357,7 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-//	        Voltage_Sequence_Automatic();
+	        Voltage_Sequence_Automatic();
 
 		  current_message.data[0] = 0x04 ;
 		  current_message.data[1] = 1 ;
