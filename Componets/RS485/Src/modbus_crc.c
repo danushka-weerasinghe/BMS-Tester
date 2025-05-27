@@ -1,7 +1,6 @@
 
 
 #include "stdint.h"
-#include "modbus_crc.h"
 
 /* Table of CRC values for high-order byte */
 static const uint8_t table_crc_hi[] = {

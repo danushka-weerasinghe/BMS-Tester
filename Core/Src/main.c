@@ -66,8 +66,8 @@
 float set_volt = 2.0;
 
 
-uint8_t Tx_Data[16];
-uint8_t Rx_Data[16];
+uint8_t RxData[256];
+uint8_t TxData[256];
 
 uint8_t address;
 HAL_StatusTypeDef result;
