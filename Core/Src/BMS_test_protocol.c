@@ -25,6 +25,9 @@ uint8_t rs485_tx_buffer[RS485_BUFFER_SIZE];
 uint16_t rs485_rx_index = 0;
 int count_1 = 0;
 
+extern uint8_t Rx_Data[16];
+extern uint8_t Tx_Data[16];
+
 void RS485_ProcessByte(uint8_t byte) {
     if (byte == RS485_MSG_START) {
         receiving_message = true;
@@ -46,11 +49,11 @@ void RS485_ProcessMessage(void) {
     count_1 = 1;
     HAL_Delay(1000);
 
-    if (current_message.data[0] == 0x04) {
+    if (Rx_Data[0] == 0x04) {
         count_1 = 2;
         HAL_Delay(1000);
 
-        uint8_t num_sequences = current_message.data[1];
+        uint8_t num_sequences = Rx_Data[1];
         int current_pos = 1;
         current_message.length = 10 ;
 
@@ -65,14 +68,14 @@ void RS485_ProcessMessage(void) {
 //            int LED_State = current_message.data[current_pos++];
 //            int time = current_message.data[current_pos++];
 
-          int  header = 0xAA ;
-            int command = 0x01;
+          int  header = Rx_Data[2] ;
+            int command = Rx_Data[3];
 
             int id = 4 ;
             float volt = 2;
 
-            if (current_message.data[0] == 0x04) {
-                switch (current_message.data[1]) {
+            if (Rx_Data[0] == 0x04) {
+                switch (Rx_Data[1]) {
                     case 0x01:
                         Set_Output_Voltage(id, volt);
                         count_1 = 3;

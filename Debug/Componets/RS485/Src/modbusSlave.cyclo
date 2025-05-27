@@ -1,0 +1,4 @@
+../Componets/RS485/Src/modbusSlave.c:16:6:sendData	1
+../Componets/RS485/Src/modbusSlave.c:26:6:modbusException	1
+../Componets/RS485/Src/modbusSlave.c:38:9:readHoldingRegs	5
+../Componets/RS485/Src/modbusSlave.c:77:9:readInputRegs	5

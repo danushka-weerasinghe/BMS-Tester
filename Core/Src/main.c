@@ -48,6 +48,8 @@
 
 #include "BMS_test_protocol.h"
 
+#include "modbusSlave.h"
+
 
 
 
@@ -64,7 +66,8 @@
 float set_volt = 2.0;
 
 
-
+uint8_t Tx_Data[16];
+uint8_t Rx_Data[16];
 
 uint8_t address;
 HAL_StatusTypeDef result;
@@ -165,7 +168,7 @@ uint8_t Tx_Data[16];
 uint8_t Rx_Data[16];
 int indx = 0;
 
-void sendData (uint8_t *data)
+void send_Data (uint8_t *data)
 {
 	// Pull DE high to enable TX operation
 	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
@@ -320,7 +323,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  sprintf(Tx_Data, "F103 %d", indx++);
-	    sendData (Tx_Data);
+	    send_Data (Tx_Data);
 	    HAL_Delay(1000);
 
 		  cell12_Temp_01_Set(resistance[0]);
