@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
+#include <stdbool.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -63,11 +64,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-float set_volt = 2.0;
+uint8_t modebus_rx_flag = 0 ;
 
 
-uint8_t RxData[256];
-uint8_t TxData[256];
+uint8_t RxData_[256];
+uint8_t TxData_[256];
 
 uint8_t address;
 HAL_StatusTypeDef result;
@@ -106,6 +107,8 @@ SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
 SPI_HandleTypeDef hspi4;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
@@ -113,7 +116,7 @@ UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
 
-
+volatile bool modbus_busy = false;
 
 /* USER CODE END PV */
 
@@ -129,10 +132,11 @@ static void MX_SPI4_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_CAN2_Init(void);
 static void MX_I2C1_Init(void);
-static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 //void Scan_I2C_Bus(void);
@@ -159,6 +163,8 @@ static void MX_USART6_UART_Init(void);
 
 void sendData (uint8_t *data);
 
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -168,28 +174,7 @@ uint8_t Tx_Data[16];
 uint8_t Rx_Data[16];
 int indx = 0;
 
-void send_Data (uint8_t *data)
-{
-	// Pull DE high to enable TX operation
-	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
 
-	HAL_UART_Transmit(&huart1, data, strlen (data) , 1000);
-	// Pull RE Low to enable RX operation
-
-	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
-
-}
-
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
-{
-	HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 16);
-
-	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
-
-	HAL_UARTEx_ReceiveToIdle_IT(&huart3, Rx_Data, 16);
-
-	HAL_UARTEx_ReceiveToIdle_IT(&huart6, Rx_Data, 16);
-}
 
 /* USER CODE END 0 */
 
@@ -233,11 +218,12 @@ int main(void)
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_I2C1_Init();
-  MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
   MX_FATFS_Init();
+  MX_USART1_UART_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -290,6 +276,8 @@ int main(void)
 
 	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
 
+	HAL_TIM_Base_Start_IT(&htim1);
+
 //fixing the startup resistance of temperature cards
 #ifdef start_Resistance_fix
 		  cell12_Temp_01_startup(10);
@@ -322,9 +310,22 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  sprintf(Tx_Data, "F103 %d", indx++);
-	    send_Data (Tx_Data);
-	    HAL_Delay(1000);
+	  if (modebus_rx_flag = 1 )
+
+	  {
+		  memset(Rx_Data, 0, sizeof(Rx_Data));
+
+		  sprintf(Tx_Data, "F103 %d", indx++);
+		    send_Data (Tx_Data);
+		    HAL_Delay(500);
+
+		  modebus_rx_flag = 0 ;
+
+		  HAL_TIM_Base_Stop_IT(&htim1);
+
+	  }
+
+
 
 		  cell12_Temp_01_Set(resistance[0]);
 		  cell12_Temp_02_Set(resistance[1]);
@@ -444,7 +445,7 @@ void SystemClock_Config(void)
   /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -454,11 +455,18 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 15;
-  RCC_OscInitStruct.PLL.PLLN = 144;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 180;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 5;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Activate the Over-Drive mode
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
@@ -472,7 +480,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
@@ -845,6 +853,52 @@ static void MX_SPI4_Init(void)
   /* USER CODE BEGIN SPI4_Init 2 */
 
   /* USER CODE END SPI4_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 9000-1;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
 
 }
 
@@ -1275,6 +1329,34 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     UNUSED(GPIO_Pin);
     Push_ButtonHandler(GPIO_Pin);
+}
+
+
+void send_Data (uint8_t *data)
+{
+	// Pull DE high to enable TX operation
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
+
+	HAL_UART_Transmit(&huart1, data, strlen (data) , 1000);
+	// Pull RE Low to enable RX operation
+
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+
+}
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 5);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, Rx_Data, 16);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, Rx_Data, 16);
+
+	modebus_rx_flag = 1 ;
+
+//	HAL_UART_RxCpltCallback
 }
 
 /* USER CODE END 4 */
