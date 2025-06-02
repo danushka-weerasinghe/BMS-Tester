@@ -1,6 +1,6 @@
 ../Core/Src/main.c:91:5:bufsize	2
 ../Core/Src/main.c:98:6:clear_buffer	2
-../Core/Src/main.c:109:5:main	2
+../Core/Src/main.c:109:5:main	1
 ../Core/Src/main.c:313:6:SystemClock_Config	3
 ../Core/Src/main.c:356:6:HAL_GPIO_EXTI_Callback	1
 ../Core/Src/main.c:368:6:Error_Handler	1

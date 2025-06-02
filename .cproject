@@ -192,7 +192,7 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.pathentry"/>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="Cell Emulator.null.1066897585" name="Cell Emulator"/>
+		<project id="BMS Tester - Cell Emulator.null.169323099" name="BMS Tester - Cell Emulator"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>

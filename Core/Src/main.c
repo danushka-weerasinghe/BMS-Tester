@@ -243,8 +243,8 @@ int main(void)
 //      HAL_Delay(100); // Update every second
 
 //	  Check_SDCard();
-//	  LED_Toggle(1);
-//	  HAL_Delay(100);
+	  LED_Toggle(1);
+	  HAL_Delay(100);
 
 //	  snprintf(RS485Buffer, RS485_BUFFER_SIZE, "Testing, Count: %lu\r\n", Count);
 //	  RS485_Send(RS485_CH2, RS485Buffer);
