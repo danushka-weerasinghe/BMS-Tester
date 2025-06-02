@@ -1,5 +1,4 @@
 ../Core/Src/BMS_test_protocol.c:31:6:RS485_ProcessByte	5
-../Core/Src/BMS_test_protocol.c:48:6:RS485_ProcessMessage	7
 ../Core/Src/BMS_test_protocol.c:106:6:init_ina229_devices	1
 ../Core/Src/BMS_test_protocol.c:198:22:get_ina_handle	1
 ../Core/Src/BMS_test_protocol.c:202:6:Voltage_Sequence_Automatic	3

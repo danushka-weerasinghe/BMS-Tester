@@ -67,8 +67,17 @@
 uint8_t modebus_rx_flag = 0 ;
 
 
-uint8_t RxData_[256];
-uint8_t TxData_[256];
+uint8_t RxData_modbus_01[256];
+uint8_t TxData_modbus_01[256];
+
+uint8_t RxData_modbus_02[256];
+uint8_t TxData_modbus_02[256];
+
+uint8_t RxData_modbus_03[256];
+uint8_t TxData_modbus_03[256];
+
+uint8_t RxData_modbus_04[256];
+uint8_t TxData_modbus_04[256];
 
 uint8_t address;
 HAL_StatusTypeDef result;
@@ -170,9 +179,6 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-uint8_t Tx_Data[16];
-uint8_t Rx_Data[16];
-int indx = 0;
 
 
 
@@ -272,9 +278,13 @@ int main(void)
   Expander_InitAllDevices(&hi2c2);
   Expander_InitAllDevices(&hi2c3);
 
-  HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 16);
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData_modbus_01, 256);
 
-	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, RxData_modbus_02, 256);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData_modbus_03, 256);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, 256);
 
 	HAL_TIM_Base_Start_IT(&htim1);
 
@@ -313,10 +323,10 @@ int main(void)
 	  if (modebus_rx_flag = 1 )
 
 	  {
-		  memset(Rx_Data, 0, sizeof(Rx_Data));
+//		  memset(Rx_Data, 0, sizeof(Rx_Data));
 
-		  sprintf(Tx_Data, "F103 %d", indx++);
-		    send_Data (Tx_Data);
+//		  sprintf(Tx_Data, "F103 %d", indx++);
+//		    send_Data (Tx_Data);
 		    HAL_Delay(500);
 
 		  modebus_rx_flag = 0 ;
@@ -377,7 +387,7 @@ int main(void)
 		  current_message.data[11] = 4 ;
 
 
-	        RS485_ProcessMessage();
+//	        RS485_ProcessMessage();
 
 	        // Process battery tests
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
@@ -1346,13 +1356,47 @@ void send_Data (uint8_t *data)
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-	HAL_UARTEx_ReceiveToIdle_IT(&huart1, Rx_Data, 5);
+	if (RxData_modbus_01[0] == SLAVE_ID)
+	{
+		switch (RxData_modbus_01[1]){
+		case 0x03:
+			readHoldingRegs();
+			break;
+		case 0x04:
+			readInputRegs();
+			break;
+		case 0x01:
+			readCoils();
+			break;
+		case 0x02:
+			readInputs();
+			break;
+		case 0x06:
+			writeSingleReg();
+			break;
+		case 0x10:
+			writeHoldingRegs();
+			break;
+		case 0x05:
+			writeSingleCoil();
+			break;
+		case 0x0F:
+			writeMultiCoils();
+			break;
+		default:
+			modbusException(ILLEGAL_FUNCTION);
+			break;
+		}
+	}
 
-	HAL_UARTEx_ReceiveToIdle_IT(&huart2, Rx_Data, 16);
 
-	HAL_UARTEx_ReceiveToIdle_IT(&huart3, Rx_Data, 16);
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData_modbus_01, sizeof(RxData_modbus_01));
 
-	HAL_UARTEx_ReceiveToIdle_IT(&huart6, Rx_Data, 16);
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, RxData_modbus_02, sizeof(RxData_modbus_02));
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData_modbus_03, sizeof(RxData_modbus_03));
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, sizeof(RxData_modbus_04));
 
 	modebus_rx_flag = 1 ;
 
