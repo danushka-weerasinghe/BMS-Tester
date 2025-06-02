@@ -373,21 +373,10 @@ int main(void)
 
 	        Voltage_Sequence_Automatic();
 
-		  current_message.data[0] = 0x04 ;
-		  current_message.data[1] = 1 ;
-		  current_message.data[2] = 0xAA ;
-		  current_message.data[3] = 0x01 ;
-		  current_message.data[4] = 2 ;
-		  current_message.data[5] = 4 ;
-		  current_message.data[6] = 1 ;
-		  current_message.data[7] = 200 ;
-		  current_message.data[8] = 4 ;
-		  current_message.data[9] = 4 ;
-		  current_message.data[10] = 4 ;
-		  current_message.data[11] = 4 ;
 
 
-//	        RS485_ProcessMessage();
+
+	        RS485_ProcessMessage();
 
 	        // Process battery tests
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {

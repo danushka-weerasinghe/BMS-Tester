@@ -18,15 +18,28 @@
 #include "config.h"
 
 // Add definitions for variables declared in header
+
+extern uint8_t RxData_modbus_01[256];
+extern uint8_t TxData_modbus_01[256];
+
+extern uint8_t RxData_modbus_02[256];
+extern int8_t TxData_modbus_02[256];
+
+extern uint8_t RxData_modbus_03[256];
+extern uint8_t TxData_modbus_03[256];
+
+extern uint8_t RxData_modbus_04[256];
+extern uint8_t TxData_modbus_04[256];
+
+extern UART_HandleTypeDef huart1;
+
+
 RS485_Message current_message = {0};
 bool receiving_message = false;
 uint8_t rs485_rx_buffer[RS485_BUFFER_SIZE];
 uint8_t rs485_tx_buffer[RS485_BUFFER_SIZE];
 uint16_t rs485_rx_index = 0;
 int count_1 = 0;
-
-extern uint8_t Rx_Data[16];
-extern uint8_t Tx_Data[16];
 
 void RS485_ProcessByte(uint8_t byte) {
     if (byte == RS485_MSG_START) {
@@ -45,62 +58,62 @@ void RS485_ProcessByte(uint8_t byte) {
     }
 }
 
-//void RS485_ProcessMessage(void) {
-//    count_1 = 1;
-//    HAL_Delay(1000);
-//
-//    if (Rx_Data[0] == 0x04) {
-//        count_1 = 2;
-//        HAL_Delay(1000);
-//
-//        uint8_t num_sequences = Rx_Data[1];
-//        int current_pos = 1;
-//        current_message.length = 10 ;
-//
-//        for (int i=0;i<current_message.length;i++){
-//
-////        for (uint8_t seq = 0; seq < num_sequences && current_pos < current_message.length; seq++) {
-////            uint8_t header = current_message.data[current_pos++];
-////            uint8_t command = current_message.data[current_pos++];
-////            int id = current_message.data[current_pos++];
-////            float volt = (float)current_message.data[current_pos++];
-////            int id_LED = current_message.data[current_pos++];
-////            int LED_State = current_message.data[current_pos++];
-////            int time = current_message.data[current_pos++];
-//
-//          int  header = Rx_Data[2] ;
-//            int command = Rx_Data[3];
-//
-//            int id = 4 ;
-//            float volt = 2;
-//
-//            if (Rx_Data[0] == 0x04) {
-//                switch (Rx_Data[1]) {
-//                    case 0x01:
-//                        Set_Output_Voltage(id, volt);
-//                        count_1 = 3;
-//                        HAL_Delay(1000);
-//
-//                        break;
-//                    case 0x02:
-////                        Set_LED_status(id_LED, LED_State);
-//                        count_1 = 4;
-//                        HAL_Delay(1000);
-//                        break;
-//                    case 0x03:
-////                        HAL_Delay(time);
-//                        break;
-//                    case 0x04: {
-//                        Get_INA_Voltage(&cell_configs[id]);
-//                        // You'll need to store float properly – not just one byte
-//                        break;
-//                    }
-//                }
-//            }
+void RS485_ProcessMessage(void) {
+    count_1 = 1;
+    HAL_Delay(1000);
+
+    if (RxData_modbus_01[0] == 0x04) {
+        count_1 = 2;
+        HAL_Delay(1000);
+
+        uint8_t num_sequences = RxData_modbus_01[1];
+        int current_pos = 1;
+        current_message.length = 10 ;
+
+        for (int i=0;i<current_message.length;i++){
+
+//        for (uint8_t seq = 0; seq < num_sequences && current_pos < current_message.length; seq++) {
+//            uint8_t header = current_message.data[current_pos++];
+//            uint8_t command = current_message.data[current_pos++];
+//            int id = current_message.data[current_pos++];
+//            float volt = (float)current_message.data[current_pos++];
+//            int id_LED = current_message.data[current_pos++];
+//            int LED_State = current_message.data[current_pos++];
+//            int time = current_message.data[current_pos++];
+
+          int  header = RxData_modbus_01[2] ;
+            int command = RxData_modbus_01[3];
+
+            int id = 4 ;
+            float volt = 2;
+
+            if (RxData_modbus_01[0] == 0x04) {
+                switch (RxData_modbus_01[1]) {
+                    case 0x01:
+                        Set_Output_Voltage(id, volt);
+                        count_1 = 3;
+                        HAL_Delay(1000);
+
+                        break;
+                    case 0x02:
+//                        Set_LED_status(id_LED, LED_State);
+                        count_1 = 4;
+                        HAL_Delay(1000);
+                        break;
+                    case 0x03:
+//                        HAL_Delay(time);
+                        break;
+                    case 0x04: {
+                        Get_INA_Voltage(&cell_configs[id]);
+                        // You'll need to store float properly – not just one byte
+                        break;
+                    }
+                }
+            }
+        }
 //        }
-////        }
-//    }
-//}
+    }
+}
 
 
 void init_ina229_devices(void) {
