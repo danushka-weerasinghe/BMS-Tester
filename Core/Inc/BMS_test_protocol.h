@@ -48,10 +48,7 @@ extern uint16_t rs485_rx_index;
 extern const Cell_Config cell_configs[];
 extern INA229_Handle ina229_devices[];
 
-extern int count_1;
 
-void RS485_ProcessByte(uint8_t byte);
-void RS485_ProcessMessage(void);
 
 // Function declarations
 

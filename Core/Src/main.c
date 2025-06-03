@@ -376,7 +376,7 @@ int main(void)
 
 
 
-	        RS485_ProcessMessage();
+
 
 	        // Process battery tests
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
