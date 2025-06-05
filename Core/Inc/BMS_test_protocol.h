@@ -52,6 +52,7 @@ extern INA229_Handle ina229_devices[];
 
 // Function declarations
 
+void tester_setup(void);
 
 void Voltage_Sequence_Automatic(void);
 

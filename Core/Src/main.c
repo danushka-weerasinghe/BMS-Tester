@@ -328,7 +328,7 @@ int main(void)
 //		  sprintf(Tx_Data, "F103 %d", indx++);
 //		    send_Data (Tx_Data);
 		    HAL_Delay(500);
-
+	        tester_setup();
 		  modebus_rx_flag = 0 ;
 
 		  HAL_TIM_Base_Stop_IT(&htim1);

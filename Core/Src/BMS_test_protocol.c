@@ -35,7 +35,110 @@ extern UART_HandleTypeDef huart1;
 
 
 
+void tester_setup(void)
+{
+	if(RxData_modbus_01[0]=7)
 
+	{
+		uint8_t number_of_cells_and_temps	 =  RxData_modbus_01[1];
+		uint8_t number_of_status			 =  RxData_modbus_01[2];
+
+		for(int i = 2 ; i< number_of_cells_and_temps;i++)
+		{
+			uint8_t commnd				 = 		RxData_modbus_01[i+0];
+    	    uint8_t id 					 = 		RxData_modbus_01[i+1];
+    	    uint8_t volt 				 = 		RxData_modbus_01[i+2];
+    	    uint8_t id_LED 				 = 		RxData_modbus_01[i+3];
+    	    uint8_t LED_State			 = 		RxData_modbus_01[i+4];
+    	    uint8_t time 				 = 		RxData_modbus_01[i+5];
+    	    uint8_t temp_set 		     = 		RxData_modbus_01[i+6];
+    	    uint8_t temp_get			 = 		RxData_modbus_01[i+7];
+    	    uint8_t iso_spi_reading_cell = 		RxData_modbus_01[i+8];
+
+            switch (RxData_modbus_01[i+2])
+            {
+                case 0x01:
+                    volt = 2.0;
+                    break;
+
+                case 0x02:
+                    volt = 2.5;
+                    break;
+
+                case 0x03:
+                    volt = 2.8;
+                    break;
+
+                case 0x04:
+                    volt = 3.3;
+                    break;
+
+                case 0x05:
+                    volt = 3.4;
+                    break;
+
+                case 0x06:
+                    volt = 3.6;
+                    break;
+
+                case 0x07:
+                    volt = 4.0;
+                    break;
+
+                case 0x08:
+                    volt = 4.2;
+                    break;
+            }
+
+            	switch (RxData_modbus_01[i])
+            	{
+            		case 0x01:
+            			Set_Output_Voltage(id, volt);
+            			break;
+            		case 0x02:
+            			Set_LED_status(id_LED, LED_State);
+            			HAL_Delay(1000);
+            			break;
+            		case 0x03:
+            			HAL_Delay(time);
+            			break;
+            		case 0x04:
+            			Get_INA_Voltage(&cell_configs[id]);
+            			break;
+					case 0x05:
+	//                    Get_INA_TEMP(&cell_configs[id]);
+						break;
+					case 0x06:
+	//                    Get_INA_Current(&cell_configs[id]);
+						break;
+					case 0x07:
+	//                   Temp_set();
+						break;
+					case 0x08:
+	//                	Temp_get();
+						break;
+					case 0x09:
+	//                    Open_wire_test();
+						break;
+					case 0x10:
+	//                    Iso_spi_reading();
+						break;
+					case 0x11:
+	//                   Temp_set();
+						break;
+					case 0x12:
+	//                	Temp_get();
+						break;
+
+            	}
+
+
+		}
+
+
+	}
+
+}
 
 
 
