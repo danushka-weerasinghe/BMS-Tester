@@ -320,7 +320,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  if (modebus_rx_flag = 1 )
+	  if (modebus_rx_flag  )
 
 	  {
 //		  memset(Rx_Data, 0, sizeof(Rx_Data));
@@ -371,7 +371,8 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-	        Voltage_Sequence_Automatic();
+//	        Voltage_Sequence_Automatic();
+
 
 
 

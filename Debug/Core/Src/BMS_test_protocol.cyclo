@@ -1,8 +1,8 @@
 ../Core/Src/BMS_test_protocol.c:38:6:tester_setup	14
-../Core/Src/BMS_test_protocol.c:145:6:init_ina229_devices	1
-../Core/Src/BMS_test_protocol.c:237:22:get_ina_handle	1
-../Core/Src/BMS_test_protocol.c:241:6:Voltage_Sequence_Automatic	3
-../Core/Src/BMS_test_protocol.c:266:6:Set_voltage_and_measure	5
-../Core/Src/BMS_test_protocol.c:315:7:Get_INA_Voltage	1
-../Core/Src/BMS_test_protocol.c:335:7:Get_INA_Current	1
-../Core/Src/BMS_test_protocol.c:354:7:Get_INA_Temp	1
+../Core/Src/BMS_test_protocol.c:162:6:init_ina229_devices	1
+../Core/Src/BMS_test_protocol.c:254:22:get_ina_handle	1
+../Core/Src/BMS_test_protocol.c:258:6:Voltage_Sequence_Automatic	3
+../Core/Src/BMS_test_protocol.c:283:6:Set_voltage_and_measure	5
+../Core/Src/BMS_test_protocol.c:332:7:Get_INA_Voltage	1
+../Core/Src/BMS_test_protocol.c:352:7:Get_INA_Current	1
+../Core/Src/BMS_test_protocol.c:371:7:Get_INA_Temp	1
