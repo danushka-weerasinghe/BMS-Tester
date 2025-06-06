@@ -63,7 +63,7 @@ void cell12_Temp_01_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
@@ -94,7 +94,7 @@ void cell12_Temp_02_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
@@ -125,7 +125,7 @@ void cell12_Temp_03_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
@@ -156,7 +156,7 @@ void cell11_Temp_01_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
@@ -187,7 +187,7 @@ void cell11_Temp_02_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
@@ -218,7 +218,7 @@ void cell11_Temp_03_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
+	HAL_Delay(200);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
