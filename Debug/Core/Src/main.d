@@ -37,25 +37,25 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
  ../Core/Inc/main_data.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RTC/Inc/rtc.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h \
+ D:/GITHUB/BMS-Tester/Componets/Display/Inc/display.h \
+ D:/GITHUB/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h \
+ D:/GITHUB/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ D:/GITHUB/BMS-Tester/Componets/INA229/Inc/config.h \
+ D:/GITHUB/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ D:/GITHUB/BMS-Tester/Componets/INA229/Inc/mcu.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h \
+ D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
+ D:/GITHUB/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h \
+ D:/GITHUB/BMS-Tester/Componets/RTC/Inc/rtc.h \
+ D:/GITHUB/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h \
  ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RS485/Inc/modbusSlave.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RS485/Inc/modbus_crc.h
+ D:/GITHUB/BMS-Tester/Componets/RS485/Inc/modbusSlave.h \
+ D:/GITHUB/BMS-Tester/Componets/RS485/Inc/modbus_crc.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -98,23 +98,23 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
 ../Core/Inc/main_data.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Display/Inc/display.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Digital\ Pot/Inc/Temp_controller.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/config.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/mcu.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_LTC.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RTC/Inc/rtc.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h:
+D:/GITHUB/BMS-Tester/Componets/Display/Inc/display.h:
+D:/GITHUB/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h:
+D:/GITHUB/BMS-Tester/Componets/INA229/Inc/INA229.h:
+D:/GITHUB/BMS-Tester/Componets/INA229/Inc/config.h:
+D:/GITHUB/BMS-Tester/Componets/INA229/Inc/INA229.h:
+D:/GITHUB/BMS-Tester/Componets/INA229/Inc/mcu.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h:
+D:/GITHUB/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h:
+D:/GITHUB/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:
+D:/GITHUB/BMS-Tester/Componets/RTC/Inc/rtc.h:
+D:/GITHUB/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Core/Inc/BMS_test_protocol.h:
 ../Core/Inc/main.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RS485/Inc/modbusSlave.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/RS485/Inc/modbus_crc.h:
+D:/GITHUB/BMS-Tester/Componets/RS485/Inc/modbusSlave.h:
+D:/GITHUB/BMS-Tester/Componets/RS485/Inc/modbus_crc.h:

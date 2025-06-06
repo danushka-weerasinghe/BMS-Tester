@@ -29,6 +29,7 @@ void cell12_Temp_03_startup(float resistance);
 void cell11_Temp_01_startup(float resistance);
 void cell11_Temp_02_startup(float resistance);
 void cell11_Temp_03_startup(float resistance);
+void Set_Resistance(uint8_t tempCardId,uint8_t temperature);
 
 
 

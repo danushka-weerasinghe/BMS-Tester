@@ -1,8 +1,8 @@
-../Core/Src/BMS_test_protocol.c:38:6:tester_setup	24	static
-../Core/Src/BMS_test_protocol.c:162:6:init_ina229_devices	4	static
-../Core/Src/BMS_test_protocol.c:254:22:get_ina_handle	16	static
-../Core/Src/BMS_test_protocol.c:258:6:Voltage_Sequence_Automatic	64	static
-../Core/Src/BMS_test_protocol.c:283:6:Set_voltage_and_measure	32	static
-../Core/Src/BMS_test_protocol.c:332:7:Get_INA_Voltage	32	static
-../Core/Src/BMS_test_protocol.c:352:7:Get_INA_Current	32	static
-../Core/Src/BMS_test_protocol.c:371:7:Get_INA_Temp	32	static
+../Core/Src/BMS_test_protocol.c:40:6:tester_setup	24	static
+../Core/Src/BMS_test_protocol.c:167:6:init_ina229_devices	4	static
+../Core/Src/BMS_test_protocol.c:259:22:get_ina_handle	16	static
+../Core/Src/BMS_test_protocol.c:263:6:Voltage_Sequence_Automatic	64	static
+../Core/Src/BMS_test_protocol.c:288:6:Set_voltage_and_measure	32	static
+../Core/Src/BMS_test_protocol.c:337:7:Get_INA_Voltage	32	static
+../Core/Src/BMS_test_protocol.c:357:7:Get_INA_Current	32	static
+../Core/Src/BMS_test_protocol.c:376:7:Get_INA_Temp	32	static

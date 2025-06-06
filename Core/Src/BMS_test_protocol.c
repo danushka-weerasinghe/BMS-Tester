@@ -15,6 +15,8 @@
 
 #include "mcu.h"
 
+#include "Temp_controller.h"
+
 #include "config.h"
 
 // Add definitions for variables declared in header
@@ -105,12 +107,15 @@ void tester_setup(void)
 							break;
 
 						case 0x02:
+							uint8_t tempCardId = RxData_modbus_01[3];
+							uint8_t res = RxData_modbus_01[4];
 
-
-
+							Set_Resistance(tempCardId,res);
 							Set_LED_status(id_LED, LED_State);
 							HAL_Delay(1000);
 							break;
+
+
 						case 0x03:
 							HAL_Delay(time);
 							break;
