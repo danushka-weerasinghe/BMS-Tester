@@ -1,8 +1,6 @@
-../Componets/RTC/Src/rtc.c:16:16:DEC2BCD	16	static
-../Componets/RTC/Src/rtc.c:21:12:BCD2DEC	16	static
-../Componets/RTC/Src/rtc.c:25:6:RTC_Init	32	static
+../Componets/RTC/Src/rtc.c:25:6:RTC_Init	48	static
 ../Componets/RTC/Src/rtc.c:58:6:RTC_ReadTime	32	static
 ../Componets/RTC/Src/rtc.c:73:6:RTC_SetTime	48	static
-../Componets/RTC/Src/rtc.c:89:6:RTC_SetTrim	40	static
-../Componets/RTC/Src/rtc.c:101:6:RTC_TrimByFrequency	24	static
-../Componets/RTC/Src/rtc.c:107:6:RTC_TrimByDeviation	24	static
+../Componets/RTC/Src/rtc.c:89:6:RTC_SetTrim	32	static
+../Componets/RTC/Src/rtc.c:101:6:RTC_TrimByFrequency	32	static
+../Componets/RTC/Src/rtc.c:107:6:RTC_TrimByDeviation	32	static

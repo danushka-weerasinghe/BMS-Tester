@@ -65,10 +65,12 @@
 /* USER CODE BEGIN PD */
 
 uint8_t modebus_rx_flag = 0 ;
+uint8_t flag_1 = 0 ;
+uint8_t flag_2 = 0 ;
+uint8_t flag_3 = 0 ;
 
-
-uint8_t RxData_modbus_01[256];
-uint8_t TxData_modbus_01[256];
+uint8_t RxData_modbus_01[16];
+uint8_t TxData_modbus_01[16];
 
 uint8_t RxData_modbus_02[256];
 uint8_t TxData_modbus_02[256];
@@ -170,7 +172,6 @@ static void MX_TIM1_Init(void);
 //
 //void init_ina229_devices(void) ;
 
-void sendData (uint8_t *data);
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
 
@@ -192,7 +193,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+    // Clear buffer at startup
+    memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));
+    memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -320,7 +323,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  if (modebus_rx_flag  )
+	  if (modebus_rx_flag == 1 )
 
 	  {
 //		  memset(Rx_Data, 0, sizeof(Rx_Data));
@@ -329,12 +332,18 @@ int main(void)
 //		    send_Data (Tx_Data);
 		    HAL_Delay(500);
 	        tester_setup();
+
+
+	    	memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));
+	    	memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
 		  modebus_rx_flag = 0 ;
+
+		  flag_1 = 0 ;
 
 		  HAL_TIM_Base_Stop_IT(&htim1);
 
 	  }
-
+ flag_2 = Get_INA_Voltage(1);
 
 
 		  cell12_Temp_01_Set(resistance[0]);
@@ -343,6 +352,11 @@ int main(void)
 		  cell11_Temp_01_Set(resistance[3]);
 		  cell11_Temp_02_Set(resistance[4]);
 		  cell11_Temp_03_Set(resistance[4]);
+
+
+//		  Voltage_Sequence_Automatic();
+
+
 
 	  ////////////////////////////////////////////////////////////
 
@@ -371,7 +385,6 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-//	        Voltage_Sequence_Automatic();
 
 
 
@@ -379,10 +392,11 @@ int main(void)
 
 
 
-	        // Process battery tests
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, ON);
-	        }
+
+//	        // Process battery tests
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, ON);
+//	        }
 
 //	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
 //	        	Set_LED_status(cell, OFF);
@@ -1332,20 +1346,23 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 
-void send_Data (uint8_t *data)
-{
-	// Pull DE high to enable TX operation
-	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
-
-	HAL_UART_Transmit(&huart1, data, strlen (data) , 1000);
-	// Pull RE Low to enable RX operation
-
-	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
-
-}
+//void send_Data (uint8_t *data)
+//{
+//	// Pull DE high to enable TX operation
+//	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
+//
+//	HAL_UART_Transmit(&huart1, data, strlen (data) , 1000);
+//	// Pull RE Low to enable RX operation
+//
+//	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
+//
+//}
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
+
+	/*
+
 	if (RxData_modbus_01[0] == SLAVE_ID)
 	{
 		switch (RxData_modbus_01[1]){
@@ -1378,7 +1395,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 			break;
 		}
 	}
-
+    */
 
 	HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData_modbus_01, sizeof(RxData_modbus_01));
 
@@ -1387,6 +1404,8 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 	HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData_modbus_03, sizeof(RxData_modbus_03));
 
 	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, sizeof(RxData_modbus_04));
+
+
 
 	modebus_rx_flag = 1 ;
 

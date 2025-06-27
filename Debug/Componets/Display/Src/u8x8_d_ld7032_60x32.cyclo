@@ -1,3 +1,2 @@
-../Componets/Display/Src/u8x8_d_ld7032_60x32.c:134:16:u8x8_d_ld7032_generic	10
-../Componets/Display/Src/u8x8_d_ld7032_60x32.c:233:9:u8x8_d_ld7032_60x32	2
-../Componets/Display/Src/u8x8_d_ld7032_60x32.c:281:9:u8x8_d_ld7032_60x32_alt	3
+../Componets/Display/Src/u8x8_d_ld7032_60x32.c:233:9:u8x8_d_ld7032_60x32	10
+../Componets/Display/Src/u8x8_d_ld7032_60x32.c:281:9:u8x8_d_ld7032_60x32_alt	10

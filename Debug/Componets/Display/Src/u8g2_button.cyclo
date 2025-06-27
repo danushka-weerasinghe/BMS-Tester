@@ -1,2 +1,2 @@
 ../Componets/Display/Src/u8g2_button.c:98:6:u8g2_DrawButtonFrame	8
-../Componets/Display/Src/u8g2_button.c:171:6:u8g2_DrawButtonUTF8	4
+../Componets/Display/Src/u8g2_button.c:171:6:u8g2_DrawButtonUTF8	3

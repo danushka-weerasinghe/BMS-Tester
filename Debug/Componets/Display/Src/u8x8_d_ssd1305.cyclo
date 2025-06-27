@@ -1,5 +1,4 @@
-../Componets/Display/Src/u8x8_d_ssd1305.c:76:16:u8x8_d_ssd1305_generic	7
-../Componets/Display/Src/u8x8_d_ssd1305.c:194:9:u8x8_d_ssd1305_128x32_noname	7
-../Componets/Display/Src/u8x8_d_ssd1305.c:321:9:u8x8_d_ssd1305_128x32_adafruit	7
-../Componets/Display/Src/u8x8_d_ssd1305.c:422:9:u8x8_d_ssd1305_128x64_adafruit	7
-../Componets/Display/Src/u8x8_d_ssd1305.c:483:9:u8x8_d_ssd1305_128x64_raystar	7
+../Componets/Display/Src/u8x8_d_ssd1305.c:194:9:u8x8_d_ssd1305_128x32_noname	10
+../Componets/Display/Src/u8x8_d_ssd1305.c:321:9:u8x8_d_ssd1305_128x32_adafruit	10
+../Componets/Display/Src/u8x8_d_ssd1305.c:422:9:u8x8_d_ssd1305_128x64_adafruit	10
+../Componets/Display/Src/u8x8_d_ssd1305.c:483:9:u8x8_d_ssd1305_128x64_raystar	10

@@ -1,4 +1,4 @@
+../Componets/Display/Src/u8x8_d_stdio.c:73:9:u8x8_d_stdio	8
 ../Componets/Display/Src/u8x8_d_stdio.c:45:6:bitmap_place_tile	2
-../Componets/Display/Src/u8x8_d_stdio.c:52:6:bitmap_show	5
-../Componets/Display/Src/u8x8_d_stdio.c:73:9:u8x8_d_stdio	4
+../Componets/Display/Src/u8x8_d_stdio.c:52:6:bitmap_show	4
 ../Componets/Display/Src/u8x8_d_stdio.c:96:6:u8x8_SetupStdio	1

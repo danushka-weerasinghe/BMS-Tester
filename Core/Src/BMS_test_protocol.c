@@ -21,8 +21,8 @@
 
 // Add definitions for variables declared in header
 
-extern uint8_t RxData_modbus_01[256];
-extern uint8_t TxData_modbus_01[256];
+extern uint8_t RxData_modbus_01[16];
+extern uint8_t TxData_modbus_01[16];
 
 extern uint8_t RxData_modbus_02[256];
 extern int8_t TxData_modbus_02[256];
@@ -35,133 +35,300 @@ extern uint8_t TxData_modbus_04[256];
 
 extern UART_HandleTypeDef huart1;
 
+extern flag_1 ;
 
 
 void tester_setup(void)
 {
-	if(RxData_modbus_01[0]=7)
+    if(RxData_modbus_01[0] == 0x7)  // Slave ID check
+    {
+    	flag_1 = 0 ;
 
-	{
-		if(RxData_modbus_01[1]=0x3)
+        if(RxData_modbus_01[1] == 0x3)  // SET function (0x3)
+        {
+            uint8_t number_of_cells_and_temps = RxData_modbus_01[1];
+            uint8_t number_of_status = RxData_modbus_01[2];
+            uint8_t commnd = RxData_modbus_01[3];
 
-		{
+            uint8_t id_LED = RxData_modbus_01[6];
+            uint8_t LED_State = RxData_modbus_01[7];
+            uint8_t time = RxData_modbus_01[8];
+            uint8_t temp_set = RxData_modbus_01[9];
+            uint8_t temp_get = RxData_modbus_01[10];
+            uint8_t iso_spi_reading_cell = RxData_modbus_01[11];
 
-				uint8_t number_of_cells_and_temps	 = 		RxData_modbus_01[1];
-				uint8_t number_of_status			 =  	RxData_modbus_01[2];
-				uint8_t commnd						 = 		RxData_modbus_01[3];
+            // Declare variables at function scope to avoid scope issues
+            uint8_t id = 0;
+            float volt = 0.0;  // Changed to float to handle decimal values
+            uint8_t tempCardId = 0;
+            uint8_t res = 0;
 
-				uint8_t id_LED 						 = 		RxData_modbus_01[6];
-				uint8_t LED_State					 = 		RxData_modbus_01[7];
-				uint8_t time 						 = 		RxData_modbus_01[8];
-				uint8_t temp_set 		    		 = 		RxData_modbus_01[9];
-				uint8_t temp_get					 = 		RxData_modbus_01[10];
-				uint8_t iso_spi_reading_cell 		= 		RxData_modbus_01[11];
+            switch (RxData_modbus_01[2])  // Function code from table
+            {
+                case 0x01:  // Voltage function (Range: 1-23, Value: 1-8)
+                    id = RxData_modbus_01[3];  // Cell ID (1-23)
+                    uint8_t volt_code = RxData_modbus_01[4];  // Voltage code (1-8)
+
+                    // Validate range (1-23 for cell ID)
+                    if (id >= 0 && id <= 23)
+                    {
+                        switch (volt_code)
+                        {
+                            case 0x01:
+                                volt = 2.0;
+                                break;
+                            case 0x02:
+                                volt = 2.5;
+                                break;
+                            case 0x03:
+                                volt = 2.8;
+                                break;
+                            case 0x04:
+                                volt = 3.3;
+                                break;
+                            case 0x05:
+                                volt = 3.4;
+                                break;
+                            case 0x06:
+                                volt = 3.6;
+                                break;
+                            case 0x07:
+                                volt = 4.0;
+                                break;
+                            case 0x08:
+                                volt = 4.2;
+                                break;
+                            default:
+                                volt = 0.0;
+                                break;
+                        }
+                        Set_Output_Voltage(id, volt);
+                    }
+                    break;
+
+                case 0x02:  // Temperature function (Range: 1-6, Value: 0-256)
+                    tempCardId = RxData_modbus_01[3];  // Temp card ID (1-6)
+                    res = RxData_modbus_01[4];  // Resistance value (0-256)
+
+                    // Validate range (1-6 for temp card ID)
+                    if (tempCardId >= 1 && tempCardId <= 6)
+                    {
+                        Set_Resistance(tempCardId, res);
+                        Set_LED_status(id_LED, LED_State);
+                        HAL_Delay(1000);
+                    }
+                    break;
+
+                case 0x03:  // Balance function (Range: 1-23, Value: 1/0)
+                    id = RxData_modbus_01[3];  // Cell ID (1-23)
+                    uint8_t balance_state = RxData_modbus_01[4];  // 1 = on, 0 = off
+
+                    // Validate range and value
+                    if (id >= 1 && id <= 23 && (balance_state == 0 || balance_state == 1))
+                    {
+                        Set_Balance_State(id, balance_state);
+                    }
+                    break;
+
+                case 0x04:  // Open wire test (Range: 1-24, Value: 1/0)
+                    id = RxData_modbus_01[3];  // Wire ID (1-24)
+                    uint8_t test_enable = RxData_modbus_01[4];  // 1 = enable, 0 = disable
+
+                    // Validate range and value
+                    if (id >= 1 && id <= 24 && (test_enable == 0 || test_enable == 1))
+                    {
+                        Open_Wire_Test(id, test_enable);
+                    }
+                    break;
+
+                case 0x05:  // Daisy chain function (Range: 1, Value: 1/0)
+                    uint8_t chain_state = RxData_modbus_01[4];  // 1 = enable, 0 = disable
+
+                    if (chain_state == 0 || chain_state == 1)
+                    {
+                        Set_Daisy_Chain(chain_state);
+                    }
+                    break;
+
+                case 0x06:  // Delay function
+                    uint16_t delay_time = (RxData_modbus_01[3] << 8) | RxData_modbus_01[4];  // Combine bytes for delay time
+                    HAL_Delay(delay_time);
+                    break;
+
+                case 0x07:  // Cell LED function
+                    id = RxData_modbus_01[3];  // LED ID
+                    uint8_t led_state = RxData_modbus_01[4];  // LED state
+
+                    Set_LED_status(id, led_state);
+                    break;
+
+                case 0x08:  // Automatic sequence function
+                    uint8_t sequence_id = RxData_modbus_01[3];  // Sequence ID
+                    uint8_t sequence_state = RxData_modbus_01[4];  // Sequence state
+
+                    Run_Automatic_Sequence(sequence_id, sequence_state);
+                    Voltage_Sequence_Automatic();
+                    break;
+
+                default:
+                    // Handle unknown function code
+                    break;
+            }
+
+            // setting_test_arrangement[]={};  // Fixed typo in comment
+        }
+        else if(RxData_modbus_01[1] == 0x4)  // GET function (0x4)
+        {
+        	flag_1 = 2 ;
+            uint8_t function_code = RxData_modbus_01[2];
+            uint8_t id = RxData_modbus_01[3];
+
+            switch (function_code)
+            {
+                case 0x01:  // Cell-voltage (Range: 1-23, Value: 2.0-4.2V)
+                    if (id >= 0 && id <= 23)
+                    {
+                    	Voltage_Sequence_Automatic();
+                    	float get_voltage = INA229_Readings[id].voltage_V;
+                    	uint16_t voltage_scaled = (uint16_t)(get_voltage * 10000); // Scale as needed
+
+                    	TxData_modbus_01[0] = 0x05;  // slave address
+                    	TxData_modbus_01[1] = voltage_scaled >> 8;
+
+                    	TxData_modbus_01[2] = voltage_scaled & 0xFF;
+                    	TxData_modbus_01[3] = 0;
+                    	//The coil address will be 00000000 00000000 = 0 + 1 = 1
+
+                    	TxData_modbus_01[4] = 0;  // force data high
+                    	TxData_modbus_01[5] = 0;  // force data low
+
+                    	uint16_t crc = crc16(TxData_modbus_01, 6);
+                    	TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+                    	TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+                    	sendData(TxData_modbus_01,7);
 
 
 
+                    }
+                    break;
 
+                case 0x02:  // Cell-temp (Range: 1-6, Value: -20 to 100°C)
+                    if (id >= 1 && id <= 6)
+                    {
+                        Get_Cell_Temperature(id);
+                    }
+                    break;
 
-					switch (RxData_modbus_01[2])
-					{
-						case 0x01:
+                case 0x03:  // Cell-current (Range: 1-23, Value: 1/0)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_Cell_Current(id);
+                    }
+                    break;
 
-							uint8_t id 							 = 		RxData_modbus_01[3];
-							uint8_t volt 						 = 		RxData_modbus_01[4];
+                case 0x04:  // Cell-Temp_res (Range: 1-24, Value: 1/0)
+                    if (id >= 1 && id <= 24)
+                    {
+                        Get_Cell_Temp_Resistance(id);
+                    }
+                    break;
 
-							switch (RxData_modbus_01[4])
-							{
-								case 0x01:
-									volt = 2.0;
-									break;
+                case 0x05:  // DC-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_DC_CSU_Voltage(id);
+                    }
+                    break;
 
-								case 0x02:
-									volt = 2.5;
-									break;
+                case 0x06:  // DC-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
+                    if (id >= 1 && id <= 6)
+                    {
+                        Get_DC_CSU_Temperature(id);
+                    }
+                    break;
 
-								case 0x03:
-									volt = 2.8;
-									break;
+                case 0x07:  // DC-CSU-Balance_reg (Range: 1-23, Value: 1/0)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_DC_CSU_Balance_Register(id);
+                    }
+                    break;
 
-								case 0x04:
-									volt = 3.3;
-									break;
+                case 0x08:  // DC-CSU-OW (Range: 1-24, Value: 1/0)
+                    if (id >= 1 && id <= 24)
+                    {
+                        Get_DC_CSU_Open_Wire(id);
+                    }
+                    break;
 
-								case 0x05:
-									volt = 3.4;
-									break;
+                case 0x09:  // 11-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_11_CSU_Voltage(id);
+                    }
+                    break;
 
-								case 0x06:
-									volt = 3.6;
-									break;
+                case 0x0A:  // 11-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
+                    if (id >= 1 && id <= 6)
+                    {
+                        Get_11_CSU_Temperature(id);
+                    }
+                    break;
 
-								case 0x07:
-									volt = 4.0;
-									break;
+                case 0x0B:  // 11-CSU-Balance_reg (Range: 1-23, Value: 1/0)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_11_CSU_Balance_Register(id);
+                    }
+                    break;
 
-								case 0x08:
-									volt = 4.2;
-									break;
-							}
+                case 0x0C:  // 11-CSU-OW (Range: 1-24, Value: 1/0)
+                    if (id >= 1 && id <= 24)
+                    {
+                        Get_11_CSU_Open_Wire(id);
+                    }
+                    break;
 
-							Set_Output_Voltage(id, volt);
-							break;
+                case 0x0D:  // 12-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_12_CSU_Voltage(id);
+                    }
+                    break;
 
-						case 0x02:
-							uint8_t tempCardId = RxData_modbus_01[3];
-							uint8_t res = RxData_modbus_01[4];
+                case 0x0E:  // 12-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
+                    if (id >= 1 && id <= 6)
+                    {
+                        Get_12_CSU_Temperature(id);
+                    }
+                    break;
 
-							Set_Resistance(tempCardId,res);
-							Set_LED_status(id_LED, LED_State);
-							HAL_Delay(1000);
-							break;
+                case 0x0F:  // 12-CSU-Balance_reg (Range: 1-23, Value: 1/0)
+                    if (id >= 1 && id <= 23)
+                    {
+                        Get_12_CSU_Balance_Register(id);
+                    }
+                    break;
 
+                case 0x10:  // 12-CSU-OW (Range: 1-24, Value: 1/0)
+                    if (id >= 1 && id <= 24)
+                    {
+                        Get_12_CSU_Open_Wire(id);
+                    }
+                    break;
 
-						case 0x03:
-							HAL_Delay(time);
-							break;
-						case 0x04:
-							Get_INA_Voltage(&cell_configs[id]);
-							break;
-						case 0x05:
-		//                    Get_INA_TEMP(&cell_configs[id]);
-							break;
-						case 0x06:
-		//                    Get_INA_Current(&cell_configs[id]);
-							break;
-						case 0x07:
-		//                   Temp_set();
-							break;
-						case 0x08:
-		//                	Temp_get();
-							break;
-						case 0x09:
-		//                    Open_wire_test();
-							break;
-						case 0x10:
-		//                    Iso_spi_reading();
-							break;
-						case 0x11:
-		//                   Temp_set();
-							break;
-						case 0x12:
-		//                	Temp_get();
-							break;
-
-				}
-
-//					setting_test_arrngment[]={};
-
-
-
-
-			}
-	}
-
-	else
-	{}
-
+                default:
+                    // Handle unknown GET function code
+                    break;
+            }
+        }
+    }
+    else
+    {
+        // Handle case when RxData_modbus_01[0] != 7
+    }
 }
-
 
 
 void init_ina229_devices(void) {
@@ -344,7 +511,7 @@ float Get_INA_Voltage(Cell_Config* cell)
 
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     HAL_Delay(1);
-    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+    INA229_Readings[cell->ina_index].temperature_C = INA229_getVBUS_V(ina);
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
@@ -383,11 +550,101 @@ float Get_INA_Temp(const Cell_Config* cell)
 
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     HAL_Delay(1);
-    INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
+    INA229_Readings[cell->ina_index].voltage_V = INA229_getDIETEMP_C(ina);
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
 	Set_LED_status(cell->cell_id, ON);
 
 	return INA229_Readings[cell->ina_index].voltage_V;
+}
+
+uint8_t Get_Cell_Temp_Resistance(uint8_t id)
+{
+
+}
+
+
+float Get_Cell_Voltage(uint8_t id)
+{
+
+}
+float Get_Cell_Temperature(uint8_t id)
+{
+
+}
+float Get_Cell_Current(uint8_t id)
+{
+
+}
+
+void Set_Balance_State(uint8_t id, uint8_t balance_state)
+{
+
+}
+void Open_Wire_Test(uint8_t id, uint8_t test_enable)
+{
+
+}
+void Set_Daisy_Chain(uint8_t chain_state)
+{
+
+}
+void Run_Automatic_Sequence(uint8_t sequence_id, uint8_t sequence_state)
+{
+
+}
+
+// GET functions - DC-CSU measurements
+float Get_DC_CSU_Voltage(uint8_t id)
+{
+
+}
+float Get_DC_CSU_Temperature(uint8_t id)
+{
+
+}
+uint8_t Get_DC_CSU_Balance_Register(uint8_t id)
+{
+
+}
+uint8_t Get_DC_CSU_Open_Wire(uint8_t id)
+{
+
+}
+
+// GET functions - 11-CSU measurements
+float Get_11_CSU_Voltage(uint8_t id)
+{
+
+}
+float Get_11_CSU_Temperature(uint8_t id)
+{
+
+}
+uint8_t Get_11_CSU_Balance_Register(uint8_t id)
+{
+
+}
+uint8_t Get_11_CSU_Open_Wire(uint8_t id)
+{
+
+}
+
+// GET functions - 12-CSU measurements
+float Get_12_CSU_Voltage(uint8_t id)
+{
+
+}
+float Get_12_CSU_Temperature(uint8_t id)
+{
+
+}
+uint8_t Get_12_CSU_Balance_Register(uint8_t id)
+{
+
+}
+uint8_t Get_12_CSU_Open_Wire(uint8_t id)
+{
+
 }

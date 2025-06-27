@@ -1,2 +1,2 @@
-../Componets/Display/Src/u8g2_kerning.c:47:9:u8g2_GetKerning	8
-../Componets/Display/Src/u8g2_kerning.c:78:9:u8g2_GetKerningByTable	5
+../Componets/Display/Src/u8g2_kerning.c:47:9:u8g2_GetKerning	10
+../Componets/Display/Src/u8g2_kerning.c:78:9:u8g2_GetKerningByTable	6

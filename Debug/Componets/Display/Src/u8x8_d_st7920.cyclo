@@ -1,4 +1,4 @@
-../Componets/Display/Src/u8x8_d_st7920.c:82:9:u8x8_d_st7920_common	8
+../Componets/Display/Src/u8x8_d_st7920.c:82:9:u8x8_d_st7920_common	7
 ../Componets/Display/Src/u8x8_d_st7920.c:184:9:u8x8_d_st7920_160x32	2
 ../Componets/Display/Src/u8x8_d_st7920.c:226:9:u8x8_d_st7920_192x32	2
 ../Componets/Display/Src/u8x8_d_st7920.c:267:9:u8x8_d_st7920_128x64	2

@@ -1,7 +1,6 @@
-../Componets/Display/Src/u8g2_hvline.c:61:16:u8g2_clip_intersection2	32	static
-../Componets/Display/Src/u8g2_hvline.c:126:6:u8g2_draw_hv_line_2dir	40	static
-../Componets/Display/Src/u8g2_hvline.c:142:6:u8g2_DrawHVLine	40	static
-../Componets/Display/Src/u8g2_hvline.c:188:6:u8g2_DrawHLine	32	static
-../Componets/Display/Src/u8g2_hvline.c:196:6:u8g2_DrawVLine	32	static
+../Componets/Display/Src/u8g2_hvline.c:126:6:u8g2_draw_hv_line_2dir	8	static
+../Componets/Display/Src/u8g2_hvline.c:142:6:u8g2_DrawHVLine	4	static
+../Componets/Display/Src/u8g2_hvline.c:188:6:u8g2_DrawHLine	24	static
+../Componets/Display/Src/u8g2_hvline.c:196:6:u8g2_DrawVLine	24	static
 ../Componets/Display/Src/u8g2_hvline.c:204:6:u8g2_DrawPixel	24	static
-../Componets/Display/Src/u8g2_hvline.c:231:6:u8g2_SetDrawColor	16	static
+../Componets/Display/Src/u8g2_hvline.c:231:6:u8g2_SetDrawColor	0	static

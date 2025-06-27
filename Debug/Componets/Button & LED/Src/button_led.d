@@ -1,6 +1,6 @@
 Componets/Button & LED/Src/button_led.o: \
  ../Componets/Button\ &\ LED/Src/button_led.c \
- D:/GITHUB/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,8 +34,8 @@ Componets/Button & LED/Src/button_led.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main.h \
- D:/GITHUB/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h
-D:/GITHUB/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -69,4 +69,4 @@ D:/GITHUB/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main.h:
-D:/GITHUB/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/GPIO\ expander/Inc/gpio_expander.h:

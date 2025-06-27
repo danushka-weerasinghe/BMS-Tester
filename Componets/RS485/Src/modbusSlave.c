@@ -6,10 +6,11 @@
  */
 
 #include "modbusSlave.h"
+#include "main.h"
 #include "string.h"
 
-extern uint8_t RxData_modbus_01[256];
-extern uint8_t TxData_modbus_01[256];
+extern uint8_t RxData_modbus_01[16];
+extern uint8_t TxData_modbus_01[16];
 
 extern uint8_t RxData_modbus_02[256];
 extern int8_t TxData_modbus_02[256];
@@ -28,12 +29,22 @@ extern UART_HandleTypeDef huart6;
 
 void sendData (uint8_t *data, int size)
 {
+
+
+
 	// we will calculate the CRC in this function itself
 	uint16_t crc = crc16(data, size);
 	data[size] = crc&0xFF;   // CRC LOW
 	data[size+1] = (crc>>8)&0xFF;  // CRC HIGH
 
-	HAL_UART_Transmit(&huart2, data, size+2, 1000);
+	// Pull DE high to enable TX operation
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_SET);
+
+	HAL_UART_Transmit(&huart1, data, size+2, 1000);
+
+	// Pull RE Low to enable RX operation
+
+	HAL_GPIO_WritePin(GPIOB, USART1_ENABLE_Pin, GPIO_PIN_RESET);
 }
 
 void modbusException (uint8_t exceptioncode)

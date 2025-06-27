@@ -50,20 +50,57 @@ extern INA229_Handle ina229_devices[];
 
 
 
-// Function declarations
-
+// Main function declarations
 void tester_setup(void);
-
 void Voltage_Sequence_Automatic(void);
-
 void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
-
 void init_ina229_devices(void);
 
+// Measurement functions (existing)
 float Get_INA_Voltage(Cell_Config* cell);
-
 float Get_INA_Current(const Cell_Config* cell);
-
 float Get_INA_Temp(const Cell_Config* cell);
+
+// SET functions (for Modbus function 0x3)
+void Set_Output_Voltage(uint8_t id, float voltage);
+void Set_Resistance(uint8_t tempCardId, uint8_t resistance);
+void Set_LED_status(uint8_t id, uint8_t state);
+void Set_Balance_State(uint8_t id, uint8_t balance_state);
+void Open_Wire_Test(uint8_t id, uint8_t test_enable);
+void Set_Daisy_Chain(uint8_t chain_state);
+void Run_Automatic_Sequence(uint8_t sequence_id, uint8_t sequence_state);
+
+// GET functions (for Modbus function 0x4) - Cell measurements
+float Get_Cell_Voltage(uint8_t id);
+float Get_Cell_Temperature(uint8_t id);
+float Get_Cell_Current(uint8_t id);
+uint8_t Get_Cell_Temp_Resistance(uint8_t id);
+
+// GET functions - DC-CSU measurements
+float Get_DC_CSU_Voltage(uint8_t id);
+float Get_DC_CSU_Temperature(uint8_t id);
+uint8_t Get_DC_CSU_Balance_Register(uint8_t id);
+uint8_t Get_DC_CSU_Open_Wire(uint8_t id);
+
+// GET functions - 11-CSU measurements
+float Get_11_CSU_Voltage(uint8_t id);
+float Get_11_CSU_Temperature(uint8_t id);
+uint8_t Get_11_CSU_Balance_Register(uint8_t id);
+uint8_t Get_11_CSU_Open_Wire(uint8_t id);
+
+// GET functions - 12-CSU measurements
+float Get_12_CSU_Voltage(uint8_t id);
+float Get_12_CSU_Temperature(uint8_t id);
+uint8_t Get_12_CSU_Balance_Register(uint8_t id);
+uint8_t Get_12_CSU_Open_Wire(uint8_t id);
+
+// Response handling functions
+void Send_Modbus_Response(uint8_t function_code, uint8_t* data, uint16_t length);
+void Send_Error_Response(uint8_t function_code, uint8_t error_code);
+
+// Utility functions
+bool Validate_Cell_ID(uint8_t id, uint8_t max_range);
+bool Validate_Temp_Sensor_ID(uint8_t id, uint8_t max_range);
+void Process_Modbus_Command(uint8_t* rx_data);
 
 #endif /* INC_BMS_TEST_PROTOCOL_H_ */

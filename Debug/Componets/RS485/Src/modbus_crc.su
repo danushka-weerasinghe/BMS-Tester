@@ -1,1 +1,1 @@
-../Componets/RS485/Src/modbus_crc.c:65:10:crc16	24	static
+../Componets/RS485/Src/modbus_crc.c:65:10:crc16	8	static
