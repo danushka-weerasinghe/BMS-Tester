@@ -1243,8 +1243,13 @@ void cell12_Temp_01_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
- 8000e92:	4e41      	ldr	r6, [pc, #260]	@ (8000f98 <cell12_Temp_01_Set+0x114>)
+ 8001292:	2201      	movs	r2, #1
+ 8001294:	2101      	movs	r1, #1
+ 8001296:	4838      	ldr	r0, [pc, #224]	@ (8001378 <cell12_Temp_01_Set+0x150>)
+ 8001298:	f007 f91c 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 800129c:	200a      	movs	r0, #10
+ 800129e:	f006 fa71 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
  8000e94:	4c41      	ldr	r4, [pc, #260]	@ (8000f9c <cell12_Temp_01_Set+0x118>)
 	HAL_Delay(10);
@@ -1395,8 +1400,13 @@ void cell12_Temp_02_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
- 8000fc6:	4e45      	ldr	r6, [pc, #276]	@ (80010dc <cell12_Temp_02_Set+0x124>)
+ 80013fe:	2201      	movs	r2, #1
+ 8001400:	2101      	movs	r1, #1
+ 8001402:	483d      	ldr	r0, [pc, #244]	@ (80014f8 <cell12_Temp_02_Set+0x164>)
+ 8001404:	f007 f866 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 8001408:	200a      	movs	r0, #10
+ 800140a:	f006 f9bb 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
  8000fc8:	4c45      	ldr	r4, [pc, #276]	@ (80010e0 <cell12_Temp_02_Set+0x128>)
 	HAL_Delay(10);
@@ -1546,8 +1556,13 @@ void cell12_Temp_03_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
- 800110a:	4c41      	ldr	r4, [pc, #260]	@ (8001210 <cell12_Temp_03_Set+0x114>)
+ 800157e:	2201      	movs	r2, #1
+ 8001580:	f44f 7180 	mov.w	r1, #256	@ 0x100
+ 8001584:	4838      	ldr	r0, [pc, #224]	@ (8001668 <cell12_Temp_03_Set+0x154>)
+ 8001586:	f006 ffa5 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 800158a:	200a      	movs	r0, #10
+ 800158c:	f006 f8fa 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
@@ -1694,8 +1709,13 @@ void cell11_Temp_01_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
- 800123a:	4c46      	ldr	r4, [pc, #280]	@ (8001354 <cell11_Temp_01_Set+0x128>)
+ 80016ea:	2201      	movs	r2, #1
+ 80016ec:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+ 80016f0:	483d      	ldr	r0, [pc, #244]	@ (80017e8 <cell11_Temp_01_Set+0x168>)
+ 80016f2:	f006 feef 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 80016f6:	200a      	movs	r0, #10
+ 80016f8:	f006 f844 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
@@ -1843,8 +1863,13 @@ void cell11_Temp_02_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
- 800137e:	4c46      	ldr	r4, [pc, #280]	@ (8001498 <cell11_Temp_02_Set+0x128>)
+ 800186a:	2201      	movs	r2, #1
+ 800186c:	f44f 6180 	mov.w	r1, #1024	@ 0x400
+ 8001870:	483d      	ldr	r0, [pc, #244]	@ (8001968 <cell11_Temp_02_Set+0x168>)
+ 8001872:	f006 fe2f 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 8001876:	200a      	movs	r0, #10
+ 8001878:	f005 ff84 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
@@ -1992,8 +2017,13 @@ void cell11_Temp_03_Set(float resistance){
 	intToBinary(res, resArray);
 	assignBytes(resArray, resByteArray);
 	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
- 80014c2:	4e45      	ldr	r6, [pc, #276]	@ (80015d8 <cell11_Temp_03_Set+0x124>)
+ 80019ea:	2201      	movs	r2, #1
+ 80019ec:	2140      	movs	r1, #64	@ 0x40
+ 80019ee:	483d      	ldr	r0, [pc, #244]	@ (8001ae4 <cell11_Temp_03_Set+0x164>)
+ 80019f0:	f006 fd70 	bl	80084d4 <HAL_GPIO_WritePin>
 	HAL_Delay(10);
+ 80019f4:	200a      	movs	r0, #10
+ 80019f6:	f005 fec5 	bl	8007784 <HAL_Delay>
 	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
  80014c4:	4c45      	ldr	r4, [pc, #276]	@ (80015dc <cell11_Temp_03_Set+0x128>)
 	HAL_Delay(10);
