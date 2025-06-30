@@ -11,4 +11,4 @@
 ../Componets/Display/Src/u8x8_display.c:161:6:u8x8_ClearDisplayWithTile	24	static
 ../Componets/Display/Src/u8x8_display.c:179:6:u8x8_ClearDisplay	16	static
 ../Componets/Display/Src/u8x8_display.c:185:6:u8x8_FillDisplay	16	static
-../Componets/Display/Src/u8x8_display.c:191:6:u8x8_ClearLine	32	static
+../Componets/Display/Src/u8x8_display.c:191:6:u8x8_ClearLine	24	static

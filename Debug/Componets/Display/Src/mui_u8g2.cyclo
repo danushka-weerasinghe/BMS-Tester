@@ -19,11 +19,11 @@
 ../Componets/Display/Src/mui_u8g2.c:320:6:mui_u8g2_draw_button_if	2
 ../Componets/Display/Src/mui_u8g2.c:382:9:mui_u8g2_set_font_style_function	2
 ../Componets/Display/Src/mui_u8g2.c:400:9:mui_u8g2_draw_text	2
-../Componets/Display/Src/mui_u8g2.c:455:9:mui_u8g2_btn_goto_wm_fi	4
-../Componets/Display/Src/mui_u8g2.c:484:9:mui_u8g2_btn_goto_wm_if	4
-../Componets/Display/Src/mui_u8g2.c:513:9:mui_u8g2_btn_goto_w2_fi	4
-../Componets/Display/Src/mui_u8g2.c:542:9:mui_u8g2_btn_goto_w2_if	4
-../Componets/Display/Src/mui_u8g2.c:598:9:mui_u8g2_btn_exit_wm_fi	5
+../Componets/Display/Src/mui_u8g2.c:455:9:mui_u8g2_btn_goto_wm_fi	5
+../Componets/Display/Src/mui_u8g2.c:484:9:mui_u8g2_btn_goto_wm_if	5
+../Componets/Display/Src/mui_u8g2.c:513:9:mui_u8g2_btn_goto_w2_fi	5
+../Componets/Display/Src/mui_u8g2.c:542:9:mui_u8g2_btn_goto_w2_if	5
+../Componets/Display/Src/mui_u8g2.c:598:9:mui_u8g2_btn_exit_wm_fi	6
 ../Componets/Display/Src/mui_u8g2.c:633:9:mui_u8g2_btn_goto_w1_pi	4
 ../Componets/Display/Src/mui_u8g2.c:664:9:mui_u8g2_btn_goto_w1_fi	4
 ../Componets/Display/Src/mui_u8g2.c:727:9:mui_u8g2_u8_min_max_wm_mse_pi	6

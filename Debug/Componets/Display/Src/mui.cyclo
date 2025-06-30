@@ -10,7 +10,7 @@
 ../Componets/Display/Src/mui.c:519:9:mui_task_find_prev_cursor_uif	3
 ../Componets/Display/Src/mui.c:87:9:mui_get_fds_char	1
 ../Componets/Display/Src/mui.c:98:15:mui_fds_get_cmd_size_without_text	8
-../Componets/Display/Src/mui.c:276:15:mui_fds_get_cmd_size	8
+../Componets/Display/Src/mui.c:276:15:mui_fds_get_cmd_size	7
 ../Componets/Display/Src/mui.c:329:16:mui_prepare_current_field	17
 ../Componets/Display/Src/mui.c:616:16:mui_send_cursor_msg	3
 ../Componets/Display/Src/mui.c:616:16:mui_send_cursor_msg.constprop	3

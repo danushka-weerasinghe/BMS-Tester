@@ -1,4 +1,4 @@
-../Componets/Display/Src/u8x8_d_ssd1362.c:139:9:u8x8_d_ssd1362_common	18
-../Componets/Display/Src/u8x8_d_ssd1362.c:213:9:u8x8_d_ssd1362_common_0_75	43
+../Componets/Display/Src/u8x8_d_ssd1362.c:139:9:u8x8_d_ssd1362_common	16
+../Componets/Display/Src/u8x8_d_ssd1362.c:213:9:u8x8_d_ssd1362_common_0_75	35
 ../Componets/Display/Src/u8x8_d_ssd1362.c:396:9:u8x8_d_ssd1362_256x64	5
 ../Componets/Display/Src/u8x8_d_ssd1362.c:510:9:u8x8_d_ssd1362_206x36	5

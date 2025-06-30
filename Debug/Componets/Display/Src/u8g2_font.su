@@ -18,8 +18,8 @@
 ../Componets/Display/Src/u8g2_font.c:316:13:u8g2_add_vector_x	0	static
 ../Componets/Display/Src/u8g2_font.c:387:6:u8g2_font_decode_len	56	static
 ../Componets/Display/Src/u8g2_font.c:485:6:u8g2_font_2x_decode_len	56	static
-../Componets/Display/Src/u8g2_font.c:612:8:u8g2_font_decode_glyph	72	static
-../Componets/Display/Src/u8g2_font.c:713:8:u8g2_font_2x_decode_glyph	72	static
+../Componets/Display/Src/u8g2_font.c:612:8:u8g2_font_decode_glyph	80	static
+../Componets/Display/Src/u8g2_font.c:713:8:u8g2_font_2x_decode_glyph	80	static
 ../Componets/Display/Src/u8g2_font.c:782:16:u8g2_font_get_glyph_data	8	static
 ../Componets/Display/Src/u8g2_font.c:1297:16:u8g2_is_all_valid.constprop	24	static
 ../Componets/Display/Src/u8g2_font.c:1017:20:u8g2_draw_string_2x	40	static
@@ -35,7 +35,7 @@
 ../Componets/Display/Src/u8g2_font.c:1061:13:u8g2_DrawUTF8	4	static
 ../Componets/Display/Src/u8g2_font.c:1067:13:u8g2_DrawUTF8X2	4	static
 ../Componets/Display/Src/u8g2_font.c:1074:13:u8g2_DrawExtendedUTF8	48	static
-../Componets/Display/Src/u8g2_font.c:1121:13:u8g2_DrawExtUTF8	56	static
+../Componets/Display/Src/u8g2_font.c:1121:13:u8g2_DrawExtUTF8	48	static
 ../Componets/Display/Src/u8g2_font.c:1181:6:u8g2_UpdateRefHeight	0	static
 ../Componets/Display/Src/u8g2_font.c:1206:6:u8g2_SetFontRefHeightText	0	static
 ../Componets/Display/Src/u8g2_font.c:1212:6:u8g2_SetFontRefHeightExtendedText	0	static

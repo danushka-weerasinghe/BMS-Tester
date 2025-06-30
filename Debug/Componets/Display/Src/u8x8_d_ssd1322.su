@@ -1,4 +1,4 @@
-../Componets/Display/Src/u8x8_d_ssd1322.c:150:9:u8x8_d_ssd1322_common	40	static
+../Componets/Display/Src/u8x8_d_ssd1322.c:150:9:u8x8_d_ssd1322_common	48	static
 ../Componets/Display/Src/u8x8_d_ssd1322.c:303:9:u8x8_d_ssd1322_nhd_256x64	16	static
 ../Componets/Display/Src/u8x8_d_ssd1322.c:342:9:u8x8_d_ssd1322_common2	48	static
 ../Componets/Display/Src/u8x8_d_ssd1322.c:527:9:u8x8_d_ssd1322_nhd_128x64	16	static

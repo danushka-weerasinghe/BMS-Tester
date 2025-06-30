@@ -11,7 +11,7 @@
 ../Middlewares/Third_Party/FatFs/src/ff.c:1470:9:dir_sdi.constprop	20
 ../Middlewares/Third_Party/FatFs/src/ff.c:2813:9:follow_path	55
 ../Middlewares/Third_Party/FatFs/src/ff.c:1271:9:remove_chain	28
-../Middlewares/Third_Party/FatFs/src/ff.c:2292:9:dir_register	39
+../Middlewares/Third_Party/FatFs/src/ff.c:2292:9:dir_register	40
 ../Middlewares/Third_Party/FatFs/src/ff.c:3260:9:f_mount	12
 ../Middlewares/Third_Party/FatFs/src/ff.c:3308:9:f_open	53
 ../Middlewares/Third_Party/FatFs/src/ff.c:3511:9:f_read	46
@@ -29,7 +29,7 @@
 ../Middlewares/Third_Party/FatFs/src/ff.c:4620:9:f_mkdir	23
 ../Middlewares/Third_Party/FatFs/src/ff.c:4717:9:f_rename	32
 ../Middlewares/Third_Party/FatFs/src/ff.c:5301:9:f_mkfs	78
-../Middlewares/Third_Party/FatFs/src/ff.c:5830:8:f_gets	6
+../Middlewares/Third_Party/FatFs/src/ff.c:5830:8:f_gets	5
 ../Middlewares/Third_Party/FatFs/src/ff.c:5998:5:f_putc	4
-../Middlewares/Third_Party/FatFs/src/ff.c:6018:5:f_puts	11
-../Middlewares/Third_Party/FatFs/src/ff.c:6038:5:f_printf	95
+../Middlewares/Third_Party/FatFs/src/ff.c:6018:5:f_puts	17
+../Middlewares/Third_Party/FatFs/src/ff.c:6038:5:f_printf	116

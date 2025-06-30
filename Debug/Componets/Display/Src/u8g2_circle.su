@@ -4,5 +4,5 @@
 ../Componets/Display/Src/u8g2_circle.c:350:13:u8g2_draw_filled_ellipse_section	32	static
 ../Componets/Display/Src/u8g2_circle.c:109:6:u8g2_DrawCircle	56	static
 ../Componets/Display/Src/u8g2_circle.c:195:6:u8g2_DrawDisc	56	static
-../Componets/Display/Src/u8g2_circle.c:333:6:u8g2_DrawEllipse	80	static
-../Componets/Display/Src/u8g2_circle.c:466:6:u8g2_DrawFilledEllipse	80	static
+../Componets/Display/Src/u8g2_circle.c:333:6:u8g2_DrawEllipse	88	static
+../Componets/Display/Src/u8g2_circle.c:466:6:u8g2_DrawFilledEllipse	88	static

@@ -1,4 +1,4 @@
-../Componets/Display/Src/u8x8_d_max7219.c:106:16:u8x8_d_max7219_generic	8
+../Componets/Display/Src/u8x8_d_max7219.c:106:16:u8x8_d_max7219_generic	9
 ../Componets/Display/Src/u8x8_d_max7219.c:195:9:u8x8_d_max7219_32x8	5
 ../Componets/Display/Src/u8x8_d_max7219.c:250:9:u8x8_d_max7219_16x16	5
 ../Componets/Display/Src/u8x8_d_max7219.c:297:9:u8x8_d_max7219_8x8	5

@@ -8,7 +8,7 @@
 ../Componets/Display/Src/mui_u8g2.c:697:13:mui_u8g2_u8_vmm_draw_wm_pi	48	static
 ../Componets/Display/Src/mui_u8g2.c:219:13:mui_get_y	0	static
 ../Componets/Display/Src/mui_u8g2.c:224:9:mui_get_U8g2	0	static
-../Componets/Display/Src/mui_u8g2.c:230:6:mui_u8g2_draw_button_utf	40	static
+../Componets/Display/Src/mui_u8g2.c:230:6:mui_u8g2_draw_button_utf	48	static
 ../Componets/Display/Src/mui_u8g2.c:237:13:mui_u8g2_get_pi_flags	0	static
 ../Componets/Display/Src/mui_u8g2.c:252:6:mui_u8g2_draw_button_pi	40	static
 ../Componets/Display/Src/mui_u8g2.c:258:13:mui_u8g2_get_fi_flags	0	static

@@ -338,12 +338,11 @@ int main(void)
 	    	memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
 		  modebus_rx_flag = 0 ;
 
-		  flag_1 = 0 ;
+		  flag_1 = 5 ;
 
 		  HAL_TIM_Base_Stop_IT(&htim1);
 
 	  }
- flag_2 = Get_INA_Voltage(1);
 
 
 		  cell12_Temp_01_Set(resistance[0]);
@@ -354,7 +353,7 @@ int main(void)
 		  cell11_Temp_03_Set(resistance[4]);
 
 
-//		  Voltage_Sequence_Automatic();
+		  Voltage_Sequence_Automatic();
 
 
 

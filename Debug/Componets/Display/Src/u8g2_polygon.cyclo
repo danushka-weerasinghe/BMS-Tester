@@ -9,5 +9,5 @@
 ../Componets/Display/Src/u8g2_polygon.c:267:13:pg_exec.constprop	15
 ../Componets/Display/Src/u8g2_polygon.c:323:6:u8g2_ClearPolygonXY	1
 ../Componets/Display/Src/u8g2_polygon.c:328:6:u8g2_AddPolygonXY	2
-../Componets/Display/Src/u8g2_polygon.c:333:6:u8g2_DrawPolygon	19
+../Componets/Display/Src/u8g2_polygon.c:333:6:u8g2_DrawPolygon	26
 ../Componets/Display/Src/u8g2_polygon.c:338:6:u8g2_DrawTriangle	7

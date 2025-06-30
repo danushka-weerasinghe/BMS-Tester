@@ -1,5 +1,5 @@
 ../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:359:9:u8x8_d_ssd1306_128x64_noname	10
-../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:380:9:u8x8_d_ssd1312_128x64_noname	10
+../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:380:9:u8x8_d_ssd1312_128x64_noname	12
 ../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:412:9:u8x8_d_ssd1306_128x64_vcomh0	10
 ../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:433:9:u8x8_d_ssd1306_128x64_alt0	10
 ../Componets/Display/Src/u8x8_d_ssd1306_128x64_noname.c:479:9:u8x8_d_sh1106_128x64_noname	10

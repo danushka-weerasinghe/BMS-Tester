@@ -188,11 +188,11 @@ void tester_setup(void)
                 case 0x01:  // Cell-voltage (Range: 1-23, Value: 2.0-4.2V)
                     if (id >= 0 && id <= 23)
                     {
-                    	Voltage_Sequence_Automatic();
-                    	float get_voltage = INA229_Readings[id].voltage_V;
+//                    	Voltage_Sequence_Automatic();
+                    	float get_voltage = Get_INA_Voltage(&cell_configs[id]);
                     	uint16_t voltage_scaled = (uint16_t)(get_voltage * 10000); // Scale as needed
 
-                    	TxData_modbus_01[0] = 0x05;  // slave address
+                    	TxData_modbus_01[0] = 0x07;  // slave address
                     	TxData_modbus_01[1] = voltage_scaled >> 8;
 
                     	TxData_modbus_01[2] = voltage_scaled & 0xFF;
@@ -214,16 +214,53 @@ void tester_setup(void)
                     break;
 
                 case 0x02:  // Cell-temp (Range: 1-6, Value: -20 to 100°C)
-                    if (id >= 1 && id <= 6)
+                    if (id >= 0 && id <= 23)
                     {
-                        Get_Cell_Temperature(id);
+
+						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
+						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = Temp_scaled >> 8;
+
+						TxData_modbus_01[2] = Temp_scaled & 0xFF;
+						TxData_modbus_01[3] = 0;
+													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+
+						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,7);
                     }
                     break;
 
                 case 0x03:  // Cell-current (Range: 1-23, Value: 1/0)
                     if (id >= 1 && id <= 23)
                     {
-                        Get_Cell_Current(id);
+
+
+						float get_current = Get_Cell_Current(&cell_configs[id]);
+						uint16_t Current_scaled = (uint16_t)(get_current * 10000); // Scale as needed
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = Current_scaled >> 8;
+
+						TxData_modbus_01[2] = Current_scaled & 0xFF;
+						TxData_modbus_01[3] = 0;
+													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+
+						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,7);
                     }
                     break;
 
@@ -231,6 +268,25 @@ void tester_setup(void)
                     if (id >= 1 && id <= 24)
                     {
                         Get_Cell_Temp_Resistance(id);
+
+						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
+						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = Temp_scaled >> 8;
+
+						TxData_modbus_01[2] = Temp_scaled & 0xFF;
+						TxData_modbus_01[3] = 0;
+													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+
+						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,7);
                     }
                     break;
 
@@ -238,6 +294,25 @@ void tester_setup(void)
                     if (id >= 1 && id <= 23)
                     {
                         Get_DC_CSU_Voltage(id);
+
+						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
+						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = Temp_scaled >> 8;
+
+						TxData_modbus_01[2] = Temp_scaled & 0xFF;
+						TxData_modbus_01[3] = 0;
+													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+
+						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,7);
                     }
                     break;
 
