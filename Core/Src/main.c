@@ -932,8 +932,8 @@ static void MX_USART6_UART_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -952,15 +952,11 @@ static void MX_GPIO_Init(void)
                           |CSU_11_CELLS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOI, CELL12_CS_06_Pin|CELL12_CS_08_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOI, CELL12_CS_06_Pin|CELL12_CS_08_Pin|CELL12_CS_09_Pin|CELL12_CS_10_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, CELL12_CS_07_Pin|CELL12_TEMP_02_LED_Pin|CELL12_TEMP_01_CS_Pin|SPI3_CS_03_Pin
                           |SPI3_CS_02_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOI, CELL12_CS_09_Pin|CELL12_CS_10_Pin|LED_DC_Y_Pin|LED_DC_G_Pin
-                          |LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOF, CELL12_CS_11_Pin|CELL12_CS_12_Pin|CSU_12_CELLS_Pin|CELL12_TEMP_03_CS_Pin
@@ -1009,6 +1005,9 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USART6_ENABLE_GPIO_Port, USART6_ENABLE_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOI, LED_DC_Y_Pin|LED_DC_G_Pin|LED_PC_Y_Pin|LED_PC_G_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : CELL12_CS_01_Pin CELL12_CS_02_Pin CELL12_CS_03_Pin CELL12_CS_04_Pin
                            CELL12_CS_05_Pin CELL11_CS_10_Pin CELL11_CS_11_Pin CELL11_CS_12_Pin
@@ -1182,8 +1181,8 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -1359,13 +1358,13 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(10);
+//    HAL_Delay(10);
 
-    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
-    HAL_Delay(1);
-    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
+//    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
+//    HAL_Delay(1);
+//    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+//    HAL_Delay(1);
+//    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
     // Turn off LED
     HAL_Delay(10);

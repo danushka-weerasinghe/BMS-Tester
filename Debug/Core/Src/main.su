@@ -14,10 +14,10 @@
 ../Core/Src/main.c:866:13:MX_USART3_UART_Init	8	static
 ../Core/Src/main.c:899:13:MX_USART6_UART_Init	8	static
 ../Core/Src/main.c:932:13:MX_GPIO_Init	64	static
-../Core/Src/main.c:1191:6:init_ina229_devices	4	static
-../Core/Src/main.c:1222:6:Scan_I2C_Bus	8	static
-../Core/Src/main.c:1306:22:get_ina_handle	16	static
-../Core/Src/main.c:1310:6:Voltage_Sequence_Automatic	64	static
-../Core/Src/main.c:1335:6:Set_voltage_and_measure	32	static
-../Core/Src/main.c:1383:6:HAL_GPIO_EXTI_Callback	16	static
-../Core/Src/main.c:1395:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:1190:6:init_ina229_devices	4	static
+../Core/Src/main.c:1221:6:Scan_I2C_Bus	8	static
+../Core/Src/main.c:1305:22:get_ina_handle	16	static
+../Core/Src/main.c:1309:6:Voltage_Sequence_Automatic	64	static
+../Core/Src/main.c:1334:6:Set_voltage_and_measure	32	static
+../Core/Src/main.c:1382:6:HAL_GPIO_EXTI_Callback	16	static
+../Core/Src/main.c:1394:6:Error_Handler	4	static,ignoring_inline_asm
