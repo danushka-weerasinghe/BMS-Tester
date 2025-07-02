@@ -15,7 +15,7 @@
 
 #include "mcu.h"
 
-//#include "Temp_controller.h"
+#include "Temp_controller.h"
 
 #include "config.h"
 
@@ -653,10 +653,6 @@ float Get_Cell_Current(uint8_t id)
 
 }
 
-void Set_Resistance(uint8_t tempCardId, uint8_t resistance)
-{
-
-}
 
 void Set_Balance_State(uint8_t id, uint8_t balance_state)
 {

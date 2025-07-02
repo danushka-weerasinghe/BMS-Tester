@@ -10,7 +10,6 @@
 ../Core/Src/BMS_test_protocol.c:643:7:Get_Cell_Voltage	16	static
 ../Core/Src/BMS_test_protocol.c:647:7:Get_Cell_Temperature	16	static
 ../Core/Src/BMS_test_protocol.c:651:7:Get_Cell_Current	16	static
-../Core/Src/BMS_test_protocol.c:656:6:Set_Resistance	16	static
 ../Core/Src/BMS_test_protocol.c:661:6:Set_Balance_State	16	static
 ../Core/Src/BMS_test_protocol.c:665:6:Open_Wire_Test	16	static
 ../Core/Src/BMS_test_protocol.c:669:6:Set_Daisy_Chain	16	static

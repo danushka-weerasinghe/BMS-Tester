@@ -13,3 +13,4 @@
 ../Componets/Digital Pot/Src/Temp_controller.c:350:6:cell11_Temp_01_startup	88	static
 ../Componets/Digital Pot/Src/Temp_controller.c:384:6:cell11_Temp_02_startup	88	static
 ../Componets/Digital Pot/Src/Temp_controller.c:421:6:cell11_Temp_03_startup	88	static
+../Componets/Digital Pot/Src/Temp_controller.c:457:6:Set_Resistance	16	static
