@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Componets/RS485/Src/test.c 
+../Componets/RS485/Src/modbusSlave.c \
+../Componets/RS485/Src/modbus_crc.c 
 
 OBJS += \
-./Componets/RS485/Src/test.o 
+./Componets/RS485/Src/modbusSlave.o \
+./Componets/RS485/Src/modbus_crc.o 
 
 C_DEPS += \
-./Componets/RS485/Src/test.d 
+./Componets/RS485/Src/modbusSlave.d \
+./Componets/RS485/Src/modbus_crc.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ Componets/RS485/Src/%.o Componets/RS485/Src/%.su Componets/RS485/Src/%.cyclo: ..
 clean: clean-Componets-2f-RS485-2f-Src
 
 clean-Componets-2f-RS485-2f-Src:
-	-$(RM) ./Componets/RS485/Src/test.cyclo ./Componets/RS485/Src/test.d ./Componets/RS485/Src/test.o ./Componets/RS485/Src/test.su
+	-$(RM) ./Componets/RS485/Src/modbusSlave.cyclo ./Componets/RS485/Src/modbusSlave.d ./Componets/RS485/Src/modbusSlave.o ./Componets/RS485/Src/modbusSlave.su ./Componets/RS485/Src/modbus_crc.cyclo ./Componets/RS485/Src/modbus_crc.d ./Componets/RS485/Src/modbus_crc.o ./Componets/RS485/Src/modbus_crc.su
 
 .PHONY: clean-Componets-2f-RS485-2f-Src
 
