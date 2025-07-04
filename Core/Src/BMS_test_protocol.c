@@ -21,11 +21,11 @@
 
 // Add definitions for variables declared in header
 
-extern uint8_t RxData_modbus_01[16];
-extern uint8_t TxData_modbus_01[16];
+extern uint8_t RxData_modbus_01[128];
+extern uint8_t TxData_modbus_01[128];
 
 extern uint8_t RxData_modbus_02[256];
-extern int8_t TxData_modbus_02[256];
+extern uint8_t TxData_modbus_02[256];
 
 extern uint8_t RxData_modbus_03[256];
 extern uint8_t TxData_modbus_03[256];
@@ -177,11 +177,26 @@ void tester_setup(void)
 
             // setting_test_arrangement[]={};  // Fixed typo in comment
         }
+
+
+
         else if(RxData_modbus_01[1] == 0x4)  // GET function (0x4)
         {
         	flag_1 = 2 ;
             uint8_t function_code = RxData_modbus_01[2];
             uint8_t id = RxData_modbus_01[3];
+
+            //SET Voltage Card LEDs on for the SPI bus Data Request
+
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_LED_status(cell, ON);
+	        }
+
+
+
+	        //	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        //	        	Set_LED_status(cell, OFF);
+	        //	        }
 
             switch (function_code)
             {
@@ -217,7 +232,7 @@ void tester_setup(void)
                     if (id >= 0 && id <= 23)
                     {
 
-						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
+						float get_Temp = Get_INA_Temp(&cell_configs[id]);
 						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
 
 						TxData_modbus_01[0] = 0x07;  // slave address
@@ -243,7 +258,7 @@ void tester_setup(void)
                     {
 
 
-						float get_current = Get_Cell_Current(&cell_configs[id]);
+						float get_current = Get_INA_Current(&cell_configs[id]);
 						uint16_t Current_scaled = (uint16_t)(get_current * 10000); // Scale as needed
 
 						TxData_modbus_01[0] = 0x07;  // slave address
@@ -267,52 +282,18 @@ void tester_setup(void)
                 case 0x04:  // Cell-Temp_res (Range: 1-24, Value: 1/0)
                     if (id >= 1 && id <= 24)
                     {
-                        Get_Cell_Temp_Resistance(id);
 
-						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
-						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
 
-						TxData_modbus_01[0] = 0x07;  // slave address
-						TxData_modbus_01[1] = Temp_scaled >> 8;
 
-						TxData_modbus_01[2] = Temp_scaled & 0xFF;
-						TxData_modbus_01[3] = 0;
-													//The coil address will be 00000000 00000000 = 0 + 1 = 1
-
-						TxData_modbus_01[4] = 0;  // force data high
-						TxData_modbus_01[5] = 0;  // force data low
-
-						uint16_t crc = crc16(TxData_modbus_01, 6);
-						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
-						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
-
-						sendData(TxData_modbus_01,6);
                     }
                     break;
 
                 case 0x05:  // DC-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
                     if (id >= 1 && id <= 23)
                     {
-                        Get_DC_CSU_Voltage(id);
 
-						float get_Temp = Get_Cell_Temperature(&cell_configs[id]);
-						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
 
-						TxData_modbus_01[0] = 0x07;  // slave address
-						TxData_modbus_01[1] = Temp_scaled >> 8;
 
-						TxData_modbus_01[2] = Temp_scaled & 0xFF;
-						TxData_modbus_01[3] = 0;
-													//The coil address will be 00000000 00000000 = 0 + 1 = 1
-
-						TxData_modbus_01[4] = 0;  // force data high
-						TxData_modbus_01[5] = 0;  // force data low
-
-						uint16_t crc = crc16(TxData_modbus_01, 6);
-						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
-						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
-
-						sendData(TxData_modbus_01,6);
                     }
                     break;
 
@@ -401,8 +382,11 @@ void tester_setup(void)
     }
     else
     {
-        // Handle case when RxData_modbus_01[0] != 7
+
     }
+
+	memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));
+	memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
 }
 
 
@@ -586,7 +570,7 @@ float Get_INA_Voltage(Cell_Config* cell)
 
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     HAL_Delay(1);
-    INA229_Readings[cell->ina_index].temperature_C = INA229_getVBUS_V(ina);
+    INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
@@ -625,13 +609,13 @@ float Get_INA_Temp(const Cell_Config* cell)
 
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     HAL_Delay(1);
-    INA229_Readings[cell->ina_index].voltage_V = INA229_getDIETEMP_C(ina);
+    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 
 	Set_LED_status(cell->cell_id, ON);
 
-	return INA229_Readings[cell->ina_index].voltage_V;
+	return INA229_Readings[cell->ina_index].temperature_C;
 }
 
 uint8_t Get_Cell_Temp_Resistance(uint8_t id)
@@ -639,19 +623,6 @@ uint8_t Get_Cell_Temp_Resistance(uint8_t id)
 
 }
 
-
-float Get_Cell_Voltage(uint8_t id)
-{
-
-}
-float Get_Cell_Temperature(uint8_t id)
-{
-
-}
-float Get_Cell_Current(uint8_t id)
-{
-
-}
 
 
 void Set_Balance_State(uint8_t id, uint8_t balance_state)

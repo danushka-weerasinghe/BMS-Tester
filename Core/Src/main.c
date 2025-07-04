@@ -321,7 +321,7 @@ int main(void)
 
 //		  sprintf(Tx_Data, "F103 %d", indx++);
 //		    send_Data (Tx_Data);
-		    HAL_Delay(500);
+		    HAL_Delay(10);
 	        tester_setup();
 
 
@@ -369,33 +369,35 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-	        Voltage_Sequence_Automatic();
+//	        Voltage_Sequence_Automatic();
+
+//	        tester_setup();
 
 	        // Process battery tests
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, ON);
-	        }
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, ON);
+//	        }
 
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, OFF);
-	        }
-	        HAL_Delay(1000);
-
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_Output_Voltage(cell, 4.2);
-	        }
-
-
-	        HAL_Delay(1000);
-
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_Output_Voltage(cell, 2.0);
-	        }
-	        HAL_Delay(1000);
-
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, ON);
-	        }
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, OFF);
+//	        }
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_Output_Voltage(cell, 4.2);
+//	        }
+//
+//
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_Output_Voltage(cell, 2.0);
+//	        }
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, ON);
+//	        }
 
 //
 //HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
@@ -1479,6 +1481,13 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 
 	modebus_rx_flag = 1 ;
+
+	  flag_1 = 2 ;
+
+//    tester_setup();
+
+//	modebus_rx_flag = 0;
+
 
 //	HAL_UART_RxCpltCallback
 }
