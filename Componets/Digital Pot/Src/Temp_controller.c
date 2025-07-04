@@ -454,31 +454,37 @@ void cell11_Temp_03_startup(float resistance){
 }
 
 
-void Set_Resistance(uint8_t tempCardId,uint8_t temperature){
-	switch (tempCardId){
+void Set_Resistance(uint8_t tempCardId,uint8_t temperature)
+{
+	switch (tempCardId)
+	{
 
 
 	case 0x01:
 		cell12_Temp_01_Set(temperature);
+		break;
 
 	case 0x02:
 		cell12_Temp_02_Set(temperature);
+		break;
 
 	case 0x03:
 		cell12_Temp_03_Set(temperature);
+		break;
 
 	case 0x04:
 		cell11_Temp_01_Set(temperature);
+		break;
 
 	case 0x05:
 		cell11_Temp_02_Set(temperature);
+		break;
 
 	case 0x06:
 		cell11_Temp_03_Set(temperature);
-
+		break;
 
 	}
-
 
 }
 
