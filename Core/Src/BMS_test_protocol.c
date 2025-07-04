@@ -234,7 +234,7 @@ void tester_setup(void)
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
 						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
 
-						sendData(TxData_modbus_01,7);
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 
@@ -260,7 +260,7 @@ void tester_setup(void)
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
 						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
 
-						sendData(TxData_modbus_01,7);
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 
@@ -286,7 +286,7 @@ void tester_setup(void)
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
 						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
 
-						sendData(TxData_modbus_01,7);
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 
@@ -312,7 +312,7 @@ void tester_setup(void)
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
 						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
 
-						sendData(TxData_modbus_01,7);
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 

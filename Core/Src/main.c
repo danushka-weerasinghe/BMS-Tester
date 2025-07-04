@@ -66,8 +66,8 @@ uint8_t flag_1 = 0 ;
 uint8_t flag_2 = 0 ;
 uint8_t flag_3 = 0 ;
 
-uint8_t RxData_modbus_01[16];
-uint8_t TxData_modbus_01[16];
+uint8_t RxData_modbus_01[256];
+uint8_t TxData_modbus_01[256];
 
 uint8_t RxData_modbus_02[256];
 uint8_t TxData_modbus_02[256];

@@ -9,8 +9,8 @@
 #include "main.h"
 #include "string.h"
 
-extern uint8_t RxData_modbus_01[16];
-extern uint8_t TxData_modbus_01[16];
+extern uint8_t RxData_modbus_01[256];
+extern uint8_t TxData_modbus_01[256];
 
 extern uint8_t RxData_modbus_02[256];
 extern int8_t TxData_modbus_02[256];
