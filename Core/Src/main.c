@@ -335,7 +335,7 @@ int main(void)
 
 	  }
 
-		  cell12_Temp_01_Set(resistance[0]);
+		  cell12_Temp_01_Set(10);
 		  cell12_Temp_02_Set(resistance[1]);
 		  cell12_Temp_03_Set(resistance[2]);
 		  cell11_Temp_01_Set(resistance[3]);

@@ -635,6 +635,14 @@ void Open_Wire_Test(uint8_t id, uint8_t test_enable)
 }
 void Set_Daisy_Chain(uint8_t chain_state)
 {
+	if(chain_state == 1)
+	{
+	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
+	}
+	else if (chain_state == 0)
+	{
+	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+	}
 
 }
 void Run_Automatic_Sequence(uint8_t sequence_id, uint8_t sequence_state)
