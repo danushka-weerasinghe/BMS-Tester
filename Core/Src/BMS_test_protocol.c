@@ -46,6 +46,8 @@ void tester_setup(void)
 
         if(RxData_modbus_01[1] == 0x3)  // SET function (0x3)
         {
+
+        	flag_1 = 6; ;
             uint8_t number_of_cells_and_temps = RxData_modbus_01[1];
             uint8_t number_of_status = RxData_modbus_01[2];
             uint8_t commnd = RxData_modbus_01[3];
@@ -61,7 +63,8 @@ void tester_setup(void)
             uint8_t id = 0;
             float volt = 0.0;  // Changed to float to handle decimal values
             uint8_t tempCardId = 0;
-            uint8_t res = 0;
+            float res = 0;
+            uint8_t set_temp = 0;
 
             switch (RxData_modbus_01[2])  // Function code from table
             {
@@ -108,15 +111,18 @@ void tester_setup(void)
 
                 case 0x02:  // Temperature function (Range: 1-6, Value: 0-256)
                     tempCardId = RxData_modbus_01[3];  // Temp card ID (1-6)
-                    res = RxData_modbus_01[4];  // Resistance value (0-256)
+                    temp_set = RxData_modbus_01[4];  // Resistance value (0-256)
+                    set_temp = ntc_resistance((float)temp_set);
+
 
                     // Validate range (1-6 for temp card ID)
-                    if (tempCardId >= 1 && tempCardId <= 6)
-                    {
-                        Set_Resistance(tempCardId, res);
-                        Set_LED_status(id_LED, LED_State);
-                        HAL_Delay(1000);
-                    }
+//                    if (tempCardId >= 1 && tempCardId <= 6)
+//                    {
+                    flag_1 = 10 ;
+                        Set_Resistance(tempCardId, set_temp);
+//                        Set_LED_status(id_LED, LED_State);
+//                        HAL_Delay(1000);
+
                     break;
 
                 case 0x03:  // Balance function (Range: 1-23, Value: 1/0)
@@ -208,10 +214,10 @@ void tester_setup(void)
                     	uint16_t voltage_scaled = (uint16_t)(get_voltage * 10000); // Scale as needed
 
                     	TxData_modbus_01[0] = 0x07;  // slave address
-                    	TxData_modbus_01[1] = voltage_scaled >> 8;
+                    	TxData_modbus_01[1] = id ;
 
-                    	TxData_modbus_01[2] = voltage_scaled & 0xFF;
-                    	TxData_modbus_01[3] = 0;
+                    	TxData_modbus_01[2] = voltage_scaled >> 8;
+                    	TxData_modbus_01[3] = voltage_scaled & 0xFF;
                     	//The coil address will be 00000000 00000000 = 0 + 1 = 1
 
                     	TxData_modbus_01[4] = 0;  // force data high
@@ -498,6 +504,8 @@ void Voltage_Sequence_Automatic(void)
         	Set_voltage_and_measure(&cell_configs[c], test_voltages[v]);
 
         	cell_voltage_read();
+
+        	temparature_data_read();
 
             HAL_Delay(10);  // Delay between cells
         }

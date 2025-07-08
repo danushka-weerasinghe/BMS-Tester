@@ -25,7 +25,7 @@ const uint16_t OV_THRESHOLD = 41000; //!< Over voltage threshold ADC Code. LSB =
 const uint16_t UV_THRESHOLD = 30000; //!< Under voltage threshold ADC Code. LSB = 0.0001 ---(3V)
 
 // Global Variables
-int resistance[6] = {10, 10, 10, 10, 10, 10};
+
 cell_asic BMS_IC[TOTAL_IC];
 setup_data_sv setup_data;
 uint8_t TxData[8];

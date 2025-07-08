@@ -60,6 +60,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+int resistance[6] = {10, 10, 10, 10, 10, 10};
+
+float set_temp = 1000.0 ;
 
 uint8_t modebus_rx_flag = 0 ;
 uint8_t flag_1 = 0 ;
@@ -335,12 +338,20 @@ int main(void)
 
 	  }
 
-		  cell12_Temp_01_Set(10);
-		  cell12_Temp_02_Set(resistance[1]);
-		  cell12_Temp_03_Set(resistance[2]);
-		  cell11_Temp_01_Set(resistance[3]);
-		  cell11_Temp_02_Set(resistance[4]);
-		  cell11_Temp_03_Set(resistance[4]);
+//		  cell12_Temp_01_Set(resistance[0]);
+//		  cell12_Temp_02_Set(resistance[1]);
+//		  cell12_Temp_03_Set(resistance[2]);
+//		  cell11_Temp_01_Set(resistance[3]);
+//		  cell11_Temp_02_Set(resistance[4]);
+//		  cell11_Temp_03_Set(resistance[5]);
+
+//	  cell12_Temp_01_Set(set_temp);
+//	  cell12_Temp_02_Set(set_temp);
+//	  cell12_Temp_03_Set(set_temp);
+//
+//		  cell11_Temp_01_Set(set_temp);
+//		  cell11_Temp_02_Set(set_temp);
+//		  cell11_Temp_03_Set(set_temp);
 
 	  ////////////////////////////////////////////////////////////
 
@@ -370,6 +381,10 @@ int main(void)
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
 //	        Voltage_Sequence_Automatic();
+
+      	cell_voltage_read();
+
+      	temparature_data_read();
 
 //	        tester_setup();
 
