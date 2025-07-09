@@ -8,6 +8,7 @@
 
 #include "main.h"
 #include "INA229.h"
+#include "LTC68xx_API.h"
 
 #include "BMS_test_protocol.h"
 
@@ -36,6 +37,8 @@ extern uint8_t TxData_modbus_04[256];
 extern UART_HandleTypeDef huart1;
 
 extern flag_1 ;
+
+extern uint8_t DC_chain ;
 
 
 void tester_setup(void)
@@ -194,10 +197,17 @@ void tester_setup(void)
 
             //SET Voltage Card LEDs on for the SPI bus Data Request
 
+            HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_RESET);
+
 	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
 	        	Set_LED_status(cell, ON);
 	        }
 
+	        HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
+	        HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+	        HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_RESET);
 
 
 	        //	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
@@ -295,18 +305,72 @@ void tester_setup(void)
                     break;
 
                 case 0x05:  // DC-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
-                    if (id >= 1 && id <= 23)
-                    {
+
+
+                    	 DC_chain = 1 ;
+
+                    	 cell_voltage_read();
+
+
+                        uint8_t BMS_IC_NUM  = RxData_modbus_01[3];
+                        uint8_t CELL_ID 	= RxData_modbus_01[4];
 
 
 
-                    }
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = BMS_IC_NUM;
+
+						TxData_modbus_01[2] = CELL_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
+						// force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
+
+
+
+
+
+
                     break;
 
                 case 0x06:  // DC-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
                     if (id >= 1 && id <= 6)
                     {
-                        Get_DC_CSU_Temperature(id);
+                    	DC_chain = 1 ;
+
+                    	temparature_data_read();
+
+
+                        uint8_t BMS_IC_NUM  = RxData_modbus_01[2];
+                        uint8_t TEMP_ID 	= RxData_modbus_01[3];
+
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = BMS_IC_NUM;
+
+						TxData_modbus_01[2] = TEMP_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
+
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 
@@ -325,22 +389,72 @@ void tester_setup(void)
                     break;
 
                 case 0x09:  // 11-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
-                    if (id >= 1 && id <= 23)
-                    {
-                        Get_11_CSU_Voltage(id);
-                    }
+
+                    	DC_chain = 2 ;
+
+                    	cell_voltage_read();
+
+
+                        BMS_IC_NUM  = 0;
+                        CELL_ID 	= RxData_modbus_01[4];
+
+
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = 0x0B;
+
+						TxData_modbus_01[2] = CELL_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
+						// force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						 crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
+
                     break;
 
                 case 0x0A:  // 11-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
-                    if (id >= 1 && id <= 6)
-                    {
-                        Get_11_CSU_Temperature(id);
-                    }
+
+                    	DC_chain = 2 ;
+
+                    	temparature_data_read();
+
+
+                         BMS_IC_NUM  = 0;
+                        uint8_t TEMP_ID 	= RxData_modbus_01[3];
+
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = 0x0B;
+
+						TxData_modbus_01[2] = TEMP_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
+
+						TxData_modbus_01[5] = 0;  // force data low
+
+						crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
+
                     break;
 
                 case 0x0B:  // 11-CSU-Balance_reg (Range: 1-23, Value: 1/0)
                     if (id >= 1 && id <= 23)
                     {
+
                         Get_11_CSU_Balance_Register(id);
                     }
                     break;
@@ -355,14 +469,66 @@ void tester_setup(void)
                 case 0x0D:  // 12-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
                     if (id >= 1 && id <= 23)
                     {
-                        Get_12_CSU_Voltage(id);
+                    	DC_chain = 1 ;
+
+                    	cell_voltage_read();
+
+
+                       uint8_t BMS_IC_NUM  = 0;
+                       uint8_t CELL_ID 	= RxData_modbus_01[4];
+
+
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = 0x0C;
+
+						TxData_modbus_01[2] = CELL_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
+						// force data high
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
+
                     }
                     break;
 
                 case 0x0E:  // 12-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
                     if (id >= 1 && id <= 6)
                     {
-                        Get_12_CSU_Temperature(id);
+                    	DC_chain = 1 ;
+
+                    	temparature_data_read();
+
+
+                        uint8_t BMS_IC_NUM  = RxData_modbus_01[2];
+                        uint8_t TEMP_ID 	= RxData_modbus_01[3];
+
+
+						TxData_modbus_01[0] = 0x07;  // slave address
+
+						TxData_modbus_01[1] = 0x0C;
+
+						TxData_modbus_01[2] = TEMP_ID ;
+
+						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] ;//>> 8;
+
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
+
+						TxData_modbus_01[5] = 0;  // force data low
+
+						uint16_t crc = crc16(TxData_modbus_01, 6);
+						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
+						TxData_modbus_01[7] = (crc>>8)&0xFF;  // CRC HIGH
+
+						sendData(TxData_modbus_01,6);
                     }
                     break;
 

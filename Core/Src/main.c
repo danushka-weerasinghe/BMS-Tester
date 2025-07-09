@@ -62,6 +62,8 @@
 /* USER CODE BEGIN PD */
 int resistance[6] = {10, 10, 10, 10, 10, 10};
 
+//uint8_t DC_chain = 0 ;
+
 float set_temp = 1000.0 ;
 
 uint8_t modebus_rx_flag = 0 ;
@@ -332,7 +334,7 @@ int main(void)
 	    	memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
 		  modebus_rx_flag = 0 ;
 
-		  flag_1 = 5 ;
+		    flag_1 = 0 ;
 
 //		  HAL_TIM_Base_Stop_IT(&htim1);
 
@@ -382,9 +384,9 @@ int main(void)
 
 //	        Voltage_Sequence_Automatic();
 
-      	cell_voltage_read();
+//      	cell_voltage_read();
 
-      	temparature_data_read();
+//      	temparature_data_read();
 
 //	        tester_setup();
 

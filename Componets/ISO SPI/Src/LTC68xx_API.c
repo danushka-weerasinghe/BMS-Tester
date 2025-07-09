@@ -31,6 +31,8 @@ setup_data_sv setup_data;
 uint8_t TxData[8];
 uint32_t TxMailbox;
 
+uint8_t DC_chain = 0 ;
+
 // Configuration Variables
 unsigned char REF_ON = true; //!< Reference Powered Up Bit
 unsigned char ADCOPT = false; //!< ADC Mode option bit
@@ -107,17 +109,47 @@ const signed char TemperatureDataTable[] = { 100, 98, 93, 91, 87, 85, 83,
 
 void cs_low() {
 
-	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
-	 HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);// Enable Pack, /CS asserted
+//	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+//	 HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);// Enable Pack, /CS asserted
+
+	if (DC_chain == 2)
+	{
+	    HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+	    HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_RESET);
+	}
+	else // for DC_chain == 1 or 3
+	{
+	    HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+	    HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
+	}
 
 
 }
 
-void cs_high() {
-
+void cs_high()
+{
 	HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
 	 HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);// Disable Pack, /CS deasserted
 
+//	if(DC_chain == 1 )
+//	{
+//		HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
+//	}
+//
+//	else if (DC_chain == 2)
+//	{
+//		HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
+//	}
+//
+//	else if (DC_chain == 3)
+//	{
+//		HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
+//	}
+
+	DC_chain = 0 ;
 
 }
 
