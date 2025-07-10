@@ -1355,6 +1355,7 @@ void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
     HAL_Delay(1);
     INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
+    INA229_Readings[cell->ina_index].current_mA = INA229_getCURRENT_A(ina);
     HAL_Delay(1);
     HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
 

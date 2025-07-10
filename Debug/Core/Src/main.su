@@ -19,5 +19,5 @@
 ../Core/Src/main.c:1305:22:get_ina_handle	16	static
 ../Core/Src/main.c:1309:6:Voltage_Sequence_Automatic	64	static
 ../Core/Src/main.c:1334:6:Set_voltage_and_measure	32	static
-../Core/Src/main.c:1382:6:HAL_GPIO_EXTI_Callback	16	static
-../Core/Src/main.c:1394:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:1383:6:HAL_GPIO_EXTI_Callback	16	static
+../Core/Src/main.c:1395:6:Error_Handler	4	static,ignoring_inline_asm
