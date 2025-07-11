@@ -70,6 +70,8 @@ uint8_t modebus_rx_flag = 0 ;
 uint8_t flag_1 = 0 ;
 uint8_t flag_2 = 0 ;
 uint8_t flag_3 = 0 ;
+uint8_t timeout_flag;
+uint8_t testcount;
 
 uint8_t RxData_modbus_01[256];
 uint8_t TxData_modbus_01[256];
@@ -120,6 +122,8 @@ SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
 SPI_HandleTypeDef hspi4;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
@@ -147,6 +151,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 //void Scan_I2C_Bus(void);
@@ -191,11 +196,11 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
+	timeout_flag = 0;
     memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));
     memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
+
+  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -231,6 +236,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
   MX_FATFS_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
   RTC_Init();
@@ -285,6 +291,8 @@ int main(void)
 
 	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, 256);
 
+	HAL_TIM_Base_Start_IT(&htim1);
+
 //fixing the startup resistance of temperature cards
 #ifdef start_Resistance_fix
 		  cell12_Temp_01_startup(10);
@@ -319,7 +327,7 @@ int main(void)
 
 
 
-	  if (modebus_rx_flag == 1 )
+	  if (timeout_flag )
 
 	  {
 //		  memset(Rx_Data, 0, sizeof(Rx_Data));
@@ -335,6 +343,9 @@ int main(void)
 		  modebus_rx_flag = 0 ;
 
 		    flag_1 = 0 ;
+
+			  HAL_TIM_Base_Stop_IT(&htim1);
+			  timeout_flag = 0;
 
 //		  HAL_TIM_Base_Stop_IT(&htim1);
 
@@ -857,6 +868,52 @@ static void MX_SPI4_Init(void)
   /* USER CODE BEGIN SPI4_Init 2 */
 
   /* USER CODE END SPI4_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 999;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 999;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
 
 }
 
@@ -1501,12 +1558,19 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 	  flag_1 = 2 ;
 
+	  HAL_TIM_Base_Start_IT(&htim1);
+
 //    tester_setup();
 
 //	modebus_rx_flag = 0;
 
 
 //	HAL_UART_RxCpltCallback
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	timeout_flag = 1;
+	testcount++;
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
