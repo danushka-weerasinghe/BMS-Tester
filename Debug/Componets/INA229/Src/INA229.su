@@ -7,10 +7,10 @@
 ../Componets/INA229/Src/INA229.c:182:7:INA229_getDIETEMP_C	32	static
 ../Componets/INA229/Src/INA229.c:207:7:INA229_getDIETEMP_F	24	static
 ../Componets/INA229/Src/INA229.c:221:7:INA229_getCURRENT_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:246:7:INA229_getCURRENT_A	24	static
-../Componets/INA229/Src/INA229.c:261:7:INA229_getPOWER_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:276:7:INA229_getPOWER_W	24	static
-../Componets/INA229/Src/INA229.c:289:8:INA229_getENERGY_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:303:8:INA229_getENERGY_J	24	static
-../Componets/INA229/Src/INA229.c:316:8:INA229_getCHARGE_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:338:8:INA229_getCHARGE_C	24	static
+../Componets/INA229/Src/INA229.c:246:7:INA229_getCURRENT_A	32	static
+../Componets/INA229/Src/INA229.c:270:7:INA229_getPOWER_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:285:7:INA229_getPOWER_W	24	static
+../Componets/INA229/Src/INA229.c:298:8:INA229_getENERGY_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:312:8:INA229_getENERGY_J	24	static
+../Componets/INA229/Src/INA229.c:325:8:INA229_getCHARGE_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:347:8:INA229_getCHARGE_C	24	static

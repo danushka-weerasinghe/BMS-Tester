@@ -395,7 +395,7 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-//	        Voltage_Sequence_Automatic();
+	        Voltage_Sequence_Automatic();
 
 //      	cell_voltage_read();
 
@@ -408,7 +408,7 @@ int main(void)
 	        	Set_LED_status(cell, ON);
 	        }
 
-	        test_currecnt_senser();
+//	        test_currecnt_senser();
 
 
 
