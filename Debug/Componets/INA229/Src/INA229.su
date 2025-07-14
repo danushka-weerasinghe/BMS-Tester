@@ -9,8 +9,8 @@
 ../Componets/INA229/Src/INA229.c:221:7:INA229_getCURRENT_signedLSB	32	static
 ../Componets/INA229/Src/INA229.c:246:7:INA229_getCURRENT_A	24	static
 ../Componets/INA229/Src/INA229.c:259:7:INA229_getPOWER_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:273:7:INA229_getPOWER_W	24	static
-../Componets/INA229/Src/INA229.c:286:8:INA229_getENERGY_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:300:8:INA229_getENERGY_J	24	static
-../Componets/INA229/Src/INA229.c:313:8:INA229_getCHARGE_signedLSB	32	static
-../Componets/INA229/Src/INA229.c:335:8:INA229_getCHARGE_C	24	static
+../Componets/INA229/Src/INA229.c:274:7:INA229_getPOWER_W	24	static
+../Componets/INA229/Src/INA229.c:287:8:INA229_getENERGY_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:301:8:INA229_getENERGY_J	24	static
+../Componets/INA229/Src/INA229.c:314:8:INA229_getCHARGE_signedLSB	32	static
+../Componets/INA229/Src/INA229.c:336:8:INA229_getCHARGE_C	24	static

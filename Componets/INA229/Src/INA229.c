@@ -259,6 +259,7 @@ float INA229_getCURRENT_A(INA229_Handle sensor)
 float INA229_getPOWER_signedLSB(INA229_Handle sensor)
 {
     uint64_t value = INA229_readReg(sensor, INA229_power_register);
+
     float data;
 
     data = (float)value;
