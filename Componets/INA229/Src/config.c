@@ -43,7 +43,7 @@ static INA229_State INA229_0_state = {
     .pwrLimitRegister = 0xFFFFU,
 
     .adcrange = INA229_config_register_adcrange_16384mV, 
-    .currentlsb = 0.0000002*100,
+    .currentlsb = 0.00002,
 
     /* Sensor's SPI bus and chip select ID */
     .busId = 0,
@@ -79,7 +79,7 @@ static INA229_State INA229_1_state = {
     .pwrLimitRegister = 0xFFFFU,
 
     .adcrange = INA229_config_register_adcrange_16384mV,
-    .currentlsb = 0.0000002*100,
+    .currentlsb = 0.00002,
 
     /* Sensor's SPI bus and chip select ID */
     .busId = 0,
@@ -115,7 +115,7 @@ static INA229_State INA229_2_state = {
     .pwrLimitRegister = 0xFFFFU,
 
     .adcrange = INA229_config_register_adcrange_16384mV,
-    .currentlsb = 0.0000002*100,
+    .currentlsb = 0.00002,
 
     /* Sensor's SPI bus and chip select ID */
     .busId = 0,
@@ -151,7 +151,7 @@ static INA229_State INA229_3_state = {
     .pwrLimitRegister = 0xFFFFU,
 
     .adcrange = INA229_config_register_adcrange_16384mV,
-    .currentlsb = 0.0000002*100,
+    .currentlsb = 0.00002,
 
     /* Sensor's SPI bus and chip select ID */
     .busId = 0,

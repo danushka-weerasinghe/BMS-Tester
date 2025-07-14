@@ -885,3 +885,29 @@ uint8_t Get_12_CSU_Open_Wire(uint8_t id)
 {
 
 }
+
+void test_currecnt_senser()
+{
+
+	Set_Output_Voltage(0, 4.0f);
+
+    HAL_Delay(10);
+
+    Set_LED_status(0, OFF);
+
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_RESET);
+    HAL_Delay(1);
+    INA229_Readings[0].voltage_V = INA229_getVBUS_V(0);
+    HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_SET);
+    HAL_Delay(10);
+
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_RESET);
+    HAL_Delay(1);
+    INA229_Readings[0].current_mA = INA229_getCURRENT_A(0);
+    HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOE, CELL12_CS_01_Pin, GPIO_PIN_SET);
+
+    Set_LED_status(0, ON);
+
+}

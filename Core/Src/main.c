@@ -178,6 +178,8 @@ void init_ina229_devices(void) ;
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
 
+void test_currecnt_senser();
+
 
 /* USER CODE END PFP */
 
@@ -393,7 +395,7 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-	        Voltage_Sequence_Automatic();
+//	        Voltage_Sequence_Automatic();
 
 //      	cell_voltage_read();
 
@@ -402,9 +404,13 @@ int main(void)
 //	        tester_setup();
 
 	        // Process battery tests
-//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-//	        	Set_LED_status(cell, ON);
-//	        }
+	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+	        	Set_LED_status(cell, ON);
+	        }
+
+	        test_currecnt_senser();
+
+
 
 //	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
 //	        	Set_LED_status(cell, OFF);

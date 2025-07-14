@@ -104,4 +104,6 @@ bool Validate_Cell_ID(uint8_t id, uint8_t max_range);
 bool Validate_Temp_Sensor_ID(uint8_t id, uint8_t max_range);
 void Process_Modbus_Command(uint8_t* rx_data);
 
+void test_currecnt_senser();
+
 #endif /* INC_BMS_TEST_PROTOCOL_H_ */

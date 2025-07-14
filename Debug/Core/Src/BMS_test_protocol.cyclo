@@ -23,3 +23,4 @@
 ../Core/Src/BMS_test_protocol.c:876:7:Get_12_CSU_Temperature	1
 ../Core/Src/BMS_test_protocol.c:880:9:Get_12_CSU_Balance_Register	1
 ../Core/Src/BMS_test_protocol.c:884:9:Get_12_CSU_Open_Wire	1
+../Core/Src/BMS_test_protocol.c:889:6:test_currecnt_senser	1

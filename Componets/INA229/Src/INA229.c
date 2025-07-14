@@ -247,7 +247,9 @@ float INA229_getCURRENT_A(INA229_Handle sensor)
 {
     float data = INA229_getCURRENT_signedLSB(sensor);
 
-    data = data * sensor->currentlsb;
+//    data = data * sensor->currentlsb;
+
+    data = data * 0.00002;
 
     return data;
 }
