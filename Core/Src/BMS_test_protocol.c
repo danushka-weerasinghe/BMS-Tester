@@ -396,7 +396,7 @@ void tester_setup(void)
 
 
                         BMS_IC_NUM  = 0;
-                        CELL_ID 	= RxData_modbus_01[4];
+                        CELL_ID 	= RxData_modbus_01[3];
 
 
 
@@ -475,7 +475,7 @@ void tester_setup(void)
 
 
                        uint8_t BMS_IC_NUM  = 0;
-                       uint8_t CELL_ID 	= RxData_modbus_01[4];
+                       uint8_t CELL_ID 	= RxData_modbus_01[3];
 
 
 
