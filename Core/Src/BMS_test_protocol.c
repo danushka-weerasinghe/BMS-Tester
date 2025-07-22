@@ -224,14 +224,13 @@ void tester_setup(void)
                     	uint16_t voltage_scaled = (uint16_t)(get_voltage * 10000); // Scale as needed
 
                     	TxData_modbus_01[0] = 0x07;  // slave address
-                    	TxData_modbus_01[1] = id ;
+                    	TxData_modbus_01[1] = 0x01; // Data type for decoding
 
-                    	TxData_modbus_01[2] = voltage_scaled >> 8;
-                    	TxData_modbus_01[3] = voltage_scaled & 0xFF;
-                    	//The coil address will be 00000000 00000000 = 0 + 1 = 1
+                    	TxData_modbus_01[2] = id ;
+                    	TxData_modbus_01[3] = voltage_scaled >> 8;
 
-                    	TxData_modbus_01[4] = 0;  // force data high
-                    	TxData_modbus_01[5] = 0;  // force data low
+                    	TxData_modbus_01[4] = voltage_scaled & 0xFF;
+                    	TxData_modbus_01[5] = 0;                   	//The coil address will be 00000000 00000000 = 0 + 1 = 1
 
                     	uint16_t crc = crc16(TxData_modbus_01, 6);
                     	TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -252,13 +251,12 @@ void tester_setup(void)
 						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
 
 						TxData_modbus_01[0] = 0x07;  // slave address
-						TxData_modbus_01[1] = Temp_scaled >> 8;
+						TxData_modbus_01[1] = 0x03; // Data type for decoding
 
-						TxData_modbus_01[2] = Temp_scaled & 0xFF;
-						TxData_modbus_01[3] = 0;
-													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+                    	TxData_modbus_01[2] = id ;
+						TxData_modbus_01[3] = Temp_scaled >> 8;
 
-						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[4] = Temp_scaled & 0xFF;							//The coil address will be 00000000 00000000 = 0 + 1 = 1
 						TxData_modbus_01[5] = 0;  // force data low
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
@@ -278,13 +276,12 @@ void tester_setup(void)
 						uint16_t Current_scaled = (uint16_t)(get_current * 10000); // Scale as needed
 
 						TxData_modbus_01[0] = 0x07;  // slave address
-						TxData_modbus_01[1] = Current_scaled >> 8;
+						TxData_modbus_01[1] = 0x02; // Data type for decoding
 
-						TxData_modbus_01[2] = Current_scaled & 0xFF;
-						TxData_modbus_01[3] = 0;
-													//The coil address will be 00000000 00000000 = 0 + 1 = 1
+                    	TxData_modbus_01[2] = id;
+						TxData_modbus_01[3] = Current_scaled >> 8;
 
-						TxData_modbus_01[4] = 0;  // force data high
+						TxData_modbus_01[4] = Current_scaled & 0xFF;					//The coil address will be 00000000 00000000 = 0 + 1 = 1
 						TxData_modbus_01[5] = 0;  // force data low
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
@@ -315,19 +312,14 @@ void tester_setup(void)
                         uint8_t BMS_IC_NUM  = RxData_modbus_01[3];
                         uint8_t CELL_ID 	= RxData_modbus_01[4];
 
-
-
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x01; // Data type for decoding
 
-						TxData_modbus_01[1] = BMS_IC_NUM;
+						TxData_modbus_01[2] = BMS_IC_NUM;
+						TxData_modbus_01[3] = CELL_ID ;
 
-						TxData_modbus_01[2] = CELL_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
-						// force data high
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -355,16 +347,13 @@ void tester_setup(void)
 
 
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x03; // Data type for decoding
 
-						TxData_modbus_01[1] = BMS_IC_NUM;
+						TxData_modbus_01[2] = BMS_IC_NUM;
+						TxData_modbus_01[3] = TEMP_ID ;
 
-						TxData_modbus_01[2] = TEMP_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
-
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -401,16 +390,13 @@ void tester_setup(void)
 
 
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x01; // Data type for decoding
 
-						TxData_modbus_01[1] = 0x0B;
+						TxData_modbus_01[2] = 0x0B;
+						TxData_modbus_01[3] = CELL_ID ;
 
-						TxData_modbus_01[2] = CELL_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
-						// force data high
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
 
 						 crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -432,16 +418,13 @@ void tester_setup(void)
 
 
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x03; // Data type for decoding
 
-						TxData_modbus_01[1] = 0x0B;
+						TxData_modbus_01[2] = 0x0B;
+						TxData_modbus_01[3] = TEMP_ID ;
 
-						TxData_modbus_01[2] = TEMP_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
-
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;
 
 						crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -480,16 +463,13 @@ void tester_setup(void)
 
 
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x01; // Data type for decoding
 
-						TxData_modbus_01[1] = 0x0C;
+						TxData_modbus_01[2] = 0x0C;
+						TxData_modbus_01[3] = CELL_ID ;
 
-						TxData_modbus_01[2] = CELL_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
-						// force data high
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -513,16 +493,13 @@ void tester_setup(void)
 
 
 						TxData_modbus_01[0] = 0x07;  // slave address
+						TxData_modbus_01[1] = 0x03; // Data type for decoding
 
-						TxData_modbus_01[1] = 0x0C;
+						TxData_modbus_01[2] = 0x0C;
+						TxData_modbus_01[3] = TEMP_ID ;
 
-						TxData_modbus_01[2] = TEMP_ID ;
-
-						TxData_modbus_01[3] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] ;//>> 8;
-
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;  // force data high
-
-						TxData_modbus_01[5] = 0;  // force data low
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] ;//>> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID] & 0xFF;
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
