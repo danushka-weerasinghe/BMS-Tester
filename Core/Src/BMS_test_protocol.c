@@ -393,7 +393,7 @@ void tester_setup(void)
 						TxData_modbus_01[1] = 0x01; // Data type for decoding
 
 						TxData_modbus_01[2] = 0x0B;
-						TxData_modbus_01[3] = CELL_ID ;
+						TxData_modbus_01[3] = CELL_ID;
 
 						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
 						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
@@ -450,7 +450,7 @@ void tester_setup(void)
                     break;
 
                 case 0x0D:  // 12-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
-                    if (id >= 1 && id <= 23)
+                    if (id >= 0 && id <= 23)
                     {
                     	DC_chain = 1 ;
 
@@ -481,7 +481,7 @@ void tester_setup(void)
                     break;
 
                 case 0x0E:  // 12-CSU-Temp (Range: 1-6, Value: -20 to 100°C)
-                    if (id >= 1 && id <= 6)
+                    if (id >= 0 && id <= 5)
                     {
                     	DC_chain = 1 ;
 

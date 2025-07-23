@@ -1,4 +1,4 @@
-../Core/Src/BMS_test_protocol.c:44:6:tester_setup	69
+../Core/Src/BMS_test_protocol.c:44:6:tester_setup	67
 ../Core/Src/BMS_test_protocol.c:542:6:init_ina229_devices	1
 ../Core/Src/BMS_test_protocol.c:634:22:get_ina_handle	1
 ../Core/Src/BMS_test_protocol.c:638:6:Voltage_Sequence_Automatic	3
