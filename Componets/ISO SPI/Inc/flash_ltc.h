@@ -19,7 +19,6 @@
 #define TEMP_PER_IC 3
 #define CELLS_PER_IC 12
 
-
 #define AUX_REGISTERS 6
 #define ST_REGISTERS 4
 #define PWM_REGISTERS 6

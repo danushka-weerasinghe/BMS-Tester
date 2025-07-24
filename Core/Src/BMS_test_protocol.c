@@ -304,22 +304,30 @@ void tester_setup(void)
                 case 0x05:  // DC-CSU-Volt (Range: 1-23, Value: 2.0-4.2V)
 
 
-                    	 DC_chain = 1 ;
+                    	DC_chain = 1 ;
 
-                    	 cell_voltage_read();
+                    	uint8_t CELL_ID_2;
+                    	uint8_t CELL_ID 	= RxData_modbus_01[3];
+                    	uint8_t BMS_IC_NUM  = 0;
 
+                    	cell_voltage_read();
 
-                        uint8_t BMS_IC_NUM  = RxData_modbus_01[3];
-                        uint8_t CELL_ID 	= RxData_modbus_01[4];
+                    	if (CELL_ID > 0x11){
+                    		CELL_ID_2 = CELL_ID - 0x11;
+                    		uint8_t BMS_IC_NUM  = 0;
+                    	}
+
+//                        uint8_t BMS_IC_NUM  = RxData_modbus_01[3];
+//                        uint8_t CELL_ID 	= RxData_modbus_01[4];
 
 						TxData_modbus_01[0] = 0x07;  // slave address
 						TxData_modbus_01[1] = 0x01; // Data type for decoding
 
 						TxData_modbus_01[2] = BMS_IC_NUM;
-						TxData_modbus_01[3] = CELL_ID ;
+						TxData_modbus_01[3] = CELL_ID;
 
-						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] >> 8;
-						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID] & 0xFF;
+						TxData_modbus_01[4] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID_2] >> 8;
+						TxData_modbus_01[5] = BMS_IC[BMS_IC_NUM].cells.c_codes[CELL_ID_2] & 0xFF;
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
