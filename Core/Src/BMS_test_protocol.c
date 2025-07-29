@@ -312,6 +312,7 @@ void tester_setup(void)
 
                     	cell_voltage_read();
 
+                    	if (CELL_ID > 0x0B){
                     		CELL_ID_2 = CELL_ID - 12;
                     		BMS_IC_NUM  = 1;
                     	} else {
