@@ -312,9 +312,10 @@ void tester_setup(void)
 
                     	cell_voltage_read();
 
-                    	if (CELL_ID > 0x11){
-                    		CELL_ID_2 = CELL_ID - 0x11;
-                    		uint8_t BMS_IC_NUM  = 0;
+                    		CELL_ID_2 = CELL_ID - 12;
+                    		BMS_IC_NUM  = 1;
+                    	} else {
+                    		CELL_ID_2 = CELL_ID;
                     	}
 
 //                        uint8_t BMS_IC_NUM  = RxData_modbus_01[3];
@@ -804,11 +805,11 @@ void Set_Daisy_Chain(uint8_t chain_state)
 {
 	if(chain_state == 1)
 	{
-	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
 	}
 	else if (chain_state == 0)
 	{
-	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
 	}
 
 }
