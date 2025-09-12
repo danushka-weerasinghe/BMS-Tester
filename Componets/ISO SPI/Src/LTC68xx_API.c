@@ -148,8 +148,8 @@ void cs_high()
 //		HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
 //		HAL_GPIO_WritePin(CS1_GPIO_Port, CS1_Pin, GPIO_PIN_SET);
 //	}
-
-	DC_chain = 0 ;
+//
+//	DC_chain = 0 ;
 
 }
 
