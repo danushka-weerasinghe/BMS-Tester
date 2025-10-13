@@ -1,0 +1,11 @@
+../Componets/RS485/Src/modbusSlave.c:47:6:sendData	1
+../Componets/RS485/Src/modbusSlave.c:67:6:modbusException	1
+../Componets/RS485/Src/modbusSlave.c:79:9:readHoldingRegs	5
+../Componets/RS485/Src/modbusSlave.c:118:9:readInputRegs	5
+../Componets/RS485/Src/modbusSlave.c:157:9:readCoils	8
+../Componets/RS485/Src/modbusSlave.c:223:9:readInputs	8
+../Componets/RS485/Src/modbusSlave.c:289:9:writeHoldingRegs	5
+../Componets/RS485/Src/modbusSlave.c:334:9:writeSingleReg	2
+../Componets/RS485/Src/modbusSlave.c:366:9:writeSingleCoil	6
+../Componets/RS485/Src/modbusSlave.c:413:9:writeMultiCoils	8
+../Componets/RS485/Src/modbusSlave.c:491:10:parse_command_from_buffer	12

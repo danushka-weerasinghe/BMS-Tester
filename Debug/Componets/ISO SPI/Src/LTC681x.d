@@ -1,5 +1,5 @@
 Componets/ISO SPI/Src/LTC681x.o: ../Componets/ISO\ SPI/Src/LTC681x.c \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -29,8 +29,12 @@ Componets/ISO SPI/Src/LTC681x.o: ../Componets/ISO\ SPI/Src/LTC681x.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h:
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/flash_Itc.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -62,3 +66,7 @@ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/I
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/flash_Itc.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:

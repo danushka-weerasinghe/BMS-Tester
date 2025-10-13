@@ -35,20 +35,27 @@
 #include "mcu.h"
 #include <math.h>
 
-
-#include "flash_LTC.h"
-#include "LTC6811.h"
+#include "LT_SPI.h"
+#include "LT_I2C.h"
+#include "QuikEval_EEPROM.h"
+#include "UserInterface.h"
 #include "LTC681x.h"
-#include "LTC68xx_API.h"
+#include "LTC6811.h"
+
+
 #include <stdlib.h>
 
 #include "gpio_expander.h"
 #include "rtc.h"
+#include "modbusSlave.h"
 #include "button_led.h"
 
 #include "BMS_test_protocol.h"
+#include "modbus_crc.h"
+#include <stdio.h>
 
-
+#include "LTC68xx_API.h"
+#include "flash_Itc.h"
 
 
 /* USER CODE END Includes */
@@ -60,15 +67,46 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+int resistance[6] = {10, 10, 10, 10, 10, 10};
 
-float set_volt = 2.0;
+// DC_chain is defined in LTC68xx_API.c
+extern uint8_t DC_chain;
+
+float set_temp = 1000.0 ;
+
+// Global variables moved to UserInterface.c
+extern uint8_t modbus_rx_flag;
+extern uint8_t RxData_modbus_01[256];
+extern uint8_t in_measurement_loop;
+
+uint8_t flag_1 = 0 ;
+uint8_t flag_2 = 0 ;
+uint8_t flag_3 = 0 ;
+uint8_t timeout_flag;
+uint8_t testcount;
+uint16_t uart_rx_size = 0; // Store UART receive size
+
+uint8_t TxData_modbus_01[256];
+
+uint8_t RxData_modbus_02[256];
+uint8_t TxData_modbus_02[256];
+
+uint8_t RxData_modbus_03[256];
+uint8_t TxData_modbus_03[256];
+
+uint8_t RxData_modbus_04[256];
+uint8_t TxData_modbus_04[256];
 
 uint8_t address;
 HAL_StatusTypeDef result;
 
 int count =0 ;
 
-#define UI_BUFFER_SIZE 32
+int flag_test = 0 ;
+
+char input = 0;
+
+// UI_BUFFER_SIZE already defined in UserInterface.h
 #define CRC16_CCITT 0x1021
 #define debug
 #define BAUD    115200
@@ -78,7 +116,13 @@ int count =0 ;
 
 INA229_Handle ina229_devices[NUM_INA229];
 
+// Function declarations for missing functions
+extern void cell_voltage_read(void);
+extern void temparature_data_read(void);
 
+
+// Command processing function declaration (now in UserInterface.c)
+// void run_command(uint32_t cmd); - moved to UserInterface.c
 
 /* USER CODE END PD */
 
@@ -100,6 +144,8 @@ SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
 SPI_HandleTypeDef hspi4;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
@@ -110,6 +156,58 @@ UART_HandleTypeDef huart6;
 
 
 /* USER CODE END PV */
+
+/************************* Defines *****************************/
+// Constants moved to main.h
+
+/**************** Local Function Declaration *******************/
+// All command processing functions moved to UserInterface.c
+
+/*******************************************************************
+  Setup Variables
+  The following variables can be modified to configure the software.
+********************************************************************/
+// BMS_IC is defined in LTC68xx_API.c
+extern cell_asic BMS_IC[TOTAL_IC];
+
+//ADC Command Configurations. See LTC681x.h for options.
+// These are now defined in LTC68xx_API.c
+
+// Measurement loop constants moved to UserInterface.c
+extern const uint16_t MEASUREMENT_LOOP_TIME;
+extern const uint8_t WRITE_CONFIG;
+extern const uint8_t READ_CONFIG;
+extern const uint8_t MEASURE_CELL;
+extern const uint8_t MEASURE_AUX;
+extern const uint8_t MEASURE_STAT;
+extern const uint8_t PRINT_PEC;
+
+//Under Voltage and Over Voltage Thresholds
+// These are now defined in LTC68xx_API.c
+/************************************
+  END SETUP
+*************************************/
+
+/******************************************************
+ Global Battery Variables received from 681x commands.
+ These variables store the results from the LTC6811
+ register reads and the array lengths must be based
+ on the number of ICs on the stack
+ ******************************************************/
+#define TOTAL_IC 2
+
+
+/*********************************************************
+ Set the configuration bits.
+ Refer to the Configuration Register Group from data sheet.
+**********************************************************/
+// Configuration variables are now defined in LTC68xx_API.c
+/*Ensure that Dcto bits are set according to the required discharge time. Refer to the data sheet */
+
+/*!**********************************************************************
+ \brief  Initializes hardware and variables
+ @return void
+ ***********************************************************************/
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -127,19 +225,20 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 //void Scan_I2C_Bus(void);
 
 
-// Define configuration structure using constant values
-typedef struct {
-    uint8_t cell_id;      // Cell ID as a number instead of enum
-    uint8_t ina_index;    // Index of INA229 (0-23)
-    GPIO_TypeDef* gpio;   // GPIO port (this is actually a constant address)
-    uint16_t cs_pin;      // Chip select pin
-    uint16_t led_pin;     // LED pin
-} Cell_Config;
+//// Define configuration structure using constant values
+//typedef struct {
+//    uint8_t cell_id;      // Cell ID as a number instead of enum
+//    uint8_t ina_index;    // Index of INA229 (0-23)
+//    GPIO_TypeDef* gpio;   // GPIO port (this is actually a constant address)
+//    uint16_t cs_pin;      // Chip select pin
+//    uint16_t led_pin;     // LED pin
+//} Cell_Config;
 
 
 // Function declarations
@@ -150,6 +249,11 @@ void Voltage_Sequence_Automatic(void);
 void Set_voltage_and_measure(const Cell_Config* cell, float voltage);
 
 void init_ina229_devices(void) ;
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+
+
+void test_currecnt_senser();
 
 
 /* USER CODE END PFP */
@@ -169,6 +273,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+	timeout_flag = 0;
+    memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));
+    memset(TxData_modbus_01, 0, sizeof(TxData_modbus_01));
 
   /* USER CODE END 1 */
 
@@ -206,7 +313,11 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART6_UART_Init();
   MX_FATFS_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+
+  // Enable USART1 clock explicitly
+  __HAL_RCC_USART1_CLK_ENABLE();
 
   RTC_Init();
   LED_Init();		/* Reset all LEDs */
@@ -222,25 +333,21 @@ int main(void)
   HAL_Delay(10);
 
 
-//
-
-
-
   //init ltc ics
 
   //--------------------------------------------------------------//
+  LTC6811_init_cfg(TOTAL_IC, BMS_IC);
+  uint8_t main_current_ic;
+  for (main_current_ic = 0; main_current_ic < TOTAL_IC; main_current_ic++) {
+	  LTC6811_set_cfgr(main_current_ic, BMS_IC, REF_ON, ADCOPT, GPIOBITS_A,DCCBITS_A, DCTOBITS, UV, OV);
+  }
+   LTC6811_wrcfg(TOTAL_IC, BMS_IC);
+   LTC6811_reset_crc_count(TOTAL_IC, BMS_IC);
+   LTC6811_init_reg_limits(TOTAL_IC, BMS_IC);
 
-	LTC6811_init_cfg(TOTAL_IC, BMS_IC);
-	uint8_t main_current_ic;
-	for (main_current_ic = 0; main_current_ic < TOTAL_IC; main_current_ic++) {
-		LTC6811_set_cfgr(main_current_ic, BMS_IC, REF_ON, ADCOPT, GPIOBITS_A,
-				DCCBITS_A, DCTOBITS, UV, OV);
-	}
-	LTC6811_wrcfg(TOTAL_IC, BMS_IC);
-	LTC6811_reset_crc_count(TOTAL_IC, BMS_IC);
-	LTC6811_init_reg_limits(TOTAL_IC, BMS_IC);
+   //--------------------------------------------------------------//
 
-  //--------------------------------------------------------------//
+  HAL_Delay(1000);
 
   /* Initialize the display module */
   Display_Init();
@@ -251,6 +358,20 @@ int main(void)
   /* Initialize the expander at address 0x20 by configuring all its pins as outputs */
   Expander_InitAllDevices(&hi2c2);
   Expander_InitAllDevices(&hi2c3);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData_modbus_01, 256);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, RxData_modbus_02, 256);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData_modbus_03, 256);
+
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, 256);
+
+	HAL_TIM_Base_Start_IT(&htim1);
+
+	HAL_Delay(100);
+
+	print_menu();
 
 //fixing the startup resistance of temperature cards
 #ifdef start_Resistance_fix
@@ -270,28 +391,44 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  RTC_ReadTime();
-//	  char timeStr[16];
-//	  char dateStr[16];
-//	  sprintf(timeStr, "%02d:%02d:%02d", time.hour, time.minute, time.second);
-//	  sprintf(dateStr, "%02d/%02d/%02d", time.day, time.month, time.year);
-//	  display_lcd(timeStr);
-//	  HAL_Delay(100);
-//	  LED_Set(7, 0);
+    // Check for UART input
+    if (modbus_rx_flag == 1)
+    {
+      uint32_t user_command = parse_command_from_buffer(uart_rx_size);
+      modbus_rx_flag = 0;
 
+      if (user_command == 'm')
+      {
+        print_menu();
+      }
+      else if (user_command != 0)
+      {
+        stm32_println_int(user_command);
+        run_command(user_command);
+      }
+    }
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
+  }
 
 
-		  cell12_Temp_01_Set(resistance[0]);
-		  cell12_Temp_02_Set(resistance[1]);
-		  cell12_Temp_03_Set(resistance[2]);
-		  cell11_Temp_01_Set(resistance[3]);
-		  cell11_Temp_02_Set(resistance[4]);
-		  cell11_Temp_03_Set(resistance[4]);
+//		  cell12_Temp_01_Set(resistance[0]);
+//		  cell12_Temp_02_Set(resistance[1]);
+//		  cell12_Temp_03_Set(resistance[2]);
+//		  cell11_Temp_01_Set(resistance[3]);
+//		  cell11_Temp_02_Set(resistance[4]);
+//		  cell11_Temp_03_Set(resistance[5]);
+
+//	  cell12_Temp_01_Set(set_temp);
+//	  cell12_Temp_02_Set(set_temp);
+//	  cell12_Temp_03_Set(set_temp);
+//
+//		  cell11_Temp_01_Set(set_temp);
+//		  cell11_Temp_02_Set(set_temp);
+//		  cell11_Temp_03_Set(set_temp);
 
 	  ////////////////////////////////////////////////////////////
 
@@ -320,33 +457,43 @@ int main(void)
 //
 //		  Set_Output_Voltage(CELL_24, 2.0f);
 
-	        Voltage_Sequence_Automatic();
+//	        Voltage_Sequence_Automatic();
+
+//      	cell_voltage_read();
+
+//      	temparature_data_read();
+
+//	        tester_setup();
 
 	        // Process battery tests
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, ON);
-	        }
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, ON);
+//	        }
 
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, OFF);
-	        }
-	        HAL_Delay(1000);
-
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_Output_Voltage(cell, 4.2);
-	        }
+//	        test_currecnt_senser();
 
 
-	        HAL_Delay(1000);
 
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_Output_Voltage(cell, 2.0);
-	        }
-	        HAL_Delay(1000);
-
-	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
-	        	Set_LED_status(cell, ON);
-	        }
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, OFF);
+//	        }
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_Output_Voltage(cell, 4.2);
+//	        }
+//
+//
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_Output_Voltage(cell, 2.0);
+//	        }
+//	        HAL_Delay(1000);
+//
+//	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+//	        	Set_LED_status(cell, ON);
+//	        }
 
 //
 //HAL_GPIO_WritePin(GPIOC, SPI3_CS_03_Pin|SPI3_CS_02_Pin, GPIO_PIN_RESET);
@@ -374,7 +521,7 @@ int main(void)
 
   }
   /* USER CODE END 3 */
-}
+
 
 /**
   * @brief System Clock Configuration
@@ -793,6 +940,52 @@ static void MX_SPI4_Init(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 999;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 999;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -934,6 +1127,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* USER CODE BEGIN MX_GPIO_Init_1 */
   /* USER CODE END MX_GPIO_Init_1 */
+
+  // Configure UART1 GPIO pins (PA9 - TX, PA10 - RX)
+  GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -1187,34 +1388,34 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void init_ina229_devices(void) {
-    ina229_devices[0] = INA229_0;
-    ina229_devices[1] = INA229_1;
-    ina229_devices[2] = INA229_2;
-    ina229_devices[3] = INA229_3;
-    ina229_devices[4] = INA229_4;
-    ina229_devices[5] = INA229_5;
-    ina229_devices[6] = INA229_6;
-    ina229_devices[7] = INA229_7;
-    ina229_devices[8] = INA229_8;
-    ina229_devices[9] = INA229_9;
-    ina229_devices[10] = INA229_10;
-    ina229_devices[11] = INA229_11;
-    ina229_devices[12] = INA229_12;
-    ina229_devices[13] = INA229_13;
-    ina229_devices[14] = INA229_14;
-    ina229_devices[15] = INA229_15;
-    ina229_devices[16] = INA229_16;
-    ina229_devices[17] = INA229_17;
-    ina229_devices[18] = INA229_18;
-    ina229_devices[19] = INA229_19;
-    ina229_devices[20] = INA229_20;
-    ina229_devices[21] = INA229_21;
-    ina229_devices[22] = INA229_22;
-    ina229_devices[23] = INA229_23;
-    ina229_devices[24] = INA229_24;
-    ina229_devices[25] = INA229_25;
-}
+//void init_ina229_devices(void) {
+//    ina229_devices[0] = INA229_0;
+//    ina229_devices[1] = INA229_1;
+//    ina229_devices[2] = INA229_2;
+//    ina229_devices[3] = INA229_3;
+//    ina229_devices[4] = INA229_4;
+//    ina229_devices[5] = INA229_5;
+//    ina229_devices[6] = INA229_6;
+//    ina229_devices[7] = INA229_7;
+//    ina229_devices[8] = INA229_8;
+//    ina229_devices[9] = INA229_9;
+//    ina229_devices[10] = INA229_10;
+//    ina229_devices[11] = INA229_11;
+//    ina229_devices[12] = INA229_12;
+//    ina229_devices[13] = INA229_13;
+//    ina229_devices[14] = INA229_14;
+//    ina229_devices[15] = INA229_15;
+//    ina229_devices[16] = INA229_16;
+//    ina229_devices[17] = INA229_17;
+//    ina229_devices[18] = INA229_18;
+//    ina229_devices[19] = INA229_19;
+//    ina229_devices[20] = INA229_20;
+//    ina229_devices[21] = INA229_21;
+//    ina229_devices[22] = INA229_22;
+//    ina229_devices[23] = INA229_23;
+//    ina229_devices[24] = INA229_24;
+//    ina229_devices[25] = INA229_25;
+//}
 
 
 
@@ -1247,136 +1448,163 @@ void Scan_I2C_Bus(void)
 #define I2C2_BUS 2
 #define I2C3_BUS 3
 
-// Define the configurations table
-static const Cell_Config cell_configs[] = {
-		// First GPIO Expander (ID_01) - Cells 1-3
-
-		// FOR THE FIRST 12 CELLS
-    // Cell ID, INA idx, GPIO port,  CS pin,           LED pin
-    { 0,          0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
-    { 1,          1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
-    { 2,          2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01},
-
-	// Second GPIO Expander (ID_02) - Cells 4-6
-    { 3,          3,       GPIOE,     CELL12_CS_04_Pin, CELL_01_LED_01},
-    { 4,          4,       GPIOE,     CELL12_CS_05_Pin, CELL_02_LED_01},
-    { 5,          5,       GPIOI,     CELL12_CS_06_Pin, CELL_03_LED_01},
-	// Third GPIO Expander (ID_03) - Cells 7-9
-    { 6,          6,       GPIOC,     CELL12_CS_07_Pin, CELL_01_LED_01},
-    { 7,          7,       GPIOI,     CELL12_CS_08_Pin, CELL_02_LED_01},
-    { 8,          8,       GPIOI,     CELL12_CS_09_Pin, CELL_03_LED_01},
-
-	// Fourth GPIO Expander (ID_04) - Cells 10-12
-    { 9,          9,       GPIOI,     CELL12_CS_10_Pin, CELL_01_LED_01},
-    {10,         10,       GPIOF,     CELL12_CS_11_Pin, CELL_02_LED_01},
-    {11,         11,       GPIOF,     CELL12_CS_12_Pin, CELL_03_LED_01},
-
-	// FOR THE SECOND 12 CELLS
-    // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
-    {12,         13,       GPIOB,     CELL11_CS_01_Pin, CELL_01_LED_01},
-    {13,         14,       GPIOB,     CELL11_CS_02_Pin, CELL_02_LED_01},
-    {14,         15,       GPIOF,     CELL11_CS_03_Pin, CELL_03_LED_01},
-
-	// Second GPIO Expander (ID_02) - Cells 4-6
-    {15,         16,       GPIOF,     CELL11_CS_04_Pin, CELL_01_LED_01},
-    {16,         17,       GPIOF,     CELL11_CS_05_Pin, CELL_02_LED_01},
-    {17,         18,       GPIOF,     CELL11_CS_06_Pin, CELL_03_LED_01},
-	// Third GPIO Expander (ID_03) - Cells 7-9
-    {18,         19,       GPIOF,     CELL11_CS_07_Pin, CELL_01_LED_01},
-    {19,         20,       GPIOG,     CELL11_CS_08_Pin, CELL_02_LED_01},
-    {20,         21,       GPIOG,     CELL11_CS_09_Pin, CELL_03_LED_01},
-
-	// Fourth GPIO Expander (ID_04) - Cells 10-12
-    {21,         22,       GPIOE,     CELL11_CS_10_Pin, CELL_01_LED_01},
-    {22,         23,       GPIOE,     CELL11_CS_11_Pin, CELL_02_LED_01},
-    {23,         24,       GPIOE,     CELL11_CS_12_Pin, CELL_03_LED_01},
-
-	//12 cell CSU voltage and current reading
-	{24,         12,       GPIOF,     CSU_12_CELLS_Pin, CELL_01_LED_01},
-
-	//11 cell CSU voltage and current reading
-	{25,         25,       GPIOE,     CSU_11_CELLS_Pin, CELL_03_LED_01}
-
-
-};
+//// Define the configurations table
+//static const Cell_Config cell_configs[] = {
+//		// First GPIO Expander (ID_01) - Cells 1-3
+//
+//		// FOR THE FIRST 12 CELLS
+//    // Cell ID, INA idx, GPIO port,  CS pin,           LED pin
+//    { 0,          0,       GPIOE,     CELL12_CS_01_Pin, CELL_01_LED_01},
+//    { 1,          1,       GPIOE,     CELL12_CS_02_Pin, CELL_02_LED_01},
+//    { 2,          2,       GPIOE,     CELL12_CS_03_Pin, CELL_03_LED_01},
+//
+//	// Second GPIO Expander (ID_02) - Cells 4-6
+//    { 3,          3,       GPIOE,     CELL12_CS_04_Pin, CELL_01_LED_01},
+//    { 4,          4,       GPIOE,     CELL12_CS_05_Pin, CELL_02_LED_01},
+//    { 5,          5,       GPIOI,     CELL12_CS_06_Pin, CELL_03_LED_01},
+//	// Third GPIO Expander (ID_03) - Cells 7-9
+//    { 6,          6,       GPIOC,     CELL12_CS_07_Pin, CELL_01_LED_01},
+//    { 7,          7,       GPIOI,     CELL12_CS_08_Pin, CELL_02_LED_01},
+//    { 8,          8,       GPIOI,     CELL12_CS_09_Pin, CELL_03_LED_01},
+//
+//	// Fourth GPIO Expander (ID_04) - Cells 10-12
+//    { 9,          9,       GPIOI,     CELL12_CS_10_Pin, CELL_01_LED_01},
+//    {10,         10,       GPIOF,     CELL12_CS_11_Pin, CELL_02_LED_01},
+//    {11,         11,       GPIOF,     CELL12_CS_12_Pin, CELL_03_LED_01},
+//
+//	// FOR THE SECOND 12 CELLS
+//    // Cell ID, I2C bus, INA idx, GPIO port,  CS pin,           LED pin
+//    {12,         13,       GPIOB,     CELL11_CS_01_Pin, CELL_01_LED_01},
+//    {13,         14,       GPIOB,     CELL11_CS_02_Pin, CELL_02_LED_01},
+//    {14,         15,       GPIOF,     CELL11_CS_03_Pin, CELL_03_LED_01},
+//
+//	// Second GPIO Expander (ID_02) - Cells 4-6
+//    {15,         16,       GPIOF,     CELL11_CS_04_Pin, CELL_01_LED_01},
+//    {16,         17,       GPIOF,     CELL11_CS_05_Pin, CELL_02_LED_01},
+//    {17,         18,       GPIOF,     CELL11_CS_06_Pin, CELL_03_LED_01},
+//	// Third GPIO Expander (ID_03) - Cells 7-9
+//    {18,         19,       GPIOF,     CELL11_CS_07_Pin, CELL_01_LED_01},
+//    {19,         20,       GPIOG,     CELL11_CS_08_Pin, CELL_02_LED_01},
+//    {20,         21,       GPIOG,     CELL11_CS_09_Pin, CELL_03_LED_01},
+//
+//	// Fourth GPIO Expander (ID_04) - Cells 10-12
+//    {21,         22,       GPIOE,     CELL11_CS_10_Pin, CELL_01_LED_01},
+//    {22,         23,       GPIOE,     CELL11_CS_11_Pin, CELL_02_LED_01},
+//    {23,         24,       GPIOE,     CELL11_CS_12_Pin, CELL_03_LED_01},
+//
+//	//12 cell CSU voltage and current reading
+//	{24,         12,       GPIOF,     CSU_12_CELLS_Pin, CELL_01_LED_01},
+//
+//	//11 cell CSU voltage and current reading
+//	{25,         25,       GPIOE,     CSU_11_CELLS_Pin, CELL_03_LED_01}
+//
+//
+//};
 
 
 // Helper function to get INA handle from index
-static INA229_Handle get_ina_handle(uint8_t index) {
-    return INA229_0 + index;  // Assuming INA handles are sequential
-}
+// static INA229_Handle get_ina_handle(uint8_t index) {
+//     return INA229_0 + index;  // Assuming INA handles are sequential
+// }
 
-void Voltage_Sequence_Automatic(void)
-{
+//void Voltage_Sequence_Automatic(void)
+//{
+//
+//    const float test_voltages[] = {2.0f, 2.5f, 2.8f, 3.3f, 3.4f, 3.6f, 4.0f, 4.2f};
+//    const int num_voltages = sizeof(test_voltages) / sizeof(test_voltages[0]);
+//    const int num_cells = sizeof(cell_configs) / sizeof(cell_configs[0]);
+//
+//    for(int v = 0; v < num_voltages; v++) {
+//        for(int c = 0; c < num_cells; c++) {
+//        	Set_voltage_and_measure(&cell_configs[c], test_voltages[v]);
+//
+//        	cell_voltage_read();
+//
+//            HAL_Delay(10);  // Delay between cells
+//        }
+//        HAL_Delay(10);  // Delay between voltage levels
+//    }
+//
+//
+//
+//
+//
+//
+//}
 
-    const float test_voltages[] = {2.0f, 2.5f, 2.8f, 3.3f, 3.4f, 3.6f, 4.0f, 4.2f};
-    const int num_voltages = sizeof(test_voltages) / sizeof(test_voltages[0]);
-    const int num_cells = sizeof(cell_configs) / sizeof(cell_configs[0]);
-
-    for(int v = 0; v < num_voltages; v++) {
-        for(int c = 0; c < num_cells; c++) {
-        	Set_voltage_and_measure(&cell_configs[c], test_voltages[v]);
-
-        	cell_voltage_read();
-
-            HAL_Delay(10);  // Delay between cells
-        }
-        HAL_Delay(10);  // Delay between voltage levels
-    }
-
-
-
-
-
-
-}
-
-void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
-
-{
-    // Get the actual handles from the configuration
-    INA229_Handle ina = get_ina_handle(cell->ina_index);
-
-    // Only set voltage and control LED for cells 0-11 (skip CSU cells 12 and 13) COZ this is for the slave board reading
-    if (cell->cell_id != 24 && cell->cell_id != 25)
-
-    {
-
-    // Set voltage for the cell
-    Set_Output_Voltage(cell->cell_id, voltage);
-
-    // Turn on LED
-
-    Set_LED_status(cell->cell_id, OFF);
-
-    }
-    HAL_Delay(10);
-    // Read voltage and temperature
-    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
-    HAL_Delay(1);
-    INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
-
+//void Set_voltage_and_measure(const Cell_Config* cell, float voltage)
+//
+//{
+//    // Get the actual handles from the configuration
+//    INA229_Handle ina = get_ina_handle(cell->ina_index);
+//
+//    // Only set voltage and control LED for cells 0-11 (skip CSU cells 12 and 13) COZ this is for the slave board reading
+//    if (cell->cell_id != 24 && cell->cell_id != 25)
+//
+//    {
+//
+//    // Set voltage for the cell
+//    Set_Output_Voltage(cell->cell_id, voltage);
+//
+//    // Turn on LED
+//
+//    Set_LED_status(cell->cell_id, OFF);
+//
+//    }
 //    HAL_Delay(10);
-
+//    // Read voltage and temperature
 //    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
 //    HAL_Delay(1);
-//    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+//    INA229_Readings[cell->ina_index].voltage_V = INA229_getVBUS_V(ina);
 //    HAL_Delay(1);
 //    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
+//
+////    HAL_Delay(10);
+//
+////    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_RESET);
+////    HAL_Delay(1);
+////    INA229_Readings[cell->ina_index].temperature_C = INA229_getDIETEMP_C(ina);
+////    HAL_Delay(1);
+////    HAL_GPIO_WritePin(cell->gpio, cell->cs_pin, GPIO_PIN_SET);
+//
+//    // Turn off LED
+//    HAL_Delay(10);
+//
+//    // Only turn off LED for cells 0-11 (skip CSU cells 12 and 13)
+//    if (cell->cell_id != 24 && cell->cell_id != 25)
+//
+//    {
+//
+//    Set_LED_status(cell->cell_id, ON);
+//
+//    }
+//}
 
-    // Turn off LED
-    HAL_Delay(10);
 
-    // Only turn off LED for cells 0-11 (skip CSU cells 12 and 13)
-    if (cell->cell_id != 24 && cell->cell_id != 25)
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	// Check if data was received on UART1
+	if (huart->Instance == USART1)
+	{
+		// set the flag and store the data - let the main loop handle it
+		modbus_rx_flag = 1;
+		// Store the received size for parsing
+		uart_rx_size = Size;
+	}
 
-    {
+	// Restart UART reception for all UARTs
+	HAL_UARTEx_ReceiveToIdle_IT(&huart1, RxData_modbus_01, sizeof(RxData_modbus_01));
+	HAL_UARTEx_ReceiveToIdle_IT(&huart2, RxData_modbus_02, sizeof(RxData_modbus_02));
+	HAL_UARTEx_ReceiveToIdle_IT(&huart3, RxData_modbus_03, sizeof(RxData_modbus_03));
+	HAL_UARTEx_ReceiveToIdle_IT(&huart6, RxData_modbus_04, sizeof(RxData_modbus_04));
 
-    Set_LED_status(cell->cell_id, ON);
+	flag_1 = 2;
+	HAL_TIM_Base_Start_IT(&htim1);
+}
 
-    }
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	timeout_flag = 1;
+	testcount++;
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -1418,3 +1646,16 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+// run_command function moved to UserInterface.c
+
+// measurement_loop function moved to UserInterface.c
+
+// print_menu function moved to UserInterface.c
+
+
+
+// All print and utility functions moved to UserInterface.c
+
+// All remaining functions moved to UserInterface.c
+

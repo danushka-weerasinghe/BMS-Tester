@@ -29,7 +29,7 @@ Core/Src/BMS_test_protocol.o: ../Core/Src/BMS_test_protocol.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h \
  ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -62,6 +62,6 @@ Core/Src/BMS_test_protocol.o: ../Core/Src/BMS_test_protocol.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/INA229/Inc/INA229.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h:
 ../Core/Inc/BMS_test_protocol.h:
 ../Core/Inc/main.h:
