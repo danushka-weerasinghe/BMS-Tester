@@ -1,5 +1,5 @@
 Componets/ISO SPI/Src/LT_I2C.o: ../Componets/ISO\ SPI/Src/LT_I2C.c \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LT_I2C.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LT_I2C.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -29,14 +29,16 @@ Componets/ISO SPI/Src/LT_I2C.o: ../Componets/ISO\ SPI/Src/LT_I2C.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/QuikEval_EEPROM.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/QuikEval_EEPROM.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/flash_Itc.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LT_I2C.h:
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_Itc.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h \
+ D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LT_I2C.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -67,10 +69,12 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LT_I2C.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/QuikEval_EEPROM.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/QuikEval_EEPROM.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/flash_Itc.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/flash_Itc.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC6811.h:
+D:/VEGA/Git\ Hub/BMS\ Tester\ Fimware/BMS\ Tester\ -\ Cell\ Emulator/Componets/ISO\ SPI/Inc/LTC681x.h:

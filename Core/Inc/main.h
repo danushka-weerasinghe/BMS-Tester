@@ -242,7 +242,11 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
-
+// Configuration constants for BMS Tester
+#define ENABLED 1
+#define DISABLED 0
+#define DATALOG_ENABLED 1
+#define DATALOG_DISABLED 0
 
 /* USER CODE END Private defines */
 

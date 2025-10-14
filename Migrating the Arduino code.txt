@@ -1,0 +1,49 @@
+Migrating the Arduino code
+•	BMS_IC is defined in LTC68xx_API.c
+•	TOTAL_IC is defined in flash_Itc.h file 
+•	ADC Command Configurations are defined in LTC68xx_API.c
+•	Under Voltage and Over Voltage Thresholds are in LTC68xx_API.c
+•	Configuration variables are defined in LTC68xx_API.c
+•	STM32 print function declarations used instead of Serial.print/Serial.println etc. functions are defined in main.c
+•	Delay function used is defined in LTC68xx_API.c
+•	CRC table is defined in the LTC681x.c source file not in the header file.
+How the run_command() function is called through modbus_rx buffer
+ 	void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+•	Check if data was received on UART
+•	set the flag and store the data - let the main loop handle it
+•	Restart UART reception for all UARTs
+ 	main while loop - Check for UART input
+ 	uint32_t parse_command_from_buffer(uint16_t Size) - Helper function to parse command from RxData_modbus_01 buffer – modbusSlave.c
+
+•	main.c - Initialization, main while loop, void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size
+•	UserInterface.c – run_command() and all the related functions
+•	bms_hardware.h and bms_hardware.c files are deleted, and all the functions are defined in LTC68xx_API.h and LTC68xx_API.c
+•	int8_t i2c_read_block_data -> int8_t i2c_read_block_nocmd in LT_I2C.h because C programming does not support function over loading.
+•	Following members were added to the LTC681x.h according to the function requirements of LTC68xx_API.h
+
+// Additional members for analysis
+uint16_t max_cell_v_local;
+uint16_t min_cell_v_local;
+uint8_t max_cell_id_local;
+uint8_t min_cell_id_local;
+/*! Heat/Temperature data structure. */
+typedef struct
+{
+float temp[6]; //!< Temperature data for each cell
+float highest_t_local;
+float lowest_t_local;
+uint8_t highest_t_id_local;
+uint8_t lowest_t_id_local;
+} heat;
+
+•	Functions in the LT_I2C.c and LT_SPI.c files are replaced with HAL functions.
+•	In LTC681x.c file cs_low(CS_PIN) -> cs_low(0), cs_high(CS_PIN) -> cs_high(0) – parameter ignored
+•	In LTC681x.c file CFGR -> LTC_CFGR – to prevent conflicts with other BMS or Embedded libraries.
+•	In LTC681x.c file,
+data[data_counter++] + (data[data_counter++]<<8);  -> data[data_counter] + (data[data_counter+1]<<8); 
+data_counter += 2;
+The order of evaluation of the two ++ operations is not guaranteed in data[data_counter++] + (data[data_counter++]<<8); therefore, it is replaced as above.
+•	Functions which were in the original UserInterface file are deleted since those functions were related to get inputs from the serial monitor through USB -> UART connection in the Arduino IDE.
+•	In the QuikEval_EEPROM.c file,
+The function needs a buffer to read EEPROM data, 
+Declared a local buffer char ui_buffer[QUIKEVAL_ID_SIZE+2] instead of the buffer which was in the deleted UserInterface file within the discover_demo_board function and QUIKEVAL_ID_SIZE+2 provides enough space for the ID string plus terminator.

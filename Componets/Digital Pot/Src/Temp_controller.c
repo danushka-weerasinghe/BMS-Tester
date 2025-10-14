@@ -10,12 +10,17 @@
 #include "main_data.h"
 #include "Temp_controller.h"
 
+
+#define R25    10000.0f     // 10kΩ at 25°C
+#define BETA   3984.0f      // Beta constant
+#define T0     (25.0f + 273.15f)  // 25°C in Kelvin
+
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
 
-uint8_t controlArray [2]= {0x1C,0x03};
-uint8_t nopCommand [2] = {0x00,0x00};
-uint8_t dataRead [2] = {0x08,0x00};
+uint8_t controlArray [2] = {0x1C,0x03};
+uint8_t nopCommand [2]  = {0x00,0x00};
+uint8_t dataRead [2]  = {0x08,0x00};
 uint8_t memoryCommand [2] = {0x0C,0x00};
 uint8_t memoryRead [2] = {0x02,0x00};
 uint8_t misoCell12Res1 [2];
@@ -454,13 +459,51 @@ void cell11_Temp_03_startup(float resistance){
 }
 
 
+void Set_Resistance(uint8_t tempCardId,uint8_t temperature)
+
+{
+	switch (tempCardId)
+	{
+
+
+	case 0x01:
+		cell12_Temp_01_Set(temperature);
+		break;
+
+	case 0x02:
+		cell12_Temp_02_Set(temperature);
+		break;
+
+	case 0x03:
+		cell12_Temp_03_Set(temperature);
+		break;
+
+	case 0x04:
+		cell11_Temp_01_Set(temperature);
+		break;
+
+	case 0x05:
+		cell11_Temp_02_Set(temperature);
+		break;
+
+	case 0x06:
+		cell11_Temp_03_Set(temperature);
+		break;
+
+	}
+
+
+}
 
 
 
 
-
-
-
+// Calculate NTC resistance for a given temperature (°C)
+float ntc_resistance(float temp_C) {
+    float T = temp_C + 273.15f;  // Convert to Kelvin
+    float R = R25 * expf(BETA * ((1.0f / T) - (1.0f / T0)));
+    return R;
+}
 
 
 
