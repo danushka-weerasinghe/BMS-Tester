@@ -9,11 +9,23 @@
 #include <stdbool.h>
 #include "main_data.h"
 #include "Temp_controller.h"
-
+#include <math.h>
 
 #define R25    10000.0f     // 10kΩ at 25°C
 #define BETA   3984.0f      // Beta constant
 #define T0     (25.0f + 273.15f)  // 25°C in Kelvin
+
+volatile int debug_success = 0;
+
+volatile int debug_failure = 0;
+
+//int res = 0;
+
+volatile float Readback_Temp = 0.0f;
+
+uint16_t readback_rdac_value=0;
+
+uint8_t receivedReadbackRDAC[2] = {0};
 
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
@@ -22,7 +34,11 @@ uint8_t controlArray [2] = {0x1C,0x03};
 uint8_t nopCommand [2]  = {0x00,0x00};
 uint8_t dataRead [2]  = {0x08,0x00};
 uint8_t memoryCommand [2] = {0x0C,0x00};
-uint8_t memoryRead [2] = {0x02,0x00};
+//uint8_t memoryRead [2] = {0x02,0x00};
+uint8_t readRDACCommand[2]= {0x08,0x00};
+uint8_t writeRDACCommand[2];   // Will be populated with 0x04XX
+uint8_t writeControlRegCommand[2];        // Will be populated with 0x1CYY
+
 uint8_t misoCell12Res1 [2];
 uint8_t misoCell12Res2 [2];
 uint8_t misoCell12Res3 [2];
@@ -30,7 +46,7 @@ uint8_t misoCell11Res1 [2];
 uint8_t misoCell11Res2 [2];
 uint8_t misoCell11Res3 [2];
 
-
+/*
 void intToBinary(int num, int *binaryArray) {
 		    for (int i = 0; i < 10; i++) {
 		        binaryArray[15 - i] = (num >> i) & 1;
@@ -60,13 +76,22 @@ bool arrayComparison (uint8_t *array1,uint8_t *array2){
 		return true;
 
 	}
+*/
+
+int res = 0;
 
 void cell12_Temp_01_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+
+	res = (resistance/50000.0)*1024;//50kOhm
+	writeRDACCommand[0] = 0x04 | ((res >> 8) & 0x03); // Top 2 bits (D9, D8) are 0x03 mask
+	writeRDACCommand[1] = (uint8_t)(res & 0xFF); // Lower 8 bits (D7-D0)
+
+
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
@@ -80,7 +105,8 @@ void cell12_Temp_01_Set(float resistance){
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
@@ -92,168 +118,173 @@ void cell12_Temp_01_Set(float resistance){
 
 }
 
-void cell12_Temp_02_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-
-void cell12_Temp_03_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-
-void cell11_Temp_01_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-
-void cell11_Temp_02_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-
-void cell11_Temp_03_Set(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
+//void cell12_Temp_02_Set(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//void cell12_Temp_03_Set(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//void cell11_Temp_01_Set(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//void cell11_Temp_02_Set(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//void cell11_Temp_03_Set(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_TransmitReceive(&hspi2, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
 
 
 void cell12_Temp_01_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
+	int res = (resistance/50000.0)*1024;
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+
+	 writeRDACCommand[0] = 0x04 | ((res >> 8) & 0x03);
+	 writeRDACCommand[1] = (uint8_t)(res & 0xFF);
+
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
@@ -266,200 +297,213 @@ void cell12_Temp_01_startup(float resistance){
 	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi1, writeRDACCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+
 	/*HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);*/
+
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_RESET);
 	HAL_Delay(10);
 
 }
 
-void cell12_Temp_02_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	/*HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);*/
-	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
+//void cell12_Temp_02_startup(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	/*HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);*/
+//	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//void cell12_Temp_03_startup(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	/*HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);*/
+//	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//void cell11_Temp_01_startup(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	/*HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);*/
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//void cell11_Temp_02_startup(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	/*HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);*/
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(10);
+//
+//}
+//
+//
+//
+//void cell11_Temp_03_startup(float resistance){
+//	int res = (resistance/50.0)*1024;
+//	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
+//	uint8_t resByteArray [2];
+//	intToBinary(res, resArray);
+//	assignBytes(resArray, resByteArray);
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//	/*HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
+//	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
+//	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);*/
+//	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
+//
+//}
 
-}
-void cell12_Temp_03_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	/*HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);*/
-	HAL_GPIO_WritePin(GPIOF, CELL12_TEMP_03_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
 
-}
-
-void cell11_Temp_01_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	/*HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);*/
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_01_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-void cell11_Temp_02_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	/*HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);*/
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_02_LED_Pin, GPIO_PIN_RESET);
-	HAL_Delay(10);
-
-}
-
-
-
-void cell11_Temp_03_startup(float resistance){
-	int res = (resistance/50.0)*1024;
-	int resArray [16]= {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0};
-	uint8_t resByteArray [2];
-	intToBinary(res, resArray);
-	assignBytes(resArray, resByteArray);
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t *)&nopCommand, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryCommand,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-	/*HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2, (uint8_t*)&memoryRead,  2, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(CELL11_TEMP_03_CS_GPIO_Port, CELL11_TEMP_03_CS_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);*/
-	HAL_GPIO_WritePin(GPIOH, CELL11_TEMP_03_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-
-}
-
-
-void Set_Resistance(uint8_t tempCardId,uint8_t temperature)
+void Set_Resistance(uint8_t tempCardId,float temperature)
 
 {
 	switch (tempCardId)
@@ -470,25 +514,25 @@ void Set_Resistance(uint8_t tempCardId,uint8_t temperature)
 		cell12_Temp_01_Set(temperature);
 		break;
 
-	case 0x02:
-		cell12_Temp_02_Set(temperature);
-		break;
-
-	case 0x03:
-		cell12_Temp_03_Set(temperature);
-		break;
-
-	case 0x04:
-		cell11_Temp_01_Set(temperature);
-		break;
-
-	case 0x05:
-		cell11_Temp_02_Set(temperature);
-		break;
-
-	case 0x06:
-		cell11_Temp_03_Set(temperature);
-		break;
+//	case 0x02:
+//		cell12_Temp_02_Set(temperature);
+//		break;
+//
+//	case 0x03:
+//		cell12_Temp_03_Set(temperature);
+//		break;
+//
+//	case 0x04:
+//		cell11_Temp_01_Set(temperature);
+//		break;
+//
+//	case 0x05:
+//		cell11_Temp_02_Set(temperature);
+//		break;
+//
+//	case 0x06:
+//		cell11_Temp_03_Set(temperature);
+//		break;
 
 	}
 
@@ -506,10 +550,46 @@ float ntc_resistance(float temp_C) {
 }
 
 
+volatile float temperature_celsius = 0;
+
+volatile float readback_resistance = 0;
+
+float convert_resistance_to_temp_c( uint16_t readback_rdac_value) {
+
+//	readback_rdac_value =204;
+
+//	res = (resistance/50000.0)*1024;
+
+	readback_resistance = ((float)readback_rdac_value*50000.0f)/1024.0f;
+
+ // Ensure resistance_ohms is positive to avoid logf(negative)
+
+ if (readback_resistance <= 0.0f) {
+
+ return -999.0f;
+
+ }
+
+ float T_pot = 1.0f / (logf(readback_resistance / R25) / BETA + (1.0f / T0));
+
+ // Ensure one_over_T is not zero or negative (would indicate invalid resistance)
+
+ if (T_pot <= 0.0f) {
+
+ return -888.0f;
+
+ }
 
 
 
 
 
+ // Step 4: Convert T from Kelvin to Celsius
 
+ temperature_celsius = T_pot - 273.15f;
 
+ Readback_Temp = temperature_celsius;
+
+ return temperature_celsius;
+
+}

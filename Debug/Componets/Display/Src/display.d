@@ -1,8 +1,8 @@
 Componets/Display/Src/display.o: ../Componets/Display/Src/display.c \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/display.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8g2.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8x8.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/Logo.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -35,10 +35,10 @@ Componets/Display/Src/display.o: ../Componets/Display/Src/display.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/display.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8g2.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/u8x8.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/Display/Inc/Logo.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:

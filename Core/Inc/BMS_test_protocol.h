@@ -64,7 +64,7 @@ float Get_INA_Temp(const Cell_Config* cell);
 
 // SET functions (for Modbus function 0x3)
 void Set_Output_Voltage(uint8_t id, float voltage);
-void Set_Resistance(uint8_t tempCardId, uint8_t resistance);
+void Set_Resistance(uint8_t tempCardId, float resistance);
 void Set_LED_status(uint8_t id, uint8_t state);
 void Set_Balance_State(uint8_t id, uint8_t balance_state);
 void Open_Wire_Test(uint8_t id, uint8_t test_enable);

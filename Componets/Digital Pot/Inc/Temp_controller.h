@@ -18,20 +18,20 @@ void intToBinary(int num, int *binaryArray);
 void assignBytes(int *resArray, uint8_t *r);
 bool arrayComparison (uint8_t *array1,uint8_t *array2);
 void cell12_Temp_01_Set(float resistance);
-void cell12_Temp_02_Set(float resistance);
-void cell12_Temp_03_Set(float resistance);
-void cell11_Temp_01_Set(float resistance);
-void cell11_Temp_02_Set(float resistance);
-void cell11_Temp_03_Set(float resistance);
+//void cell12_Temp_02_Set(float resistance);
+//void cell12_Temp_03_Set(float resistance);
+//void cell11_Temp_01_Set(float resistance);
+//void cell11_Temp_02_Set(float resistance);
+//void cell11_Temp_03_Set(float resistance);
 void cell12_Temp_01_startup(float resistance);
-void cell12_Temp_02_startup(float resistance);
-void cell12_Temp_03_startup(float resistance);
-void cell11_Temp_01_startup(float resistance);
-void cell11_Temp_02_startup(float resistance);
-void cell11_Temp_03_startup(float resistance);
-void Set_Resistance(uint8_t tempCardId,uint8_t temperature);
+//void cell12_Temp_02_startup(float resistance);
+//void cell12_Temp_03_startup(float resistance);
+//void cell11_Temp_01_startup(float resistance);
+//void cell11_Temp_02_startup(float resistance);
+//void cell11_Temp_03_startup(float resistance);
+void Set_Resistance(uint8_t tempCardId,float temperature);
 float ntc_resistance(float temp_C);
-
+float convert_resistance_to_temp_c( uint16_t readback_rdac_value);
 
 #ifdef __cplusplus
 }

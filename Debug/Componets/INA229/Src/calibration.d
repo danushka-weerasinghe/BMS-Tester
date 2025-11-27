@@ -1,7 +1,7 @@
 Componets/INA229/Src/calibration.o: ../Componets/INA229/Src/calibration.c \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/config.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/config.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -35,10 +35,10 @@ Componets/INA229/Src/calibration.o: ../Componets/INA229/Src/calibration.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main_data.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/mcu.h
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/config.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h:
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/config.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -73,4 +73,4 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/INA229.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main_data.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/Componets/INA229/Inc/mcu.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h:

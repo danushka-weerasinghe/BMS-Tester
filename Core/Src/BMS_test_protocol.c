@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include "button_led.h"
+
 // Add definitions for variables declared in header
 
 extern uint8_t RxData_modbus_01[128];
@@ -40,6 +42,11 @@ extern flag_1 ;
 
 extern uint8_t DC_chain ;
 
+extern uint16_t readback_rdac_value;
+
+float STemp = 0;
+
+float get_temp1 = 0;
 
 void tester_setup(void)
 {
@@ -67,7 +74,7 @@ void tester_setup(void)
             float volt = 0.0;  // Changed to float to handle decimal values
             uint8_t tempCardId = 0;
             float res = 0;
-            uint8_t set_temp = 0;
+            float set_temp = 0;
 
             switch (RxData_modbus_01[2])  // Function code from table
             {
@@ -115,16 +122,39 @@ void tester_setup(void)
                 case 0x02:  // Temperature function (Range: 1-6, Value: 0-256)
                     tempCardId = RxData_modbus_01[3];  // Temp card ID (1-6)
                     temp_set = RxData_modbus_01[4];  // Resistance value (0-256)
-                    set_temp = ntc_resistance((float)temp_set);
+//                    set_temp = ntc_resistance((float)temp_set);
+                    set_temp = ntc_resistance(temp_set);
+                    STemp = set_temp;
 
+                    LED_Temp(CELL12_TEMP_01, 1);
+
+                    LED_Temp(CELL12_TEMP_01, 1);
+
+                    LED_Temp(CELL12_TEMP_01, 1);
+
+                    LED_Temp(CELL11_TEMP_01, 1);
+
+                    LED_Temp(CELL11_TEMP_02, 1);
+
+                    LED_Temp(CELL11_TEMP_03, 1);
+
+
+
+        	        for (int cell = CELL_1; cell <= CELL_24; cell++) {
+
+        	        	Set_LED_status(cell, ON);
+
+        	        }
 
                     // Validate range (1-6 for temp card ID)
 //                    if (tempCardId >= 1 && tempCardId <= 6)
 //                    {
                     flag_1 = 10 ;
-                        Set_Resistance(tempCardId, set_temp);
-//                        Set_LED_status(id_LED, LED_State);
-//                        HAL_Delay(1000);
+					Set_Resistance(tempCardId, set_temp);
+					get_temp1 = convert_resistance_to_temp_c(readback_rdac_value);
+
+//                  Set_LED_status(id_LED, LED_State);
+//                  HAL_Delay(1000);
 
                     break;
 

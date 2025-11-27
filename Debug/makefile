@@ -49,34 +49,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := BMS Tester - Cell Emulator
+BUILD_ARTIFACT_NAME := BMS-Tester
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-BMS\ Tester\ -\ Cell\ Emulator.elf \
+BMS-Tester.elf \
 
 MAP_FILES += \
-BMS\ Tester\ -\ Cell\ Emulator.map \
+BMS-Tester.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-BMS\ Tester\ -\ Cell\ Emulator.list \
+BMS-Tester.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: BMS\ Tester\ -\ Cell\ Emulator.elf secondary-outputs
+main-build: BMS-Tester.elf secondary-outputs
 
 # Tool invocations
-BMS\ Tester\ -\ Cell\ Emulator.elf BMS\ Tester\ -\ Cell\ Emulator.map: $(OBJS) $(USER_OBJS) C:\Users\pavank\Documents\GitHub\BMS-Tester\STM32F429IGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BMS Tester - Cell Emulator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\pavank\Documents\GitHub\BMS-Tester\STM32F429IGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BMS Tester - Cell Emulator.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+BMS-Tester.elf BMS-Tester.map: $(OBJS) $(USER_OBJS) C:\Users\pavank\Documents\GitHub\BMS-Tester\BMS-Tester\STM32F429IGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BMS-Tester.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\pavank\Documents\GitHub\BMS-Tester\BMS-Tester\STM32F429IGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BMS-Tester.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -85,14 +85,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-BMS\ Tester\ -\ Cell\ Emulator.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BMS Tester - Cell Emulator.list"
+BMS-Tester.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BMS-Tester.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) BMS\ Tester\ -\ Cell\ Emulator.elf BMS\ Tester\ -\ Cell\ Emulator.list BMS\ Tester\ -\ Cell\ Emulator.map BMS\\ Tester\\ -\\ Cell\\ Emulator.elf default.size.stdout
+	-$(RM) BMS-Tester.elf BMS-Tester.list BMS-Tester.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
