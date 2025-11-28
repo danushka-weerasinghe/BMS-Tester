@@ -313,9 +313,14 @@ void cell12_Temp_01_startup(float resistance){
 	HAL_Delay(10);
 
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
+//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
+	HAL_SPI_TransmitReceive(&hspi1, nopCommand, receivedReadbackRDAC, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
+
+	uint16_t readback_16bit_word = (receivedReadbackRDAC[0] << 8) | receivedReadbackRDAC[1];
+
+	readback_rdac_value = readback_16bit_word & 0x03FF;
 
 	/*HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead, 2, HAL_MAX_DELAY);
