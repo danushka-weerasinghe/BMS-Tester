@@ -106,16 +106,22 @@ void cell12_Temp_01_Set(float resistance){
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
 //	HAL_SPI_Transmit(&hspi1, (uint8_t*)&resByteArray, 2, HAL_MAX_DELAY);
-
+	HAL_SPI_Transmit(&hspi1, writeRDACCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+//	HAL_SPI_TransmitReceive(&hspi1, (uint8_t*)&dataRead, (uint8_t*)&misoCell12Res1, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi1, readRDACCommand, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
+	HAL_Delay(10);
+	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(&hspi1, nopCommand, receivedReadbackRDAC, 2, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_RESET);
 	HAL_Delay(10);
 	HAL_GPIO_WritePin(CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin, GPIO_PIN_RESET);
 	HAL_Delay(10);
-
+	uint16_t readback_16bit_word = (receivedReadbackRDAC[0] << 8) | receivedReadbackRDAC[1];
+	readback_rdac_value = readback_16bit_word & 0x03FF;
 }
 
 //void cell12_Temp_02_Set(float resistance){
@@ -313,14 +319,13 @@ void cell12_Temp_01_startup(float resistance){
 	HAL_Delay(10);
 
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
-//	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
-	HAL_SPI_TransmitReceive(&hspi1, nopCommand, receivedReadbackRDAC, 2, HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryCommand, 2, HAL_MAX_DELAY);
+//	HAL_SPI_TransmitReceive(&hspi1, nopCommand, receivedReadbackRDAC, 2, HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_SET);
 	HAL_Delay(10);
 
-	uint16_t readback_16bit_word = (receivedReadbackRDAC[0] << 8) | receivedReadbackRDAC[1];
-
-	readback_rdac_value = readback_16bit_word & 0x03FF;
+//	uint16_t readback_16bit_word = (receivedReadbackRDAC[0] << 8) | receivedReadbackRDAC[1];
+//	readback_rdac_value = readback_16bit_word & 0x03FF;
 
 	/*HAL_GPIO_WritePin(GPIOC, CELL12_TEMP_01_CS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi1, (uint8_t*)&memoryRead, 2, HAL_MAX_DELAY);
@@ -545,12 +550,12 @@ void Set_Resistance(uint8_t tempCardId,float temperature)
 }
 
 
-
+float R = 0;
 
 // Calculate NTC resistance for a given temperature (°C)
 float ntc_resistance(float temp_C) {
     float T = temp_C + 273.15f;  // Convert to Kelvin
-    float R = R25 * expf(BETA * ((1.0f / T) - (1.0f / T0)));
+    R = R25 * expf(BETA * ((1.0f / T) - (1.0f / T0)));
     return R;
 }
 
