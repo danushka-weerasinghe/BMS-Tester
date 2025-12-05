@@ -274,7 +274,7 @@ void tester_setup(void)
                     break;
 
                 case 0x02:  // Cell-temp (Range: 1-6, Value: -20 to 100°C)
-                    if (id >= 0 && id <= 23)
+                    if (id >= 0 && id <= 5)
                     {
 
 						float get_Temp = Get_INA_Temp(&cell_configs[id]);

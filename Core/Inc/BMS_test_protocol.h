@@ -29,10 +29,6 @@ typedef struct {
     uint16_t led_pin;     // LED pin
 } Cell_Config;
 
-
-
-
-
 typedef struct {
     uint8_t data[RS485_MAX_MSG_SIZE];
     uint16_t length;
