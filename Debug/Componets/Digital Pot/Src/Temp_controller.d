@@ -33,7 +33,9 @@ Componets/Digital Pot/Src/Temp_controller.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main_data.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h \
+ ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -69,3 +71,6 @@ Componets/Digital Pot/Src/Temp_controller.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main_data.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h:
+../Core/Inc/BMS_test_protocol.h:
+../Core/Inc/main.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h:

@@ -12,7 +12,6 @@
 extern "C" {
 #endif
 
-
 #include "stdbool.h"
 void intToBinary(int num, int *binaryArray);
 void assignBytes(int *resArray, uint8_t *r);
@@ -30,6 +29,8 @@ void cell11_Temp_01_startup(float resistance);
 void cell11_Temp_02_startup(float resistance);
 void cell11_Temp_03_startup(float resistance);
 void Set_Resistance(uint8_t tempCardId,float temperature);
+void TempCard_Set_Resistance(uint8_t id, float resistance);
+float Get_TempCard_TempC(uint8_t id);
 float ntc_resistance(float temp_C);
 float convert_resistance_to_temp_c( uint16_t readback_rdac_value);
 

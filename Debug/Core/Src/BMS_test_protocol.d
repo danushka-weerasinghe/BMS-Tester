@@ -37,6 +37,7 @@ Core/Src/BMS_test_protocol.o: ../Core/Src/BMS_test_protocol.c \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h \
  ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h \
@@ -84,6 +85,7 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LT
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
 ../Core/Inc/BMS_test_protocol.h:
 ../Core/Inc/main.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h:

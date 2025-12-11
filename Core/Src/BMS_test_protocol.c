@@ -36,6 +36,9 @@ extern uint8_t TxData_modbus_03[256];
 extern uint8_t RxData_modbus_04[256];
 extern uint8_t TxData_modbus_04[256];
 
+extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
+
 extern UART_HandleTypeDef huart1;
 
 extern flag_1 ;
@@ -46,7 +49,9 @@ extern uint16_t readback_rdac_value;
 
 float STemp = 0;
 
-float get_temp1 = 0;
+float get_temp = 0;
+
+uint8_t get_temp1 = 0;
 
 void tester_setup(void)
 {
@@ -150,8 +155,9 @@ void tester_setup(void)
 //                    if (tempCardId >= 1 && tempCardId <= 6)
 //                    {
                     flag_1 = 10 ;
-					Set_Resistance(tempCardId, set_temp);
-					get_temp1 = convert_resistance_to_temp_c(readback_rdac_value);
+//					Set_Resistance(tempCardId, set_temp);
+                    TempCard_Set_Resistance(tempCardId, set_temp);
+//					get_temp = convert_resistance_to_temp_c(readback_rdac_value);
 
 //                  Set_LED_status(id_LED, LED_State);
 //                  HAL_Delay(1000);
@@ -276,18 +282,24 @@ void tester_setup(void)
                 case 0x02:  // Cell-temp (Range: 1-6, Value: -20 to 100°C)
                     if (id >= 0 && id <= 5)
                     {
+                    	get_temp = Get_TempCard_TempC(id);
+                    	uint8_t temp_int = (uint8_t)get_temp;
+//    					get_temp1 = convert_resistance_to_temp_c(readback_rdac_value);
 
-						float get_Temp = Get_INA_Temp(&cell_configs[id]);
-						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
+//						float get_Temp = Get_INA_Temp(&cell_configs[id]);
+//						uint16_t Temp_scaled = (uint16_t)(get_Temp * 10000); // Scale as needed
 
 						TxData_modbus_01[0] = 0x07;  // slave address
 						TxData_modbus_01[1] = 0x03; // Data type for decoding
 
                     	TxData_modbus_01[2] = id ;
-						TxData_modbus_01[3] = Temp_scaled >> 8;
+                    	TxData_modbus_01[3] = temp_int ;
 
-						TxData_modbus_01[4] = Temp_scaled & 0xFF;							//The coil address will be 00000000 00000000 = 0 + 1 = 1
-						TxData_modbus_01[5] = 0;  // force data low
+//						TxData_modbus_01[3] = get_temp1 >> 8;
+//
+//						TxData_modbus_01[4] = get_temp1 & 0xFF;							//The coil address will be 00000000 00000000 = 0 + 1 = 1
+                    	TxData_modbus_01[2] = 0 ;
+                    	TxData_modbus_01[5] = 0;  // force data low
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);
 						TxData_modbus_01[6] = crc&0xFF;   // CRC LOW
@@ -617,6 +629,18 @@ void init_ina229_devices(void) {
 #define I2C3_BUS 3
 
 // Define the configurations table
+
+Temp_Card_Config temp_cards[6] = {
+    // temp_id, spi,     cs_port, cs_pin,                       led_port,                     led_pin
+    {0, &hspi1, GPIOC, CELL12_TEMP_01_CS_Pin, CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin},
+    {1, &hspi1, GPIOF, CELL12_TEMP_02_CS_Pin, CELL12_TEMP_02_LED_GPIO_Port, CELL12_TEMP_02_LED_Pin},
+    {2, &hspi1, GPIOF, CELL12_TEMP_03_CS_Pin, CELL12_TEMP_03_LED_GPIO_Port, CELL12_TEMP_03_LED_Pin},
+
+    {3, &hspi2, GPIOH, CELL11_TEMP_01_CS_Pin, CELL11_TEMP_01_LED_GPIO_Port, CELL11_TEMP_01_LED_Pin},
+    {4, &hspi2, GPIOH, CELL11_TEMP_02_CS_Pin, CELL11_TEMP_02_LED_GPIO_Port, CELL11_TEMP_02_LED_Pin},
+    {5, &hspi2, GPIOB, CELL11_TEMP_03_CS_Pin, CELL11_TEMP_03_LED_GPIO_Port, CELL11_TEMP_03_LED_Pin},
+};
+
  const Cell_Config cell_configs[] = {
 		// First GPIO Expander (ID_01) - Cells 1-3
 

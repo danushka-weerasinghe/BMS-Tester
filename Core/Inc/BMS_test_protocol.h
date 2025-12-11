@@ -10,10 +10,11 @@
 
 
 #include "main.h"
+#include "ina229.h"
+#include "Temp_controller.h"
+
 #include <stdbool.h>
 #include <string.h>
-
-#include "Temp_controller.h"
 
 #define RS485_MSG_START     0x7E
 #define RS485_MSG_END       0x7F
@@ -30,6 +31,15 @@ typedef struct {
 } Cell_Config;
 
 typedef struct {
+    uint8_t temp_id;             // 0–5
+    SPI_HandleTypeDef* spi;      // hspi1 or hspi2
+    GPIO_TypeDef* cs_port;       // CS GPIO port
+    uint16_t cs_pin;             // CS GPIO pin
+    GPIO_TypeDef* led_port;      // LED GPIO port
+    uint16_t led_pin;            // LED pin
+} Temp_Card_Config;
+
+typedef struct {
     uint8_t data[RS485_MAX_MSG_SIZE];
     uint16_t length;
     bool complete;
@@ -42,10 +52,9 @@ extern uint8_t rs485_rx_buffer[RS485_BUFFER_SIZE];
 extern uint8_t rs485_tx_buffer[RS485_BUFFER_SIZE];
 extern uint16_t rs485_rx_index;
 
+extern Temp_Card_Config temp_cards[6];
 extern const Cell_Config cell_configs[];
 extern INA229_Handle ina229_devices[];
-
-
 
 // Main function declarations
 void tester_setup(void);

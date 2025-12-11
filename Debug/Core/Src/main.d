@@ -54,6 +54,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RTC/Inc/rtc.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h \
  ../Core/Inc/BMS_test_protocol.h ../Core/Inc/main.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RS485/Inc/modbusSlave.h \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RS485/Inc/modbus_crc.h
 ../Core/Inc/main.h:
@@ -116,5 +117,6 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RTC/Inc/rtc.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Core/Inc/BMS_test_protocol.h:
 ../Core/Inc/main.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RS485/Inc/modbusSlave.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/RS485/Inc/modbus_crc.h:
