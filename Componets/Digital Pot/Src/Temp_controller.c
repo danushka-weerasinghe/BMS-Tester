@@ -88,28 +88,28 @@ void TempCard_Set_Resistance(uint8_t id, float resistance)
     writeRDAC[0] = 0x04 | ((rdac >> 8) & 0x03);
     writeRDAC[1] = rdac & 0xFF;
 
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
 
     // Send NOP
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(t->spi, (uint8_t*)&nopCommand, 2, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(2);
+    HAL_Delay(10);
 
     // Send control array
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(t->spi, (uint8_t*)&controlArray, 2, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(2);
+    HAL_Delay(10);
 
     // Write RDAC
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(t->spi, writeRDAC, 2, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(2);
+    HAL_Delay(10);
 
 //    // Read RDAC back
 //    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
@@ -130,7 +130,7 @@ void TempCard_Set_Resistance(uint8_t id, float resistance)
 //    float temp = convert_resistance_to_temp_c(readback_rdac_value);
 //    return temp;
 
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
 }
 
 float Get_TempCard_TempC(uint8_t id)
@@ -138,20 +138,24 @@ float Get_TempCard_TempC(uint8_t id)
 	Temp_Card_Config *t = &temp_cards[id];
 
     HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
+    HAL_Delay(1000);
+    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
+    HAL_Delay(1000);
+    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
 
     // Send NOP
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(t->spi, (uint8_t*)&nopCommand, 2, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(2);
+    HAL_Delay(10);
 
     // Read RDAC back
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
     HAL_SPI_Transmit(t->spi, readRDACCommand, 2, HAL_MAX_DELAY);
     HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(2);
+    HAL_Delay(10);
 
     // Get response
     uint8_t rx[2];
