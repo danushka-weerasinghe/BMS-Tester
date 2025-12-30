@@ -298,7 +298,7 @@ void tester_setup(void)
 //						TxData_modbus_01[3] = get_temp1 >> 8;
 //
 //						TxData_modbus_01[4] = get_temp1 & 0xFF;							//The coil address will be 00000000 00000000 = 0 + 1 = 1
-                    	TxData_modbus_01[2] = 0 ;
+                    	TxData_modbus_01[4] = 0;
                     	TxData_modbus_01[5] = 0;  // force data low
 
 						uint16_t crc = crc16(TxData_modbus_01, 6);

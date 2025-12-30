@@ -22,6 +22,8 @@ volatile int debug_failure = 0;
 
 //int res = 0;
 
+float temp = 0;
+
 volatile float Readback_Temp = 0.0f;
 
 uint16_t readback_rdac_value=0;
@@ -111,65 +113,44 @@ void TempCard_Set_Resistance(uint8_t id, float resistance)
 
     HAL_Delay(10);
 
-//    // Read RDAC back
-//    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
-//    HAL_SPI_Transmit(t->spi, readRDACCommand, 2, HAL_MAX_DELAY);
-//    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
-//
-//    HAL_Delay(2);
-//
-//    // Get response
-//    uint8_t rx[2];
-//    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
-//    HAL_SPI_TransmitReceive(t->spi, nopCommand, rx, 2, HAL_MAX_DELAY);
-//    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
-//
-//    uint16_t rdac_value = ((rx[0] << 8) | rx[1]) & 0x03FF;
-//    readback_rdac_value = rdac_value;
-//
-//    float temp = convert_resistance_to_temp_c(readback_rdac_value);
-//    return temp;
-
     HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
 }
 
 float Get_TempCard_TempC(uint8_t id)
-{
-	Temp_Card_Config *t = &temp_cards[id];
+{   Temp_Card_Config *t = &temp_cards[id];
 
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
-    HAL_Delay(1000);
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
-    HAL_Delay(1000);
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_SET);
 
-    // Send NOP
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
-    HAL_SPI_Transmit(t->spi, (uint8_t*)&nopCommand, 2, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
+	// Send NOP
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(t->spi, (uint8_t*)&nopCommand, 2, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(10);
+	HAL_Delay(10);
 
-    // Read RDAC back
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
-    HAL_SPI_Transmit(t->spi, readRDACCommand, 2, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
+	// Read RDAC back
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(t->spi, readRDACCommand, 2, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    HAL_Delay(10);
+	HAL_Delay(10);
 
-    // Get response
-    uint8_t rx[2];
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
-    HAL_SPI_TransmitReceive(t->spi, nopCommand, rx, 2, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
+	// Get response
+	uint8_t rx[2];
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(t->spi, nopCommand, rx, 2, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(t->cs_port, t->cs_pin, GPIO_PIN_SET);
 
-    uint16_t rdac_value = ((rx[0] << 8) | rx[1]) & 0x03FF;
-    readback_rdac_value = rdac_value;
+	uint16_t rdac_value = ((rx[0] << 8) | rx[1]) & 0x03FF;
+	readback_rdac_value = rdac_value;
 
-    float temp = convert_resistance_to_temp_c(readback_rdac_value);
-    return temp;
+	temp = convert_resistance_to_temp_c(readback_rdac_value);
+//	return temp;
 
-    HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
+	HAL_Delay(10);
+
+	HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
+
 }
 
 void cell12_Temp_01_Set(float resistance){
