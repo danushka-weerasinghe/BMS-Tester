@@ -8,6 +8,12 @@
 #include "button_led.h"
 #include "main.h"
 #include "gpio_expander.h"
+#include "getDisplay.h"
+
+uint8_t buttonEnter = 0;
+uint8_t buttonUp = 0;
+uint8_t buttonDown = 0;
+uint8_t buttonBack = 0;
 
 uint8_t mode;
 uint8_t id;
@@ -262,17 +268,52 @@ uint8_t DIP_GetID(void)
 
     return id;
 }
+//
+//void Push_ButtonHandler(uint16_t GPIO_Pin)
+//{
+//    currentTime = HAL_GetTick();
+//
+//    for(int j = 0; j < 4; j++) {
+//        if((GPIO_Pin == BUTTON_PINS[j]) && (currentTime - previousTime > 150)) {
+////        	Menu_Handler(j);
+//            LED_Toggle(j+1);  // Keep your existing LED toggle
+//            previousTime = currentTime;
+//            break;
+//        }
+//    }
+//}
 
 void Push_ButtonHandler(uint16_t GPIO_Pin)
 {
     currentTime = HAL_GetTick();
 
-    for(int j = 0; j < 4; j++) {
-        if((GPIO_Pin == BUTTON_PINS[j]) && (currentTime - previousTime > 150)) {
-//        	Menu_Handler(j);
-            LED_Toggle(j+1);  // Keep your existing LED toggle
-            previousTime = currentTime;
-            break;
-        }
+    // Debounce check
+    if (currentTime - previousTime < 150) {
+        return;
     }
+
+    // Set button flags for display system
+    switch(GPIO_Pin) {
+        case PUSH_BUTTON_01_Pin: // Enter
+            buttonEnter = 1;
+            LED_Toggle(1);
+            break;
+        case PUSH_BUTTON_02_Pin: // Up
+            buttonUp = 1;
+            LED_Toggle(2);
+            break;
+        case PUSH_BUTTON_03_Pin: // Down
+            buttonDown = 1;
+            LED_Toggle(3);
+            break;
+        case PUSH_BUTTON_04_Pin: // Back
+            buttonBack = 1;
+            LED_Toggle(4);
+            break;
+        default:
+            break;
+    }
+
+    previousTime = currentTime;
 }
+

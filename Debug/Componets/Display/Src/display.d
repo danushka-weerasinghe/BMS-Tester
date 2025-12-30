@@ -1,8 +1,5 @@
 Componets/Display/Src/display.o: ../Componets/Display/Src/display.c \
  C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,11 +31,25 @@ Componets/Display/Src/display.o: ../Componets/Display/Src/display.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h \
+ ../Core/Inc/main_data.h ../Core/Inc/BMS_test_protocol.h \
+ ../Core/Inc/main.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/config.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h:
-C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -72,3 +83,21 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Log
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/Logo.h:
+../Core/Inc/main_data.h:
+../Core/Inc/BMS_test_protocol.h:
+../Core/Inc/main.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/ina229.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Digital\ Pot/Inc/Temp_controller.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC68xx_API.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/flash_LTC.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC6811.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/ISO\ SPI/Inc/LTC681x.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/mcu.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/config.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:

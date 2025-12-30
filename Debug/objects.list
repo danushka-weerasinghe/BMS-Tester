@@ -2,6 +2,7 @@
 "./Componets/CAN/Src/test.o"
 "./Componets/Digital Pot/Src/Temp_controller.o"
 "./Componets/Display/Src/display.o"
+"./Componets/Display/Src/getDisplay.o"
 "./Componets/Display/Src/mui.o"
 "./Componets/Display/Src/mui_u8g2.o"
 "./Componets/Display/Src/u8g2_bitmap.o"

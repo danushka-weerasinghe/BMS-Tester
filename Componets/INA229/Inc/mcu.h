@@ -73,6 +73,7 @@ typedef struct {
     float temperature_C;  // Internal die temperature in Celsius
     uint8_t cell_id;
     uint8_t reading_valid;
+    uint32_t last_update_time;
 } INA229_Reading;
 
 

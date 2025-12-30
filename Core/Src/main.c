@@ -327,6 +327,11 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	  Display_HandleButtons();
+	  Display_Update();
+
+	  HAL_Delay(10);
+	  tester_setup();
 
 
 	  if (timeout_flag )
@@ -337,7 +342,7 @@ int main(void)
 //		  sprintf(Tx_Data, "F103 %d", indx++);
 //		    send_Data (Tx_Data);
 		    HAL_Delay(10);
-	        tester_setup();
+//	        tester_setup();
 
 
 	    	memset(RxData_modbus_01, 0, sizeof(RxData_modbus_01));

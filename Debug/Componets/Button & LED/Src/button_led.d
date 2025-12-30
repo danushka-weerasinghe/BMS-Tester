@@ -34,7 +34,12 @@ Componets/Button & LED/Src/button_led.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/main.h \
- C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/getDisplay.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h \
+ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Button\ &\ LED/Inc/button_led.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -70,3 +75,8 @@ C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Button\ &\ LED/
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/main.h:
 C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/GPIO\ expander/Inc/gpio_expander.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/getDisplay.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/display.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8g2.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/Display/Inc/u8x8.h:
+C:/Users/pavank/Documents/GitHub/BMS-Tester/BMS-Tester/Componets/INA229/Inc/INA229.h:
