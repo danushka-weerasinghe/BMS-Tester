@@ -944,9 +944,16 @@ void Display_ToggleCell(int8_t direction)
 void Display_ExecuteTemperatureSet(void)
 {
     display_state_t* state = Display_GetState();
+    bms_data_t* bms_data = Display_GetBMSData();
+
+    // Convert target temperature to resistance using NTC formula
+    state->target_resistance = ntc_resistance(state->target_temperature);
 
     // Call your temperature setting function
-    Set_Resistance(state->selected_temp_card + 1, state->target_resistance);
+    TempCard_Set_Resistance(state->selected_temp_card, state->target_resistance);
+
+    // Update the displayed temperature (since BMS may not immediately read back)
+    bms_data->temp_card_C[state->selected_temp_card] = state->target_temperature;
 
     Display_ShowConfirmation("Temperature Set");
 }

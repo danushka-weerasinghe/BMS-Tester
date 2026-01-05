@@ -14,7 +14,7 @@
 ../Componets/Display/Src/display.c:942:6:Display_SetDaisyChain	4	static
 ../Componets/Display/Src/display.c:950:6:Display_PackOverview	88	static
 ../Componets/Display/Src/display.c:1027:6:Display_TemperatureScreen	16	static
-../Componets/Display/Src/display.c:1049:6:Display_CellTemperatureScreen	152	static
+../Componets/Display/Src/display.c:1049:6:Display_CellTemperatureScreen	160	static
 ../Componets/Display/Src/display.c:1160:6:Display_CardTemperatureScreen	112	static
 ../Componets/Display/Src/display.c:1226:6:Display_SystemTemperatureScreen	136	static
 ../Componets/Display/Src/display.c:1357:6:Display_ControlMenu	16	static

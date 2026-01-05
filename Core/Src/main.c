@@ -297,12 +297,12 @@ int main(void)
 
 //fixing the startup resistance of temperature cards
 #ifdef start_Resistance_fix
-		  cell12_Temp_01_startup(10);
-		  cell12_Temp_02_startup(10);
-		  cell12_Temp_03_startup(10);
-		  cell11_Temp_01_startup(10);
-		  cell11_Temp_02_startup(10);
-		  cell11_Temp_03_startup(10);
+		  cell12_Temp_01_startup(25);
+		  cell12_Temp_02_startup(25);
+		  cell12_Temp_03_startup(25);
+		  cell11_Temp_01_startup(25);
+		  cell11_Temp_02_startup(25);
+		  cell11_Temp_03_startup(25);
 
 #endif
 

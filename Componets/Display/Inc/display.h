@@ -145,7 +145,7 @@ typedef struct {
     uint8_t scroll_offset;
     float target_voltage;
     float target_temperature;
-    uint8_t target_resistance;
+    float target_resistance;
     uint8_t test_sequence_running;
     uint8_t current_test_step;
     uint32_t screensaver_timer;

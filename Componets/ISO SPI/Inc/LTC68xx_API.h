@@ -109,7 +109,7 @@ uint8_t spi_read_byte(uint8_t tx_dat);
 
 
 // LTC6811 Functions
-void temperature_data_read(void);
+void temparature_data_read(void);
 signed char temp_data_table_read(uint16_t tempe_v_in);
 int8_t cell_voltage_read(void);
 uint8_t aux_data_read(void);

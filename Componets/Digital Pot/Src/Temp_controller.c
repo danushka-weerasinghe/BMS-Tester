@@ -145,12 +145,11 @@ float Get_TempCard_TempC(uint8_t id)
 	readback_rdac_value = rdac_value;
 
 	temp = convert_resistance_to_temp_c(readback_rdac_value);
-//	return temp;
 
 	HAL_Delay(10);
 
 	HAL_GPIO_WritePin(t->led_port, t->led_pin, GPIO_PIN_RESET);
-
+	return temp;
 }
 
 void cell12_Temp_01_Set(float resistance){

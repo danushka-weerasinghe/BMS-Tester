@@ -20,9 +20,9 @@
 ../Componets/Display/Src/getDisplay.c:916:6:Display_ExecuteVoltageSet	16	static
 ../Componets/Display/Src/getDisplay.c:931:6:Display_ToggleCell	24	static
 ../Componets/Display/Src/getDisplay.c:944:6:Display_ExecuteTemperatureSet	16	static
-../Componets/Display/Src/getDisplay.c:954:6:Display_ExecuteTestSequence	16	static
-../Componets/Display/Src/getDisplay.c:972:9:Display_GetMenuItemCount	16	static
-../Componets/Display/Src/getDisplay.c:995:6:Display_ResetScreenSaver	16	static
-../Componets/Display/Src/getDisplay.c:1001:6:Display_ShowConfirmation	32	static
-../Componets/Display/Src/getDisplay.c:1019:6:Display_ShowError	32	static
-../Componets/Display/Src/getDisplay.c:1035:16:Display_GetButtonInfo	16	static
+../Componets/Display/Src/getDisplay.c:961:6:Display_ExecuteTestSequence	16	static
+../Componets/Display/Src/getDisplay.c:979:9:Display_GetMenuItemCount	16	static
+../Componets/Display/Src/getDisplay.c:1002:6:Display_ResetScreenSaver	16	static
+../Componets/Display/Src/getDisplay.c:1008:6:Display_ShowConfirmation	32	static
+../Componets/Display/Src/getDisplay.c:1026:6:Display_ShowError	32	static
+../Componets/Display/Src/getDisplay.c:1042:16:Display_GetButtonInfo	16	static

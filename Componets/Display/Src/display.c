@@ -1085,7 +1085,7 @@ void Display_CellTemperatureScreen(void)
 
         if (BMS_IC_NUM >= TOTAL_IC || TEMP_ID >= TEMP_PER_IC) continue;
 
-        const int8_t tC = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID];
+        const float tC = BMS_IC[BMS_IC_NUM].heat.temp[TEMP_ID];
 
         // Validity & text
         char label[16], val[12];
@@ -1176,7 +1176,7 @@ void Display_CardTemperatureScreen(void)
         const bool is_sel     = (card_id == display_state.selected_temp_card);
 
         // Fetch value through helper (ready for Temp_controller readback)
-        float tC = TempCard_GetDisplayC(card_id);
+        float tC = Get_TempCard_TempC(card_id);
 
         // Clamp to plausible range for visualization only
         if (tC < -40.0f) tC = -40.0f;
