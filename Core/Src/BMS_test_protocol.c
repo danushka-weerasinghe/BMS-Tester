@@ -632,13 +632,13 @@ void init_ina229_devices(void) {
 
 Temp_Card_Config temp_cards[6] = {
     // temp_id, spi,     cs_port, cs_pin,                       led_port,                     led_pin
-    {0, &hspi1, GPIOC, CELL12_TEMP_01_CS_Pin, CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin},
+    {0, &hspi1, GPIOF, CELL12_TEMP_01_CS_Pin, CELL12_TEMP_01_LED_GPIO_Port, CELL12_TEMP_01_LED_Pin},
     {1, &hspi1, GPIOF, CELL12_TEMP_02_CS_Pin, CELL12_TEMP_02_LED_GPIO_Port, CELL12_TEMP_02_LED_Pin},
-    {2, &hspi1, GPIOF, CELL12_TEMP_03_CS_Pin, CELL12_TEMP_03_LED_GPIO_Port, CELL12_TEMP_03_LED_Pin},
+    {2, &hspi1, GPIOC, CELL12_TEMP_03_CS_Pin, CELL12_TEMP_03_LED_GPIO_Port, CELL12_TEMP_03_LED_Pin},
 
-    {3, &hspi2, GPIOH, CELL11_TEMP_01_CS_Pin, CELL11_TEMP_01_LED_GPIO_Port, CELL11_TEMP_01_LED_Pin},
+    {3, &hspi2, GPIOB, CELL11_TEMP_01_CS_Pin, CELL11_TEMP_01_LED_GPIO_Port, CELL11_TEMP_01_LED_Pin},
     {4, &hspi2, GPIOH, CELL11_TEMP_02_CS_Pin, CELL11_TEMP_02_LED_GPIO_Port, CELL11_TEMP_02_LED_Pin},
-    {5, &hspi2, GPIOB, CELL11_TEMP_03_CS_Pin, CELL11_TEMP_03_LED_GPIO_Port, CELL11_TEMP_03_LED_Pin},
+    {5, &hspi2, GPIOH, CELL11_TEMP_03_CS_Pin, CELL11_TEMP_03_LED_GPIO_Port, CELL11_TEMP_03_LED_Pin},
 };
 
  const Cell_Config cell_configs[] = {
